@@ -7,6 +7,12 @@ import List from '../../components/model_list'
 export default function createModelList(model_admin) {
   const {load, save, del} = model_admin.actions
 
+  const related_load_actions = []
+  _.forEach(model_admin.fields, field => {
+    // if (field.model_admin) console.log('adding action from', field.model_admin.name, 'to',  model_admin.name)
+    if (field.model_admin) related_load_actions.push(field.model_admin.actions.load)
+  })
+  // console.log('related_load_actions', related_load_actions)
   return @connect(state => ({admin: state.admin[model_admin.path]}), {load, save, del})
   class ModelListContainer extends Component {
 
@@ -17,12 +23,13 @@ export default function createModelList(model_admin) {
       del: PropTypes.func,
     }
 
-    static needs = [load]
+    static needs = related_load_actions.concat([load])
 
     hasData() {
       return this.props.admin && !this.props.admin.get('loading')
     }
 
+    handleAdd = () => this.props.save({}) //just save new blank model
     handleSaveFn = model => data => {this.props.save(_.extend(model, data))}
     handleDeleteFn = model => () => this.props.del(model)
 
@@ -31,9 +38,11 @@ export default function createModelList(model_admin) {
       const admin = this.props.admin
 
       return (
-        <List model_admin={model_admin} model_store={admin} handleSaveFn={this.handleSaveFn} handleDeleteFn={this.handleDeleteFn} />
+        <List model_admin={model_admin} model_store={admin}
+          handleAdd={this.handleAdd}
+          handleSaveFn={this.handleSaveFn}
+          handleDeleteFn={this.handleDeleteFn} />
       )
     }
   }
-
 }

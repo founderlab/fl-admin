@@ -1,12 +1,12 @@
 import _ from 'lodash'
 import React, {PropTypes} from 'react'
 import {Link} from 'react-router'
-import {Table, Glyphicon} from 'react-bootstrap'
+import {Table, Glyphicon, Button} from 'react-bootstrap'
 import createModelListForm from './generators/model_list_form'
 
 export default function ModelList(props) {
 
-  const {model_admin, model_store, handleSaveFn, handleDeleteFn} = props
+  const {model_admin, model_store, handleAdd, handleSaveFn, handleDeleteFn} = props
 
   const fields = {}
   _.forEach(model_admin.fields, (field, name) => {
@@ -37,7 +37,7 @@ export default function ModelList(props) {
     <div className="admin-list">
       <section>
         <div className="container">
-          <div className="">
+          <div className="row">
             <div className="col-lg-12">
               <Link to="/admin"><Glyphicon glyph="chevron-left" />Admin home</Link>
             </div>
@@ -46,9 +46,10 @@ export default function ModelList(props) {
       </section>
       <section>
         <div className="container">
-          <div className="">
+          <div className="row">
             <div className="col-lg-8 col-lg-offset-1">
               <h1>{model_admin.plural}</h1>
+              <Button bsStyle="primary" className="pull-right" onClick={handleAdd}><Glyphicon glyph="plus" /></Button>
               <Table>
                 <thead>
                   <tr>
@@ -70,6 +71,7 @@ export default function ModelList(props) {
 ModelList.propTypes = {
   model_store: PropTypes.object,
   model_admin: PropTypes.object,
+  handleAdd: PropTypes.func,
   handleSaveFn: PropTypes.func,
   handleDeleteFn: PropTypes.func,
 }

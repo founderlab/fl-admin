@@ -28,14 +28,14 @@ export class ModelListForm extends React.Component {
       <tr>
         <td><Link to={`/admin/${model_admin.path}/${model.id}`}>{model_admin.display(model)}</Link></td>
         {inputs}
-        {inputs.length && <td><Button bsStyle="primary" onClick={handleSubmit}><Glyphicon glyph="ok" /></Button></td>}
+        {inputs.length ? <td><Button bsStyle="primary" onClick={handleSubmit}><Glyphicon glyph="ok" /></Button></td> : null}
         <td><Button bsStyle="danger" bsSize="xsmall" onClick={handleDelete}><Glyphicon glyph="remove" /></Button></td>
       </tr>
     )
   }
 }
 
-export default function createModelListRowForm(model) {
+export default function createModelListForm(model) {
   return reduxForm(
     {
       form: 'model_list_row',
@@ -45,5 +45,5 @@ export default function createModelListRowForm(model) {
         initialValues: model,
       }
     }
-  )(ModelListRow)
+  )(ModelListForm)
 }

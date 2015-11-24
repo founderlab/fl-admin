@@ -35,11 +35,21 @@ function createModelAdmin(options, model_descriptor) {
 
   _.defaults(model_admin, defaults)
 
-  const model_fields = (model_type.schema? model_type.schema('schema').fields : model_type.fields) || {}
-  _.forEach(model_fields, (model_field, name) => {
-    const admin_field = model_admin.fields[name] = model_admin.fields[name] || {}
+  const schema = model_type.schema && model_type.schema('schema')
+  const fields = schema.fields || {}
+  const relations = schema.relations || {}
+
+  _.forEach(fields, (model_field, key) => {
+    const admin_field = model_admin.fields[key] = model_admin.fields[key] || {}
     _.defaults(admin_field, model_field)
-    admin_field.name = admin_field.name || name
+    admin_field.key = admin_field.key || key
+  })
+
+  _.forEach(relations, (relation, key) => {
+    const admin_field = model_admin.fields[key] = model_admin.fields[key] || {}
+    _.defaults(admin_field, _.pick(relation, 'type', 'foreign_key'))
+    admin_field.model_type = relation.reverse_model_type
+    admin_field.key = admin_field.key || key
   })
 
   model_admin.actions = actions[model_admin.path] = createActions(model_admin)
@@ -53,6 +63,14 @@ export default function configure(_options) {
 
   _.forEach(options.models, model_descriptor => {
     model_admins.push(createModelAdmin(options, model_descriptor))
+  })
+
+  // Second pass too hook up related model_admins
+  _.forEach(model_admins, model_admin => {
+    _.forEach(model_admin.fields, field => {
+      if (!field.model_type) return
+      field.model_admin = _.find(model_admins, ma => ma.model_type === field.model_type)
+    })
   })
 
   reducer = combineReducers(reducers)
