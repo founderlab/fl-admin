@@ -16,14 +16,14 @@
   },
   "dependencies": {
     "inflection": "^1.7.2",
-    "lodash": "*",
+    "lodash": "*"
   },
   "peerDependencies": {
     "react": "^0.14.0",
     "react-bootstrap": "^0.27.2",
     "react-redux": "^4.0.0"
     "redux-form": "^3.0.0",
-    "superagent": "0.18.0",
+    "superagent": "0.18.0"
   },
   "devDependencies": {
     "babel-eslint": "^4.1.3",
