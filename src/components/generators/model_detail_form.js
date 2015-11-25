@@ -10,12 +10,12 @@ export class ModelDetailForm extends React.Component {
     model: PropTypes.object.isRequired,
     model_admin: PropTypes.object.isRequired,
     fields: PropTypes.object.isRequired,
-    onSubmit: PropTypes.func.isRequired,
+    handleSubmit: PropTypes.func.isRequired,
     onDelete: PropTypes.func.isRequired,
   }
 
   render() {
-    const {model_admin, model, fields, onSubmit, onDelete} = this.props
+    const {model_admin, model, fields, handleSubmit, onDelete} = this.props
     const inputs = mapFieldsToInputs(model_admin, fields, {model, size: 'large'})
 
     return (
@@ -34,7 +34,7 @@ export class ModelDetailForm extends React.Component {
                 <Button bsStyle="danger" bsSize="xsmall" onClick={onDelete}><Glyphicon glyph="remove" /></Button>
               </div>
               <div className="col-xs-2 col-xs-offset-8">
-                <Button className="pull-right" bsStyle="primary" onClick={onSubmit}>Save</Button>
+                <Button className="pull-right" bsStyle="primary" onClick={handleSubmit}>Save</Button>
               </div>
             </div>
           </div>

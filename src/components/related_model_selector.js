@@ -7,8 +7,8 @@ export default function RelatedModelSelector(props) {
   const {relation_field, model, model_store, input_props} = props
   const models = model_store.get('by_id').toJSON ? model_store.get('by_id').toJSON() : {}
   const select_options = _.map(models, model => (<option key={model.id} value={model.id}>{model.id}</option>))
-console.log(model)
-console.log('relation_field', relation_field, input_props)
+// console.log(model)
+// console.log('relation_field', relation_field, input_props)
 
   if (relation_field.type === 'hasMany') input_props.multiple = true
 

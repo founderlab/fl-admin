@@ -1,6 +1,6 @@
 {
   "name": "fl-admin",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Admin panel for FounderLab apps",
   "main": "lib/index.js",
   "author": {
@@ -21,6 +21,7 @@
   "peerDependencies": {
     "react": "^0.14.0",
     "react-bootstrap": "^0.27.2",
+    "react-datetime": "^2.0.1",
     "react-redux": "^4.0.0",
     "redux-form": "^3.0.0",
     "superagent": "0.18.0"

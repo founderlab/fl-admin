@@ -1,6 +1,7 @@
 import _ from 'lodash' // eslint-disable-line
 import React, {PropTypes} from 'react'
 import {Input} from 'react-bootstrap'
+import Datetime from 'react-datetime'
 import createRelatedField from '../containers/generators/related_field'
 
 export default class FieldInput extends React.Component {
@@ -25,6 +26,17 @@ export default class FieldInput extends React.Component {
     if (model_field.model_admin) {
       const RelatedField = createRelatedField(model_field)
       return <RelatedField model={model} input_props={input_props} />
+    }
+
+    if (model_field.type.toLowerCase() === 'date') {
+      return (
+        <div className="form-group form-group-lg">
+          <label className="control-label">{input_props.label}</label>
+          <Datetime
+            {...input_props}
+          />
+        </div>
+      )
     }
 
     return (

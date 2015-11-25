@@ -11,12 +11,12 @@ export class ModelListForm extends React.Component {
     model: PropTypes.object.isRequired,
     model_admin: PropTypes.object.isRequired,
     fields: PropTypes.object.isRequired,
-    onSubmit: PropTypes.func.isRequired,
+    handleSubmit: PropTypes.func.isRequired,
     onDelete: PropTypes.func.isRequired,
   }
 
   render() {
-    const {model_admin, model, fields, onSubmit, onDelete} = this.props
+    const {model_admin, model, fields, handleSubmit, onDelete} = this.props
     const inputs = mapFieldsToInputs(model_admin, fields, {model, size: 'small'})
     const wrapped_inputs = _.map(inputs, (input, i) => (<td key={i}>{input}</td>))
 
@@ -24,7 +24,7 @@ export class ModelListForm extends React.Component {
       <tr>
         <td><Link to={`/admin/${model_admin.path}/${model.id}`}>{model_admin.display(model)}</Link></td>
         {wrapped_inputs}
-        {inputs.length ? <td><Button bsStyle="primary" onClick={onSubmit}><Glyphicon glyph="ok" /></Button></td> : null}
+        {inputs.length ? <td><Button bsStyle="primary" onClick={handleSubmit}><Glyphicon glyph="ok" /></Button></td> : null}
         <td><Button bsStyle="danger" bsSize="xsmall" onClick={onDelete}><Glyphicon glyph="remove" /></Button></td>
       </tr>
     )

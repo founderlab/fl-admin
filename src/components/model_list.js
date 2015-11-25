@@ -5,7 +5,6 @@ import {Table, Glyphicon, Button} from 'react-bootstrap'
 import createModelListForm from './generators/model_list_form'
 
 export default function ModelList(props) {
-
   const {model_admin, model_store, onAdd, handleSaveFn, handleDeleteFn} = props
 
   const fields = {}
