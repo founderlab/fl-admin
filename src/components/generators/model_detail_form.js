@@ -1,27 +1,22 @@
-import _ from 'lodash'
+import _ from 'lodash' // eslint-disable-line
 import React, {PropTypes} from 'react'
 import {Button, Glyphicon} from 'react-bootstrap'
 import {reduxForm} from 'redux-form'
-import ModelFieldInput from '../model_field_input'
+import {mapFieldsToInputs} from '../../lib'
 
 export class ModelDetailForm extends React.Component {
 
   static propTypes = {
-    model: PropTypes.object,
-    model_admin: PropTypes.object,
-    fields: PropTypes.object,
-    handleSubmit: PropTypes.func,
-    handleDelete: PropTypes.func,
+    model: PropTypes.object.isRequired,
+    model_admin: PropTypes.object.isRequired,
+    fields: PropTypes.object.isRequired,
+    onSubmit: PropTypes.func.isRequired,
+    onDelete: PropTypes.func.isRequired,
   }
 
   render() {
-    const {model_admin, handleDelete, fields, handleSubmit} = this.props
-    const inputs = []
-
-    _.forEach(fields, (field, name) => {
-      const model_field = model_admin.fields[name]
-      inputs.push(<ModelFieldInput key={name} size="large" model_field={model_field} form_field={field} />)
-    })
+    const {model_admin, model, fields, onSubmit, onDelete} = this.props
+    const inputs = mapFieldsToInputs(model_admin, fields, {model, size: 'large'})
 
     return (
       <div>
@@ -36,10 +31,10 @@ export class ModelDetailForm extends React.Component {
             </div>
             <div className="row">
               <div className="col-xs-2">
-                <Button bsStyle="danger" bsSize="xsmall" onClick={handleDelete}><Glyphicon glyph="remove" /></Button>
+                <Button bsStyle="danger" bsSize="xsmall" onClick={onDelete}><Glyphicon glyph="remove" /></Button>
               </div>
               <div className="col-xs-2 col-xs-offset-8">
-                <Button className="pull-right" bsStyle="primary" onClick={handleSubmit}>Save</Button>
+                <Button className="pull-right" bsStyle="primary" onClick={onSubmit}>Save</Button>
               </div>
             </div>
           </div>
@@ -50,6 +45,7 @@ export class ModelDetailForm extends React.Component {
 }
 
 export default function createModelDetailForm(model) {
+  console.log('initial model', model)
   return reduxForm(
     {
       form: 'model_detail',

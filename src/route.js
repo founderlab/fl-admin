@@ -6,8 +6,7 @@ import {createRoutesFromReactChildren} from 'react-router/lib/RouteUtils'
 import {model_admins} from './index'
 import App from './components/app'
 import ModelTypeList from './components/model_type_list'
-import generateDetailContainer from './containers/generators/model_detail'
-import generateListContainer from './containers/generators/model_list'
+import createModelEditor from './containers/generators/model_editor'
 import {checkPropTypes} from './lib'
 
 export default class AdminRoute extends Route {
@@ -35,11 +34,11 @@ export default class AdminRoute extends Route {
       model_admins.forEach(model_admin => {
         this.child_routes.push(model_admin.list_route || {
           path: model_admin.path,
-          component: model_admin.list_component || generateListContainer(model_admin),
+          component: model_admin.list_component || createModelEditor(model_admin),
         })
         this.child_routes.push(model_admin.detail_route || {
           path: `${model_admin.path}/:id`,
-          component: model_admin.detail_component || generateDetailContainer(model_admin),
+          component: model_admin.detail_component || createModelEditor(model_admin),
         })
       })
     }

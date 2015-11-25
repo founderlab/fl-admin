@@ -1,22 +1,21 @@
-import _ from 'lodash'
+import _ from 'lodash' // eslint-disable-line
 import {connect} from 'react-redux'
 import React, {Component, PropTypes} from 'react'
 import Loader from '../../components/loader'
 import RelatedModelSelector from '../../components/related_model_selector'
 
-export default function createRelatedField(relation) {
-  const {model_admin} = relation
-  const {load, save, del} = model_admin.actions
+export default function createRelatedField(relation_field) {
+  const {model_admin} = relation_field
+  const {load} = model_admin.actions
 
-  return @connect(state => ({model_store: state.admin[model_admin.path]}), {load, save, del})
+  return @connect(state => ({model_store: state.admin[model_admin.path]}), {load})
   class RelatedField extends Component {
 
     static propTypes = {
+      model: PropTypes.object,
       model_store: PropTypes.object,
       form_field: PropTypes.object,
       load: PropTypes.func,
-      save: PropTypes.func,
-      del: PropTypes.func,
     }
 
     static needs = [load]
@@ -26,12 +25,11 @@ export default function createRelatedField(relation) {
     }
 
     render() {
-      console.log('this.hasData()', this.hasData())
       if (!this.hasData()) return (<Loader type="inline" />)
-      const {model_store, form_field} = this.props
+      const {model, model_store, input_props} = this.props
 
       return (
-        <RelatedModelSelector relation={relation} model_admin={model_admin} model_store={model_store} form_field={form_field} />
+        <RelatedModelSelector relation_field={relation_field} model={model} model_store={model_store} input_props={input_props} />
       )
     }
   }

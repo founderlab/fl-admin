@@ -31,6 +31,7 @@ function createModelAdmin(options, model_descriptor) {
     plural: plural(model_type),
     action_type: `${ACTION_PREFIX}${upper(model_type)}`,
     fields: {},
+    relations: {}, //references the same fields as `fields` but is indexed by virtual_id_accessor
   }
 
   _.defaults(model_admin, defaults)
@@ -46,10 +47,11 @@ function createModelAdmin(options, model_descriptor) {
   })
 
   _.forEach(relations, (relation, key) => {
-    const admin_field = model_admin.fields[key] = model_admin.fields[key] || {}
-    _.defaults(admin_field, _.pick(relation, 'type', 'foreign_key'))
+    const admin_field = model_admin.relations[relation.virtual_id_accessor] = model_admin.fields[key] = model_admin.fields[key] || {}
+    _.defaults(admin_field, _.pick(relation, 'type', 'virtual_id_accessor'))
     admin_field.model_type = relation.reverse_model_type
     admin_field.key = admin_field.key || key
+    admin_field.relation = relation
   })
 
   model_admin.actions = actions[model_admin.path] = createActions(model_admin)

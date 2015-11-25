@@ -1,4 +1,4 @@
-import _ from 'lodash'
+import _ from 'lodash' // eslint-disable-line
 import React, {PropTypes} from 'react'
 import {Link} from 'react-router'
 import {Glyphicon} from 'react-bootstrap'
@@ -40,7 +40,7 @@ export default function ModelDetail(props) {
         model_admin={model_admin}
         onSubmit={handleSaveFn(model)}
         onDelete={handleDeleteFn(model)}
-        fields={_.keys(model_admin.fields)}
+        fields={_.map(model_admin.fields, f => f.virtual_id_accessor || f.key)}
       />
 
     </div>
