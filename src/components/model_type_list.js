@@ -12,7 +12,7 @@ export default function ModelTypeList() {
     links.push(
       <div key={model_admin.path} className="row">
         <div className="col-lg-8 col-lg-offset-1">
-          <Link to={`/admin/${model_admin.path}`}>{model_admin.plural}</Link>
+          <Link to={model_admin.link()}>{model_admin.plural}</Link>
         </div>
       </div>
     )

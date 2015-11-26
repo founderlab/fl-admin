@@ -22,7 +22,7 @@ export class ModelListForm extends React.Component {
 
     return (
       <tr>
-        <td><Link to={`/admin/${model_admin.path}/${model.id}`}>{model_admin.display(model)}</Link></td>
+        <td><Link to={model_admin.link(model)}>{model_admin.display(model)}</Link></td>
         {wrapped_inputs}
         {inputs.length ? <td><Button bsStyle="primary" onClick={handleSubmit}><Glyphicon glyph="ok" /></Button></td> : null}
         <td><Button bsStyle="danger" bsSize="xsmall" onClick={onDelete}><Glyphicon glyph="remove" /></Button></td>

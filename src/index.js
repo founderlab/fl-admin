@@ -13,6 +13,7 @@ const reducers = {}
 let reducer
 
 const defaults = {
+  root_path: '/admin',
   isAModel: (model_type) => !!model_type.schema,
 }
 
@@ -28,6 +29,7 @@ function createModelAdmin(options, model_descriptor) {
     name: model_type.model_name,
     display: model => model.name || model.id,
     path: table(model_type),
+    root_path: options.root_path,
     plural: plural(model_type),
     action_type: `${ACTION_PREFIX}${upper(model_type)}`,
     fields: {},
@@ -56,6 +58,13 @@ function createModelAdmin(options, model_descriptor) {
 
   model_admin.actions = actions[model_admin.path] = createActions(model_admin)
   model_admin.reducer = reducers[model_admin.path] = createReducer(model_admin)
+
+  if (!model_admin.link) {
+    model_admin.link = model => {
+      const model_id = model ? model.id || model : ''
+      return `${options.root_path}/${model_admin.path}/${model_id}`
+    }
+  }
 
   return model_admin
 }

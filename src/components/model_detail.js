@@ -18,7 +18,7 @@ export default function ModelDetail(props) {
         <div className="container">
           <div className="row">
             <div className="col-lg-12">
-              <Link to={`/admin/${model_admin.path}`}><Glyphicon glyph="chevron-left" />{model_admin.plural}</Link>
+              <Link to={model_admin.link()}><Glyphicon glyph="chevron-left" />{model_admin.plural}</Link>
             </div>
           </div>
         </div>

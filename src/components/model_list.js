@@ -3,13 +3,14 @@ import React, {PropTypes} from 'react'
 import {Link} from 'react-router'
 import {Table, Glyphicon, Button} from 'react-bootstrap'
 import createModelListForm from './generators/model_list_form'
+import {editFieldInline} from '../lib'
 
 export default function ModelList(props) {
   const {model_admin, model_store, onAdd, handleSaveFn, handleDeleteFn} = props
 
   const fields = {}
   _.forEach(model_admin.fields, (field, key) => {
-    if (field.inline) fields[key] = field
+    if (editFieldInline(field)) fields[key] = field
   })
 
   const model_list_rows = _.map(model_store.get('by_id').toJSON(), model => {
@@ -38,7 +39,7 @@ export default function ModelList(props) {
         <div className="container">
           <div className="row">
             <div className="col-lg-12">
-              <Link to="/admin"><Glyphicon glyph="chevron-left" />Admin home</Link>
+              <Link to={model_admin.root_path}><Glyphicon glyph="chevron-left" />Admin home</Link>
             </div>
           </div>
         </div>
