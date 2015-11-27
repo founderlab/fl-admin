@@ -1,8 +1,10 @@
 import _ from 'lodash' // eslint-disable-line
 import {connect} from 'react-redux'
 import React, {Component, PropTypes} from 'react'
+import warning from 'warning'
 import Loader from '../../components/loader'
-import RelatedModelSelector from '../../components/related_model_selector'
+import BelongsToInput from '../../components/inputs/belongs_to'
+import HasManyInput from '../../components/inputs/has_many'
 
 export default function createRelatedField(relation_field) {
   const {model_admin} = relation_field
@@ -28,9 +30,16 @@ export default function createRelatedField(relation_field) {
       if (!this.hasData()) return (<Loader type="inline" />)
       const {model, model_store, input_props} = this.props
 
-      return (
-        <RelatedModelSelector relation_field={relation_field} model={model} model_store={model_store} input_props={input_props} />
-      )
+      if (relation_field.type === 'belongsTo' /*|| relation_field.type === 'hasOne' */) {
+        return (<BelongsToInput relation_field={relation_field} model={model} model_store={model_store} input_props={input_props} />)
+      }
+
+      if (relation_field.type === 'hasMany' || relation_field.type === 'hasOne') {
+        return (<HasManyInput relation_field={relation_field} model={model} model_store={model_store} input_props={input_props} />)
+      }
+
+      warning(false, `[fl-admin] Relation does not have a known type: ${relation_field.type}`)
+      return null
     }
   }
 

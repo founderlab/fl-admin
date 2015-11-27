@@ -1,10 +1,10 @@
 import _ from 'lodash' // eslint-disable-line
 import React, {PropTypes} from 'react'
 import {Input} from 'react-bootstrap'
-import Datetime from 'react-datetime'
-import createRelatedField from '../containers/generators/related_field'
+import Datetime from './datetime'
+import createRelatedField from '../../containers/generators/related_field'
 
-export default class FieldInput extends React.Component {
+export default class SmartInput extends React.Component {
   static propTypes = {
     model: PropTypes.object.isRequired,
     model_field: PropTypes.object.isRequired,
@@ -14,7 +14,7 @@ export default class FieldInput extends React.Component {
 
   render() {
     const {model, model_field, form_field, size} = this.props
-    const type = 'text'
+    let type = 'text'
 
     const input_props = _.merge({
       label: size === 'large' ? model_field.key : null,
@@ -23,27 +23,24 @@ export default class FieldInput extends React.Component {
       help: form_field.touched && form_field.error,
     }, form_field)
 
+    // Related model of some sort
     if (model_field.model_admin) {
       const RelatedField = createRelatedField(model_field)
       return <RelatedField model={model} input_props={input_props} />
     }
 
-    if (model_field.type.toLowerCase() === 'date') {
-      return (
-        <div className="form-group form-group-lg">
-          <label className="control-label">{input_props.label}</label>
-          <Datetime
-            {...input_props}
-          />
-        </div>
-      )
+    // Datepicker
+    if (model_field.type.toLowerCase() === 'date' || model_field.type.toLowerCase() === 'datetime') {
+      return (<Datetime {...input_props} />)
     }
 
-    return (
-      <Input
-        type={type}
-        {...input_props}
-      />
-    )
+    // Checkbox
+    if (model_field.type.toLowerCase() === 'boolean') {
+      type = 'checkbox'
+      input_props.label = model_field.key
+    }
+
+    // Bootstrap component
+    return (<Input type={type} {...input_props} />)
   }
 }

@@ -1,7 +1,7 @@
 import _ from 'lodash'
 import React from 'react'
 import warning from 'warning'
-import ModelFieldInput from '../components/model_field_input'
+import ModelFieldInput from '../components/inputs/smart'
 
 // yoinked from react-router
 export function checkPropTypes(componentName='UnknownComponent', prop_types, props) {
