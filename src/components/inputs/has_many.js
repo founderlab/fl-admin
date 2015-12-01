@@ -11,6 +11,7 @@ export default function RelatedModelSelector(props) {
   // the alternative is to set `input_props.multiple = true` and figure it out
   const {model_admin} = relation_field
   const links = []
+
   _.forEach(models, related_model => {
     if (related_model[relation_field.relation.foreign_key] !== model.id) return
     links.push(
@@ -20,6 +21,7 @@ export default function RelatedModelSelector(props) {
       </Link>
     )
   })
+
   return (<div className="list-group">{links}</div>)
 }
 

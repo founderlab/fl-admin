@@ -18,12 +18,6 @@ export default function createModelActions(model_admin) {
       return {
         type: actionType('load'),
         request: model_type.cursor(query),
-        parseResponse: action => {
-          const by_id = {}
-          const models = action.res ? action.res.body || action.res : []
-          _.forEach(models, model => by_id[model.id] = _.omit(model, '_rev'))
-          return {by_id, ...action}
-        },
         callback,
       }
     },
@@ -34,11 +28,6 @@ export default function createModelActions(model_admin) {
       return {
         type: actionType('save'),
         request: model.save.bind(model),
-        parseResponse: action => {
-          const model_json = action.res ? action.res.toJSON() : {}
-          action.by_id = {[model_json.id]: model_json}
-          return action
-        },
         callback,
       }
     },
@@ -48,7 +37,7 @@ export default function createModelActions(model_admin) {
       return {
         type: actionType('del'),
         request: model.destroy.bind(model),
-        parseResponse: action => ({model_id: model.id, ...action}),
+        deleted_model_id: model.id,
         callback,
       }
     },

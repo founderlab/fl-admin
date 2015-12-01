@@ -1,16 +1,13 @@
-import React, {Component, PropTypes} from 'react'
+import React, {PropTypes} from 'react'
 
-export default class Admin extends Component {
+export default function Admin(props) {
+  return (
+    <div>
+      {props.children}
+    </div>
+  )
+}
 
-  static propTypes = {
-    children: PropTypes.node,
-  }
-
-  render() {
-    return (
-      <div>
-        {this.props.children}
-      </div>
-    )
-  }
+Admin.propTypes = {
+  children: PropTypes.node,
 }
