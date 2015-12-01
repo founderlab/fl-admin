@@ -12,7 +12,8 @@ export default function ModelList(props) {
   _.forEach(model_admin.fields, (field, key) => {
     if (editFieldInline(field)) fields[key] = field
   })
-
+console.log('model_store is' , model_store)
+console.log('by_id is' , model_store.get('by_id'))
   const model_list_rows = _.map(model_store.get('by_id').toJSON(), model => {
     const ModelListForm = createModelListForm(model)
 

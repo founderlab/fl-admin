@@ -6,7 +6,7 @@ import Loader from '../../components/loader'
 import BelongsToInput from '../../components/inputs/belongs_to'
 import HasManyInput from '../../components/inputs/has_many'
 
-export default function createRelatedField(relation_field) {
+export default function createRelatedField(relation_field, model) {
   const {model_admin} = relation_field
   const {load} = model_admin.actions
 
@@ -14,13 +14,17 @@ export default function createRelatedField(relation_field) {
   class RelatedField extends Component {
 
     static propTypes = {
-      model: PropTypes.object,
+      // model: PropTypes.object,
       model_store: PropTypes.object,
       form_field: PropTypes.object,
       load: PropTypes.func,
     }
 
-    static needs = [load]
+    static fetchData(store, callback) {
+      const query = {[related_field.foreign_key]: model.id}
+      console.log('RELATED query is', query)
+      store.dispatch(load(query, callback))
+    }
 
     hasData() {
       return this.props.model_store && !this.props.model_store.get('loading')

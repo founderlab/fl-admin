@@ -18,8 +18,8 @@ export default function SmartInput(props) {
 
   // Related model of some sort
   if (model_field.model_admin) {
-    const RelatedField = createRelatedField(model_field)
-    return <RelatedField model={model} input_props={input_props} />
+    const RelatedField = createRelatedField(model_field, model)
+    return <RelatedField input_props={input_props} />
   }
 
   // Datepicker

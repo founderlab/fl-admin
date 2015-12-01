@@ -1,7 +1,7 @@
-import Immutable from 'immutable'
+import {fromJS} from 'immutable'
 
 export default function createReducer(model_admin) {
-  const default_state = new Immutable.Map({by_id: {}})
+  const default_state = fromJS({by_id: {}})
 
   return function reducer(state=default_state, action={}) {
 
@@ -15,16 +15,6 @@ export default function createReducer(model_admin) {
       case model_admin.action_type + '_SAVE_ERROR':
       case model_admin.action_type + '_DEL_ERROR':
         return state.merge({loading: false, error: action.error || action.res.body.error})
-
-      // case model_admin.action_type + '_LOAD_ONE_SUCCESS':
-      //   let models = state.get('models')
-      //   const data = action.res.body
-      //   models = models.set(data.id, data)
-      //   return state.merge({
-      //     loading: false,
-      //     errors: null,
-      //     models,
-      //   })
 
       case model_admin.action_type + '_LOAD_SUCCESS':
         const ss = state.mergeDeep({
