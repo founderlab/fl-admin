@@ -45,7 +45,6 @@ export class ModelDetailForm extends React.Component {
 }
 
 export default function createModelDetailForm(model) {
-  console.log('initial model', model)
   return reduxForm(
     {
       form: 'model_detail',

@@ -22,6 +22,15 @@ export default function createModelActions(model_admin) {
       }
     },
 
+    loadPage: (page, query, callback) => {
+      return {
+        page,
+        type: actionType('load'),
+        request: model_type.cursor(query),
+        callback,
+      }
+    },
+
     save: (data, callback) => {
       console.log('saving', data)
       const model = new model_type(data)

@@ -32,7 +32,6 @@ export class ModelListForm extends React.Component {
 }
 
 export default function createModelListForm(model) {
-  console.log('initial model', model)
   return reduxForm(
     {
       form: 'model_list_row',

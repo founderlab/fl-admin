@@ -7,8 +7,8 @@ Changes:
 
 - 0.3.0: State shape changes for pagination
 - 0.2.0: belongsTo relations can be saved
+
  
-    
 State shape:
 
     {
@@ -23,8 +23,8 @@ State shape:
           },
           pagination: {
             visible: [1],
-            page: 1,
-            offset? per_page?: 10,
+            current_page: 1,
+            endless_page: 1,
           },
           loading: false,
         },

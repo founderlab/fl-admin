@@ -2,7 +2,7 @@ import _ from 'lodash' // eslint-disable-line
 import React, {PropTypes} from 'react'
 import {Input} from 'react-bootstrap'
 import Datetime from './datetime'
-import createRelatedField from '../../containers/generators/related_field'
+// import createRelatedField from '../../containers/generators/related_field'
 
 export default function SmartInput(props) {
 
@@ -17,9 +17,8 @@ export default function SmartInput(props) {
   }, form_field)
 
   // Related model of some sort
-  if (model_field.model_admin) {
-    const RelatedField = createRelatedField(model_field, model)
-    return <RelatedField input_props={input_props} />
+  if (model_field.RelatedField) {
+    return <model_field.RelatedField input_props={input_props} />
   }
 
   // Datepicker

@@ -6,7 +6,7 @@ import Loader from '../../components/loader'
 import BelongsToInput from '../../components/inputs/belongs_to'
 import HasManyInput from '../../components/inputs/has_many'
 
-export default function createRelatedField(relation_field, model) {
+export default function createRelatedField(relation_field) {
   const {model_admin} = relation_field
   const {load} = model_admin.actions
 
@@ -14,7 +14,7 @@ export default function createRelatedField(relation_field, model) {
   class RelatedField extends Component {
 
     static propTypes = {
-      // model: PropTypes.object,
+      model: PropTypes.object,
       model_store: PropTypes.object,
       form_field: PropTypes.object,
       load: PropTypes.func,
