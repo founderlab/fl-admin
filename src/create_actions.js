@@ -1,4 +1,4 @@
-import _ from 'lodash'
+import _ from 'lodash' // eslint-disable-line
 
 export default function createModelActions(model_admin) {
   const actionType = name => `${model_admin.action_type}_${name.toUpperCase()}`
@@ -15,6 +15,7 @@ export default function createModelActions(model_admin) {
     },
 
     load: (query, callback) => {
+      console.log('loading', actionType('load'), query, callback)
       return {
         type: actionType('load'),
         request: model_type.cursor(query),

@@ -5,16 +5,13 @@ import React, {Component, PropTypes} from 'react'
 import Loader from '../../components/loader'
 import ModelList from '../../components/model_list'
 import ModelDetail from '../../components/model_detail'
+import fetchRelated from '../../lib/fetch_related'
 
 const ITEMS_PER_PAGE = 10
 
 export default function createModelList(model_admin) {
   const {load, loadPage, save, del} = model_admin.actions
 
-  // const related_load_actions = []
-  // _.forEach(model_admin.fields, field => {
-  //   if (field.model_admin) related_load_actions.push(field.model_admin.actions.load)
-  // })
 
   return @connect(state => ({model_store: state.admin[model_admin.path], id: state.router.params.id}), {load, save, del})
   class ModelEditorContainer extends Component {
@@ -27,34 +24,31 @@ export default function createModelList(model_admin) {
       del: PropTypes.func,
     }
 
-    // static needs = related_load_actions.concat([load])
-
     static fetchData(store, callback) {
-      const state = store.getState()
+      const {router} = store.getState()
       const query = {}
-      const is_detail = !!state.router.params.id
+      const model_id = router.params.id
+      const queue = new Queue(1)
 
-      _.forEach(model_admin.relation_fields, relation_field => {
-        console.log('adding', relation_field.key)
-        const include = []
-        if (is_detail || relation_field.inline) include.push(relation_field.key)
-        if (include.length) query.$include = include
-      })
-
-      if (state.router.params.id) {
-        query.id = state.router.params.id
+      if (model_id) {
+        queue.defer(callback => {
+          query.id = model_id
+          store.dispatch(load(query, callback))
+        })
       }
       else {
-        query.$limit = ITEMS_PER_PAGE
-        const page = +state.router.location.query.page || 1
-        if (page > 1) query.$offset = ITEMS_PER_PAGE * (page-1)
-        console.log('loading page', page)
-        console.log('query is', query)
-        return store.dispatch(loadPage(page, query, callback))
+        queue.defer(callback => {
+          query.$limit = ITEMS_PER_PAGE
+          const page = +router.location.query.page || 1
+          if (page > 1) query.$offset = ITEMS_PER_PAGE * (page-1)
+          return store.dispatch(loadPage(page, query, callback))
+        })
       }
 
-      console.log('single; query is', query)
-      store.dispatch(load(query, callback))
+      queue.await(err => {
+        if (err) return console.log(err)
+        fetchRelated({store, model_admin, load_all: !!model_id}, callback)
+      })
     }
 
     hasData() {
