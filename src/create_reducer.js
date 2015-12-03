@@ -50,7 +50,6 @@ export default function createReducer(model_admin) {
           by_id: action.by_id,
           pagination: pagination(state.pagination, action),
         })
-        console.log('loaded', ss)
         return ss
 
       case model_admin.action_type + '_SAVE_SUCCESS':

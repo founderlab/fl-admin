@@ -15,7 +15,6 @@ export default function createModelActions(model_admin) {
     },
 
     load: (query, callback) => {
-      console.log('loading', actionType('load'), query, callback)
       return {
         type: actionType('load'),
         request: model_type.cursor(query),
@@ -33,7 +32,6 @@ export default function createModelActions(model_admin) {
     },
 
     save: (data, callback) => {
-      console.log('saving', data)
       const model = new model_type(data)
       return {
         type: actionType('save'),
