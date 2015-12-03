@@ -14,6 +14,14 @@ export default function createModelActions(model_admin) {
       }
     },
 
+    count: (query, callback) => {
+      return {
+        type: actionType('count'),
+        request: callback => model_type.count(query, callback),
+        callback,
+      }
+    },
+
     load: (query, callback) => {
       return {
         type: actionType('load'),

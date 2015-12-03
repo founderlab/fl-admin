@@ -5,11 +5,38 @@ Usage:
 
 Changes: 
 
+- 0.4.0: Pagination added; field.inline setting renamed to list_edit
 - 0.3.0: State shape changes for pagination
 - 0.2.0: belongsTo relations can be saved
 
- 
-State shape:
+
+### Usage:
+   
+    import admin from 'fl-admin'
+
+    admin({
+      models: [
+        {
+          model_type: require('./models/user'),
+          fields: {
+            name: {
+              list_edit: true,
+            },
+            email: {
+              list_edit: true,
+            },
+            admin: {
+              list_edit: true,
+            },
+            school: {
+              list_edit: true,
+            },
+          },
+        },
+      ]
+    })
+
+###State shape:
 
     {
       admin: {

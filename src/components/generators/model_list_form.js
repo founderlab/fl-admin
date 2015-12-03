@@ -10,9 +10,11 @@ export class ModelListForm extends React.Component {
   static propTypes = {
     model: PropTypes.object.isRequired,
     model_admin: PropTypes.object.isRequired,
+    onDelete: PropTypes.func.isRequired,
+
+    // from redux-form
     fields: PropTypes.object.isRequired,
     handleSubmit: PropTypes.func.isRequired,
-    onDelete: PropTypes.func.isRequired,
   }
 
   render() {

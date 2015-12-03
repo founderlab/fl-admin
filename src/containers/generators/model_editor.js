@@ -10,7 +10,7 @@ import fetchRelated from '../../lib/fetch_related'
 const ITEMS_PER_PAGE = 10
 
 export default function createModelList(model_admin) {
-  const {load, loadPage, save, del} = model_admin.actions
+  const {load, loadPage, count, save, del} = model_admin.actions
 
 
   return @connect(state => ({model_store: state.admin[model_admin.path], id: state.router.params.id}), {load, save, del})
@@ -24,11 +24,11 @@ export default function createModelList(model_admin) {
       del: PropTypes.func,
     }
 
-    static fetchData(store, callback) {
+    static fetchData({store, action}, callback) {
       const {router} = store.getState()
-      const query = {}
       const model_id = router.params.id
-      const queue = new Queue(1)
+      const query = {}
+      const queue = new Queue()
 
       if (model_id) {
         queue.defer(callback => {
@@ -37,9 +37,14 @@ export default function createModelList(model_admin) {
         })
       }
       else {
+        queue.defer(callback => store.dispatch(count(query, callback)))
         queue.defer(callback => {
           query.$limit = ITEMS_PER_PAGE
-          const page = +router.location.query.page || 1
+
+          // lookup the page from the incoming action here if one exists
+          // if the ?page=xxx query was changed by redux-router the state won't have updated yet
+          const page = +(action && action.payload ? action.payload.location.query.page : router.location.query.page) || 1
+
           if (page > 1) query.$offset = ITEMS_PER_PAGE * (page-1)
           return store.dispatch(loadPage(page, query, callback))
         })
@@ -47,7 +52,9 @@ export default function createModelList(model_admin) {
 
       queue.await(err => {
         if (err) return console.log(err)
-        fetchRelated({store, model_admin, load_all: !!model_id}, callback)
+        const model_store = store.getState().admin[model_admin.path]
+        const model_ids = model_id ? [model_id] : model_store.get('pagination').get('visible').toJSON()
+        fetchRelated({store, model_admin, model_ids, load_all: !!model_id}, callback)
       })
     }
 

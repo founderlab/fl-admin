@@ -3,6 +3,7 @@ import warning from 'warning'
 import {combineReducers} from 'redux'
 
 import createRelatedField from './containers/generators/related_field'
+import createPagination from './containers/generators/pagination'
 import {table, plural, upper} from './lib/naming'
 import createActions from './create_actions'
 import createReducer from './create_reducer'
@@ -36,6 +37,7 @@ function createModelAdmin(options, model_descriptor) {
     action_type: `${ACTION_PREFIX}${upper(model_type)}`,
     fields: {},
     relation_fields: {}, //references the same fields as `fields` (relations only) but is indexed by virtual_id_accessor
+    components: {},
   }
 
   _.defaults(model_admin, defaults)
@@ -52,7 +54,7 @@ function createModelAdmin(options, model_descriptor) {
 
   _.forEach(relation_fields, (relation, key) => {
     const admin_field = model_admin.relation_fields[relation.virtual_id_accessor] = model_admin.fields[key] = model_admin.fields[key] || {}
-    _.defaults(admin_field, _.pick(relation, 'type', 'virtual_id_accessor'))
+    _.defaults(admin_field, _.pick(relation, 'type', 'virtual_id_accessor', 'components')})
     admin_field.model_type = relation.reverse_model_type
     admin_field.key = admin_field.key || key
     admin_field.relation = relation
@@ -67,6 +69,8 @@ function createModelAdmin(options, model_descriptor) {
       return `${options.root_path}/${model_admin.path}/${model_id}`
     }
   }
+
+  if (!model_admin.components.Pagination) model_admin.components.Pagination = createPagination(model_admin)
 
   return model_admin
 }
@@ -83,7 +87,7 @@ export default function configure(_options) {
     _.forEach(model_admin.relation_fields, admin_field => {
       admin_field.model_admin = _.find(model_admins, ma => ma.model_type === admin_field.model_type)
       warning(admin_field.model_admin, `[fl-admin] configure: Couldnt find model_admin for the relation ${admin_field.key} of ${model_admin.name}`)
-      admin_field.RelatedField = createRelatedField(admin_field)
+      if (!admin_field.RelatedField) admin_field.RelatedField = createRelatedField(admin_field)
     })
   })
 

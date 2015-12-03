@@ -12,6 +12,9 @@ export default function createReducer(model_admin) {
 
   function pagination(_state=p_default_state, action={}) {
     let state = _state//.merge({loading: false})
+    if (action.type === model_admin.action_type + '_COUNT_SUCCESS') {
+      return state.merge({total: +action.res})
+    }
 
     if (action.type === model_admin.action_type + '_DEL_SUCCESS') {
       const visible = state.get('visible')
@@ -66,6 +69,11 @@ export default function createReducer(model_admin) {
           loading: false,
           errors: null,
           by_id: by_id,
+          pagination: pagination(state.pagination, action),
+        })
+
+      case model_admin.action_type + '_COUNT_SUCCESS':
+        return state.mergeDeep({
           pagination: pagination(state.pagination, action),
         })
 

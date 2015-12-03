@@ -3,18 +3,20 @@ import React, {PropTypes} from 'react'
 import {Link} from 'react-router'
 import {Table, Glyphicon, Button} from 'react-bootstrap'
 import createModelListForm from './generators/model_list_form'
-import createPagination from '../containers/generators/pagination'
 import {editFieldInline} from '../lib'
 
 export default function ModelList(props) {
   const {model_admin, model_store, items_per_page, onAdd, handleSaveFn, handleDeleteFn} = props
+  const {Pagination} = model_admin.components
 
   const fields = {}
   _.forEach(model_admin.fields, (field, key) => {
     if (editFieldInline(field)) fields[key] = field
   })
 
-  const model_list_rows = _.map(model_store.get('by_id').toJSON(), model => {
+  const to_display = _.pick(model_store.get('by_id').toJSON(), model_store.get('pagination').get('visible').toJSON())
+
+  const model_list_rows = _.map(to_display, model => {
     const ModelListForm = createModelListForm(model)
 
     return (<ModelListForm
@@ -33,7 +35,6 @@ export default function ModelList(props) {
     .concat(edit_fields)
     .concat(edit_fields.length ? [<th key="__fl_save">save</th>] : [])
     .concat([<th key="__fl_delete">delete</th>])
-  const PaginationContainer = createPagination(model_admin)
 
   return (
     <div className="admin-list">
@@ -42,7 +43,6 @@ export default function ModelList(props) {
           <div className="row">
             <div className="col-lg-12">
               <Link to={model_admin.root_path}><Glyphicon glyph="chevron-left" />Admin home</Link>
-
             </div>
           </div>
         </div>
@@ -53,7 +53,7 @@ export default function ModelList(props) {
             <div className="col-lg-8 col-lg-offset-1">
               <h1>{model_admin.plural}</h1>
               <Button bsStyle="primary" className="pull-right" onClick={onAdd}><Glyphicon glyph="plus" /></Button>
-              <PaginationContainer items_per_page={items_per_page} />
+              <Pagination items_per_page={items_per_page} />
               <Table>
                 <thead>
                   <tr>

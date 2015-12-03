@@ -20,12 +20,6 @@ export default function createRelatedField(relation_field) {
       load: PropTypes.func,
     }
 
-    static fetchData(store, callback) {
-      const query = {[related_field.foreign_key]: model.id}
-      console.log('RELATED query is', query)
-      store.dispatch(load(query, callback))
-    }
-
     hasData() {
       return this.props.model_store && !this.props.model_store.get('loading')
     }

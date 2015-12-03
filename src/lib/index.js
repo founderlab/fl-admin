@@ -28,7 +28,7 @@ export function mapFieldsToInputs(model_admin, fields, props={}, InputComponent=
   })
 }
 
-const NO_INLINE = ['hasMany', 'manyToMany']
+const NO_LIST_EDIT = ['hasMany', 'manyToMany']
 export function editFieldInline(field) {
-  return field.inline && NO_INLINE.indexOf(field.type) === -1
+  return field.list_edit && NO_LIST_EDIT.indexOf(field.type) === -1
 }
