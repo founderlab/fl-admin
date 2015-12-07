@@ -54,7 +54,7 @@ function createModelAdmin(options, model_descriptor) {
 
   _.forEach(relation_fields, (relation, key) => {
     const admin_field = model_admin.relation_fields[relation.virtual_id_accessor] = model_admin.fields[key] = model_admin.fields[key] || {}
-    _.defaults(admin_field, _.pick(relation, 'type', 'virtual_id_accessor', 'components')})
+    _.defaults(admin_field, _.pick(relation, 'type', 'virtual_id_accessor', 'components'))
     admin_field.model_type = relation.reverse_model_type
     admin_field.key = admin_field.key || key
     admin_field.relation = relation
