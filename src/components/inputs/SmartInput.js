@@ -1,12 +1,12 @@
 import _ from 'lodash' // eslint-disable-line
 import React, {PropTypes} from 'react'
 import {Input} from 'react-bootstrap'
-import Datetime from './datetime'
-// import createRelatedField from '../../containers/generators/related_field'
+import DatetimeInput from './DatetimeInput'
+import FileUploader from './FileUploader'
 
 export default function SmartInput(props) {
 
-  const {model, model_field, form_field, size} = props
+  const {model, model_field, config, form_field, size} = props
   let type = 'text'
 
   const input_props = _.merge({
@@ -21,9 +21,14 @@ export default function SmartInput(props) {
     return <model_field.RelatedField input_props={input_props} />
   }
 
+  // File uploader
+  if (model_field.type.toLowerCase() === 'file') {
+    return (<FileUploader size={size} config={config} input_props={input_props} />)
+  }
+
   // Datepicker
   if (model_field.type.toLowerCase() === 'date' || model_field.type.toLowerCase() === 'datetime') {
-    return (<Datetime {...input_props} />)
+    return (<DatetimeInput {...input_props} />)
   }
 
   // Checkbox
@@ -40,6 +45,7 @@ export default function SmartInput(props) {
 SmartInput.propTypes = {
   model: PropTypes.object.isRequired,
   model_field: PropTypes.object.isRequired,
+  config: PropTypes.object.isRequired,
   form_field: PropTypes.object.isRequired,
   size: PropTypes.string,
 }

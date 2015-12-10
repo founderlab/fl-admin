@@ -2,11 +2,11 @@ import _ from 'lodash' // eslint-disable-line
 import React, {PropTypes} from 'react'
 import {Link} from 'react-router'
 import {Table, Glyphicon, Button} from 'react-bootstrap'
-import createModelListForm from './generators/model_list_form'
+import createModelListForm from './generators/ModelListForm'
 import {editFieldInline} from '../lib'
 
 export default function ModelList(props) {
-  const {model_admin, model_store, items_per_page, onAdd, handleSaveFn, handleDeleteFn} = props
+  const {model_admin, model_store, config, items_per_page, onAdd, handleSaveFn, handleDeleteFn} = props
   const {Pagination} = model_admin.components
 
   const fields = {}
@@ -24,6 +24,7 @@ export default function ModelList(props) {
       formKey={model.id}
       model={model}
       model_admin={model_admin}
+      config={config}
       onSubmit={handleSaveFn(model)}
       onDelete={handleDeleteFn(model)}
       fields={_.map(fields, f => f.virtual_id_accessor || f.key)}
@@ -75,6 +76,7 @@ export default function ModelList(props) {
 ModelList.propTypes = {
   model_store: PropTypes.object.isRequired,
   model_admin: PropTypes.object.isRequired,
+  config: PropTypes.object.isRequired,
   onAdd: PropTypes.func.isRequired,
   handleSaveFn: PropTypes.func.isRequired,
   handleDeleteFn: PropTypes.func.isRequired,

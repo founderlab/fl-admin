@@ -4,9 +4,9 @@ import {Route, PropTypes as RouterPropTypes} from 'react-router'
 import {createRoutesFromReactChildren} from 'react-router/lib/RouteUtils'
 
 import {model_admins} from './index'
-import App from './components/app'
-import ModelTypeList from './components/model_type_list'
-import createModelEditor from './containers/generators/model_editor'
+import Admin from './components/Admin'
+import ModelTypeList from './components/ModelTypeList'
+import createModelEditor from './containers/generators/ModelEditor'
 import {checkPropTypes} from './lib'
 
 export default class AdminRoute extends Route {
@@ -22,7 +22,7 @@ export default class AdminRoute extends Route {
   constructor(options) {
     super()
     _.extend(this, options)
-    if (!this.component) this.component = App
+    if (!this.component) this.component = Admin
     this.indexRoute = {component: ModelTypeList}
   }
 

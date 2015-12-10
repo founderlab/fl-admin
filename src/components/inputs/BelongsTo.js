@@ -2,7 +2,7 @@ import _ from 'lodash' // eslint-disable-line
 import React, {PropTypes} from 'react'
 import {Input} from 'react-bootstrap'
 
-export default function RelatedModelSelector(props) {
+export default function BelongsTo(props) {
 
   const {relation_field, model_store, input_props} = props
   const models = model_store.get('by_id').toJSON ? model_store.get('by_id').toJSON() : {}
@@ -18,7 +18,7 @@ export default function RelatedModelSelector(props) {
   )
 }
 
-RelatedModelSelector.propTypes = {
+BelongsTo.propTypes = {
   relation_field: PropTypes.object,
   model_admin: PropTypes.object,
   model_store: PropTypes.object,

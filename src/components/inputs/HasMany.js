@@ -2,7 +2,7 @@ import _ from 'lodash' // eslint-disable-line
 import React, {PropTypes} from 'react'
 import {Link} from 'react-router'
 
-export default function RelatedModelSelector(props) {
+export default function HasMany(props) {
 
   const {relation_field, model, model_store} = props
   const models = model_store.get('by_id').toJSON ? model_store.get('by_id').toJSON() : {}
@@ -25,7 +25,7 @@ export default function RelatedModelSelector(props) {
   return (<div className="list-group">{links}</div>)
 }
 
-RelatedModelSelector.propTypes = {
+HasMany.propTypes = {
   relation_field: PropTypes.object,
   model_admin: PropTypes.object,
   model_store: PropTypes.object,

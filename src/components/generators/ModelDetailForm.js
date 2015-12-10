@@ -9,6 +9,7 @@ export class ModelDetailForm extends React.Component {
   static propTypes = {
     model: PropTypes.object.isRequired,
     model_admin: PropTypes.object.isRequired,
+    config: PropTypes.object.isRequired,
     onDelete: PropTypes.func.isRequired,
 
     // from redux-form
@@ -17,8 +18,8 @@ export class ModelDetailForm extends React.Component {
   }
 
   render() {
-    const {model_admin, model, fields, handleSubmit, onDelete} = this.props
-    const inputs = mapFieldsToInputs(model_admin, fields, {model, size: 'large'})
+    const {model_admin, model, config, fields, handleSubmit, onDelete} = this.props
+    const inputs = mapFieldsToInputs(model_admin, fields, {model, config, size: 'large'})
 
     return (
       <div>

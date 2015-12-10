@@ -7,7 +7,7 @@ export default function PaginationLinks(props) {
   const {current_page, total_pages, onPage} = props
   const links = []
   const onPageFn = (i) => () => onPage(i)
-console.log('current_page, total_pages', current_page, total_pages)
+
   for (let i=1; i<=total_pages; i++) {
     const style = current_page === i ? 'primary' : 'default'
     links.push(<Button key={i} onClick={onPageFn(i)} bsStyle={style}>{i}</Button>)

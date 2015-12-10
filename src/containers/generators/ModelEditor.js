@@ -2,19 +2,25 @@ import _ from 'lodash'
 import Queue from 'queue-async'
 import {connect} from 'react-redux'
 import React, {Component, PropTypes} from 'react'
-import Loader from '../../components/loader'
-import ModelList from '../../components/model_list'
-import ModelDetail from '../../components/model_detail'
+import Loader from '../../components/Loader'
+import ModelList from '../../components/ModelList'
+import ModelDetail from '../../components/ModelDetail'
 import fetchRelated from '../../lib/fetch_related'
 
 const ITEMS_PER_PAGE = 10
 
-export default function createModelList(model_admin) {
+export default function createModelEditor(model_admin) {
   const {load, loadPage, count, save, del} = model_admin.actions
 
-
-  return @connect(state => ({model_store: state.admin[model_admin.path], id: state.router.params.id}), {load, save, del})
-  class ModelEditorContainer extends Component {
+  return @connect(
+    state => ({
+      model_store: state.admin[model_admin.path],
+      id: state.router.params.id,
+      config: state.config,
+    }),
+    {load, save, del}
+  )
+  class ModelEditor extends Component {
 
     static propTypes = {
       model_store: PropTypes.object,
@@ -69,11 +75,13 @@ export default function createModelList(model_admin) {
     render() {
       if (!this.hasData()) return (<Loader />)
       const {id, model_store} = this.props
+      const config = this.props.config.toJSON()
 
       const component_props = {
         id,
         model_admin,
         model_store,
+        config,
         onAdd: this.handleAdd,
         handleSaveFn: this.handleSaveFn,
         handleDeleteFn: this.handleDeleteFn,

@@ -1,7 +1,7 @@
 import _ from 'lodash'
 import React from 'react'
 import warning from 'warning'
-import ModelFieldInput from '../components/inputs/smart'
+import SmartInput from '../components/inputs/SmartInput'
 
 // yoinked from react-router
 export function checkPropTypes(componentName='UnknownComponent', prop_types, props) {
@@ -13,7 +13,7 @@ export function checkPropTypes(componentName='UnknownComponent', prop_types, pro
   }
 }
 
-export function mapFieldsToInputs(model_admin, fields, props={}, InputComponent=ModelFieldInput) {
+export function mapFieldsToInputs(model_admin, fields, props={}, InputComponent=SmartInput) {
   return _.map(fields, (field, key) => {
     const model_field = model_admin.fields[key] || model_admin.relation_fields[key]
     warning(model_field, `[fl-admin] Can't find model_field for key ${key}: is this key the field name instead of the virtual_id_accessor?`)

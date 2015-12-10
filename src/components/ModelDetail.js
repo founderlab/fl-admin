@@ -2,11 +2,11 @@ import _ from 'lodash' // eslint-disable-line
 import React, {PropTypes} from 'react'
 import {Link} from 'react-router'
 import {Glyphicon} from 'react-bootstrap'
-import createModelDetailForm from './generators/model_detail_form'
+import createModelDetailForm from './generators/ModelDetailForm'
 
 export default function ModelDetail(props) {
 
-  const {model_admin, model_store, id, handleSaveFn, handleDeleteFn} = props
+  const {model_admin, model_store, id, config, handleSaveFn, handleDeleteFn} = props
   const model_im = model_store.get('by_id').get(id)
   const model = model_im ? model_im.toJSON() : {}
   const ModelDetailForm = createModelDetailForm(model)
@@ -38,6 +38,7 @@ export default function ModelDetail(props) {
         formKey={model.id}
         model={model}
         model_admin={model_admin}
+        config={config}
         onSubmit={handleSaveFn(model)}
         onDelete={handleDeleteFn(model)}
         fields={_.map(model_admin.fields, f => f.virtual_id_accessor || f.key)}
@@ -51,6 +52,7 @@ ModelDetail.propTypes = {
   id: PropTypes.string,
   model_store: PropTypes.object,
   model_admin: PropTypes.object,
+  // config: PropTypes.object,
   handleSaveFn: PropTypes.func,
   handleDeleteFn: PropTypes.func,
 }
