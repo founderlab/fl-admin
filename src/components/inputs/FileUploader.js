@@ -1,6 +1,6 @@
 import _ from 'lodash' // eslint-disable-line
 import React, {PropTypes} from 'react'
-import {DropzoneS3Uploader} from 'react-dropzone-s3-uploader'
+import DropzoneS3Uploader from 'react-dropzone-s3-uploader'
 
 export default class FileUploader extends React.Component {
 
