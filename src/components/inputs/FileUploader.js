@@ -30,7 +30,7 @@ export default class FileUploader extends React.Component {
     }
 
     const uploader_props = {style, max_file_size, s3_url, filename, host: url}
-console.log('uploader_props', uploader_props)
+
     return (
       <div className="form-group form-group-lg">
         {this.props.label ? (<label className="control-label">{this.props.label}</label>) : null}
