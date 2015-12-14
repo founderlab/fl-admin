@@ -11,7 +11,7 @@ export default function BelongsTo(props) {
 
   //redux-form onFocus is buggy as of v3.0.0, skip it
   return (
-    <Input type="select" label={relation_field.key} {..._.omit(input_props, 'onFocus')} >
+    <Input type="select" label={input_props.label} {..._.omit(input_props, 'onFocus')} >
       {!input_props.multiple ? (<option value="null"></option>) : null}
       {select_options}
     </Input>
@@ -19,7 +19,7 @@ export default function BelongsTo(props) {
 }
 
 BelongsTo.propTypes = {
-  relation_field: PropTypes.object,
-  model_admin: PropTypes.object,
-  model_store: PropTypes.object,
+  relation_field: PropTypes.object.isRequired,
+  model_store: PropTypes.object.isRequired,
+  input_props: PropTypes.object.isRequired,
 }

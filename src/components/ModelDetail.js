@@ -3,12 +3,14 @@ import React, {PropTypes} from 'react'
 import {Link} from 'react-router'
 import {Glyphicon} from 'react-bootstrap'
 import createModelDetailForm from './generators/ModelDetailForm'
+import warning from 'warning'
 
 export default function ModelDetail(props) {
 
   const {model_admin, model_store, id, config, handleSaveFn, handleDeleteFn} = props
   const model_im = model_store.get('by_id').get(id)
-  const model = model_im ? model_im.toJSON() : {}
+  const model = model_im ? model_im.toJSON() : null
+  warning(model, `[fl-admin] ModelDetail: Model ${model_admin.name} not loaded with id ${id}`)
   const ModelDetailForm = createModelDetailForm(model)
 
   return (

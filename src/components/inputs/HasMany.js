@@ -4,7 +4,7 @@ import {Link} from 'react-router'
 
 export default function HasMany(props) {
 
-  const {relation_field, model, model_store} = props
+  const {relation_field, model, model_store, input_props} = props
   const models = model_store.get('by_id').toJSON ? model_store.get('by_id').toJSON() : {}
 
   // shortcut to avoid messing with saving relations: link to the related model for hasMany
@@ -22,11 +22,20 @@ export default function HasMany(props) {
     )
   })
 
-  return (<div className="list-group">{links}</div>)
+  return (
+    <div>
+      {input_props.label ? (<label className="control-label">{input_props.label}</label>) : null}
+      <div className="list-group">
+        {links}
+      </div>)
+    </div>
+  )
 }
 
 HasMany.propTypes = {
-  relation_field: PropTypes.object,
-  model_admin: PropTypes.object,
-  model_store: PropTypes.object,
+  model: PropTypes.object.isRequired,
+  model_admin: PropTypes.object.isRequired,
+  relation_field: PropTypes.object.isRequired,
+  model_store: PropTypes.object.isRequired,
+  input_props: PropTypes.object.isRequired,
 }

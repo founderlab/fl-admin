@@ -18,7 +18,7 @@ export default function SmartInput(props) {
 
   // Related model of some sort
   if (model_field.RelatedField) {
-    return <model_field.RelatedField input_props={input_props} />
+    return <model_field.RelatedField model={model} input_props={input_props} />
   }
 
   // File uploader
