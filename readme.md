@@ -17,7 +17,7 @@ Changes:
     admin({
       models: [
         {
-          model_type: require('./models/user'),
+          model_type: require('./models/User'),
           fields: {
             name: {
               list_edit: true,
