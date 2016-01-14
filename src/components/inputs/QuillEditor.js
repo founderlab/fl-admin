@@ -5,8 +5,6 @@ import ReactQuill from 'react-quill'
 export default class QuillEditor extends React.Component {
 
   render() {
-    console.log('quill got props', this.props)
-
     return (
       <div className="form-group form-group-lg">
         {this.props.label ? (<label className="control-label">{this.props.label}</label>) : null}
