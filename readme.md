@@ -5,6 +5,7 @@ Usage:
 
 Changes: 
 
+- 0.4.1: Quill editor is supported. Added the `input` option for form fields. To use quill set it like so: `input: 'rich_text'`
 - 0.4.0: Pagination added; field.inline setting renamed to list_edit
 - 0.3.0: State shape changes for pagination
 - 0.2.0: belongsTo relations can be saved
@@ -30,6 +31,9 @@ Changes:
             },
             school: {
               list_edit: true,
+            },
+            description: {
+              input: 'rich_text',
             },
           },
         },

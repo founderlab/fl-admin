@@ -39,7 +39,6 @@ export default function createModelEditor(model_admin) {
       if (model_id) {
         queue.defer(callback => {
           query.id = model_id
-          console.log('loading single', query)
           store.dispatch(load(query, callback))
         })
       }
@@ -60,7 +59,6 @@ export default function createModelEditor(model_admin) {
       queue.await(err => {
         if (err) return console.log(err)
         const model_store = store.getState().admin[model_admin.path]
-      console.log('loaded', model_store.toJSON())
         const model_ids = model_id ? [model_id] : model_store.get('pagination').get('visible').toJSON()
         fetchRelated({store, model_admin, model_ids, load_all: !!model_id}, callback)
       })
