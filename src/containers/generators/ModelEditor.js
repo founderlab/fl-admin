@@ -5,7 +5,7 @@ import React, {Component, PropTypes} from 'react'
 import Loader from '../../components/Loader'
 import ModelList from '../../components/ModelList'
 import ModelDetail from '../../components/ModelDetail'
-import fetchRelated from '../../lib/fetch_related'
+import fetchRelated from '../../lib/fetchRelated'
 
 const ITEMS_PER_PAGE = 10
 

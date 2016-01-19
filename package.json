@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "inflection": "^1.7.2",
-    "lodash": "*",
+    "lodash": "^4.0.0",
     "warning": "^2.1.0"
   },
   "peerDependencies": {

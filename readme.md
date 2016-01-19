@@ -5,6 +5,7 @@ Usage:
 
 Changes: 
 
+- 0.4.2: Bugfix in fetchRelated. Option to specify a query to filter which related models will be fetched (called `filter`) 
 - 0.4.1: Quill editor is supported. Added the `input` option for form fields. To use quill set it like so: `input: 'rich_text'`
 - 0.4.0: Pagination added; field.inline setting renamed to list_edit
 - 0.3.0: State shape changes for pagination
@@ -30,7 +31,10 @@ Changes:
               list_edit: true,
             },
             school: {
-              list_edit: true,
+              filter: (model_ids, model_store, relation_field) {
+                const user = model_store.get('by_id').get(model_ids[0])
+                return {city: user.get('city')}
+              },
             },
             description: {
               input: 'rich_text',
