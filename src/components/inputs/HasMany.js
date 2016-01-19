@@ -27,7 +27,7 @@ export default function HasMany(props) {
       {input_props.label ? (<label className="control-label">{input_props.label}</label>) : null}
       <div className="list-group">
         {links}
-      </div>)
+      </div>
     </div>
   )
 }
