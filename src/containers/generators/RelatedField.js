@@ -8,6 +8,7 @@ import HasMany from '../../components/inputs/HasMany'
 
 export default function createRelatedField(relation_field) {
   const {model_admin} = relation_field
+  if (!model_admin) return null
   const {load} = model_admin.actions
 
   return @connect(state => ({model_store: state.admin[model_admin.path]}), {load})
