@@ -7,19 +7,19 @@ export default class FileUploader extends React.Component {
   static propTypes = {
     label: PropTypes.string,
     size: PropTypes.string,
-    input_props: PropTypes.object.isRequired,
+    // input_props: PropTypes.object.isRequired,
     config: PropTypes.object.isRequired,
   }
 
   handleFinishedUpload = (info) => {
-    this.props.input_props.onChange(info.filename)
+    this.props.onChange(info.filename)
   }
 
   render() {
-    const {config, size, input_props} = this.props
+    const {config, size, filename} = this.props
     const {url, s3_url} = config
     const max_file_size = config.max_file_upload_size
-    const filename = input_props.value
+    // const filename = input_props.value
 
     const style = {
       height: size === 'large' ? 200 : 100,

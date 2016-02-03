@@ -30,7 +30,10 @@ function createModelAdmin(options, model_descriptor) {
 
   const defaults = {
     name: model_type.model_name,
-    display: model => model.name || model.id,
+    display: model => {
+      if (!model) return '[null]'
+      return model.name || model.title || model.id
+    },
     path: table(model_type),
     root_path: options.root_path,
     plural: plural(model_type),

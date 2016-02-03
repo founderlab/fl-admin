@@ -2,7 +2,8 @@ import _ from 'lodash' // eslint-disable-line
 import React, {PropTypes} from 'react'
 import {Input} from 'react-bootstrap'
 import warning from 'warning'
-import DatetimeInput from './DatetimeInput'
+import Select from './Select'
+import Datetime from './Datetime'
 import FileUploader from './FileUploader'
 import QuillEditor from './QuillEditor'
 
@@ -23,6 +24,7 @@ export default function SmartInput(props) {
     return <model_field.RelatedField model={model} input_props={input_props} />
   }
 
+  // Type of text input specified
   if (model_field.input) {
     const input_type = model_field.input.toLowerCase()
 
@@ -37,14 +39,19 @@ export default function SmartInput(props) {
     }
   }
 
+  // Select box
+  if (model_field.options) {
+    return (<Select options={model_field.options} {...input_props} />)
+  }
+
   // File uploader
   if (model_field.type.toLowerCase() === 'file') {
-    return (<FileUploader size={size} config={config} input_props={input_props} />)
+    return (<FileUploader size={size} config={config} {...input_props} />)
   }
 
   // Datepicker
   if (model_field.type.toLowerCase() === 'date' || model_field.type.toLowerCase() === 'datetime') {
-    return (<DatetimeInput {...input_props} />)
+    return (<Datetime {...input_props} />)
   }
 
   // Checkbox

@@ -12,7 +12,7 @@ export default function BelongsTo(props) {
   //redux-form onFocus is buggy as of v3.0.0, skip it
   return (
     <Input type="select" label={input_props.label} {..._.omit(input_props, 'onFocus')} >
-      {!input_props.multiple ? (<option value="null"></option>) : null}
+      {!input_props.multiple ? (<option value={null}></option>) : null}
       {select_options}
     </Input>
   )
