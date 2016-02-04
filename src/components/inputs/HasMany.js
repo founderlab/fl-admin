@@ -14,7 +14,7 @@ export default function HasMany(props) {
   _.forEach(models, related_model => {
     if (related_model[relation_field.relation.foreign_key] !== model.id) return
     links.push(
-      <Link to={model_admin.link(related_model)} className="list-group-item" key={related_model.id}>
+      <Link to={model_admin.link(related_model)} className="list-group-item" key={related_model.id} target="_blank">
         {model_admin.display(related_model)}
         <br />
       </Link>

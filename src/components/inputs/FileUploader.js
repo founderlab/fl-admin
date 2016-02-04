@@ -38,7 +38,8 @@ export default class FileUploader extends React.Component {
     return (
       <div className="form-group form-group-lg">
         {this.props.label ? (<label className="control-label">{this.props.label}</label>) : null}
-        <DropzoneS3Uploader onFinish={this.handleFinishedUpload} {...uploader_props} />
+        <DropzoneS3Uploader onFinish={this.handleFinishedUpload} {...uploader_props}>
+        </DropzoneS3Uploader>
       </div>
     )
   }
