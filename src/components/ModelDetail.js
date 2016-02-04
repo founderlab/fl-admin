@@ -12,6 +12,7 @@ export default function ModelDetail(props) {
   const model = model_im ? model_im.toJSON() : null
   warning(model, `[fl-admin] ModelDetail: Model ${model_admin.name} not loaded with id ${id}`)
   const ModelDetailForm = createModelDetailForm(model)
+  const fields = _(model_admin.fields).map(f => f.virtual_id_accessor || f.key).compact().value()
 
   return (
     <div className="admin-detail">
@@ -43,7 +44,7 @@ export default function ModelDetail(props) {
         config={config}
         onSubmit={handleSaveFn(model)}
         onDelete={handleDeleteFn(model)}
-        fields={_.map(model_admin.fields, f => f.virtual_id_accessor || f.key)}
+        fields={fields}
       />
 
     </div>

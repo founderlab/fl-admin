@@ -7,7 +7,9 @@ export default class FileUploader extends React.Component {
   static propTypes = {
     label: PropTypes.string,
     size: PropTypes.string,
-    // input_props: PropTypes.object.isRequired,
+    value: PropTypes.string,
+    defaultValue: PropTypes.string,
+    onChange: PropTypes.func.isRequired,
     config: PropTypes.object.isRequired,
   }
 
@@ -16,10 +18,9 @@ export default class FileUploader extends React.Component {
   }
 
   render() {
-    const {config, size, filename} = this.props
+    const {config, size, value, defaultValue} = this.props
     const {url, s3_url} = config
     const max_file_size = config.max_file_upload_size
-    // const filename = input_props.value
 
     const style = {
       height: size === 'large' ? 200 : 100,
@@ -29,7 +30,7 @@ export default class FileUploader extends React.Component {
       cursor: 'pointer',
     }
 
-    const uploader_props = {style, max_file_size, s3_url, filename, host: url}
+    const uploader_props = {style, max_file_size, s3_url, filename: value || defaultValue, host: url}
 
     return (
       <div className="form-group form-group-lg">

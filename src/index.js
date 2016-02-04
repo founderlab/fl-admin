@@ -1,9 +1,9 @@
 import _ from 'lodash'
 import warning from 'warning'
 import {combineReducers} from 'redux'
+import {Pagination} from 'fl-react-utils'
 
 import createRelatedField from './containers/generators/RelatedField'
-import createPagination from './containers/generators/Pagination'
 import {table, plural, upper} from './lib/naming'
 import createActions from './create_actions'
 import createReducer from './create_reducer'
@@ -73,7 +73,7 @@ function createModelAdmin(options, model_descriptor) {
     }
   }
 
-  if (!model_admin.components.Pagination) model_admin.components.Pagination = createPagination(model_admin)
+  if (!model_admin.components.Pagination) model_admin.components.Pagination = Pagination
 
   return model_admin
 }

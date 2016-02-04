@@ -5,13 +5,14 @@ import warning from 'warning'
 import Loader from '../../components/Loader'
 import BelongsTo from '../../components/inputs/BelongsTo'
 import HasMany from '../../components/inputs/HasMany'
+import InlineRelation from '../../components/inputs/InlineRelation'
 
 export default function createRelatedField(relation_field) {
   const {model_admin} = relation_field
   if (!model_admin) return null
-  const {load} = model_admin.actions
+  const {load, save, del} = model_admin.actions
 
-  return @connect(state => ({model_store: state.admin[model_admin.path]}), {load})
+  return @connect(state => ({model_store: state.admin[model_admin.path], config: state.config}), {load, save, del})
   class RelatedField extends Component {
 
     static propTypes = {
@@ -25,19 +26,46 @@ export default function createRelatedField(relation_field) {
       return this.props.model_store && !this.props.model_store.get('loading')
     }
 
+    hasManyRelationAttrs = () => ({[relation_field.relation.foreign_key]: this.props.model.id})
+
+    handleAdd = () => {
+      console.log('adding', relation_field)
+      console.log('attrs', this.hasManyRelationAttrs())
+      this.props.save(this.hasManyRelationAttrs())
+    }
+    handleSaveFn = model => data => this.props.save(_.extend(this.hasManyRelationAttrs(), model, data))
+    handleDeleteFn = model => () => this.props.del(model)
+
     render() {
       if (!this.hasData()) return (<Loader type="inline" />)
       const {model, model_store, input_props} = this.props
+      const props = {relation_field, model, model_store, input_props}
 
-      if (relation_field.type === 'belongsTo' /*|| relation_field.type === 'hasOne' */) {
-        return (<BelongsTo relation_field={relation_field} model={model} model_store={model_store} input_props={input_props} />)
+      if (relation_field.type === 'belongsTo') {
+        if (relation_field.inline) console.log('[fl-admin] inline editing belongsTo relations is not yet supported')
+        return (<BelongsTo {...props} />)
       }
 
       if (relation_field.type === 'hasMany' || relation_field.type === 'hasOne') {
-        return (<HasMany relation_field={relation_field} model={model} model_store={model_store} input_props={input_props} />)
+
+        //TODO: This should be made to work for belongsTo / manyToMany
+        if (relation_field.inline) {
+          return (
+            <InlineRelation
+              label={input_props.label}
+              config={this.props.config.toJSON()}
+              onAdd={this.handleAdd}
+              handleSaveFn={this.handleSaveFn}
+              handleDeleteFn={this.handleDeleteFn}
+              {...props}
+            />
+          )
+        }
+
+        return (<HasMany {...props} />)
       }
 
-      warning(false, `[fl-admin] Relation does not have a known type: ${relation_field.type}`)
+      warning(false, `[fl-admin] Relation does not have a known type: ${relation_field.type}. Note that manyToMany is not yet supported`)
       return null
     }
   }

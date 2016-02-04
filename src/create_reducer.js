@@ -1,36 +1,15 @@
-import _  from 'lodash'
+import _ from 'lodash' // eslint-disable-line
 import {fromJS} from 'immutable'
+import {createPaginationReducer} from 'fl-react-utils'
 
 export default function createReducer(model_admin) {
 
-  const p_default_state = fromJS({
-    visible: [],
-    current_page: 1,
-    endless_page: 1,
-    // loading: false,
-  })
+  const pagination = createPaginationReducer(model_admin.action_type)
 
-  function pagination(_state=p_default_state, action={}) {
-    let state = _state//.merge({loading: false})
-    if (action.type === model_admin.action_type + '_COUNT_SUCCESS') {
-      return state.merge({total: +action.res})
-    }
-
-    if (action.type === model_admin.action_type + '_DEL_SUCCESS') {
-      const visible = state.get('visible')
-      return state.merge({visible: _.without(visible, action.deleted_id)})
-    }
-
-    if (action.page && (action.page !== state.current_page)) {
-      state = state.merge({visible: _.keys(action.by_id), current_page: action.page})
-    }
-
-    return state
-  }
-
+  const p = pagination()
   const default_state = fromJS({
     by_id: {},
-    pagination: pagination(),
+    pagination: p,
   })
 
   return function reducer(state=default_state, action={}) {
@@ -51,7 +30,7 @@ export default function createReducer(model_admin) {
           loading: false,
           errors: null,
           by_id: action.by_id,
-          pagination: pagination(state.pagination, action),
+          pagination: pagination(state.get('pagination'), action),
         })
         return ss
 
@@ -69,12 +48,12 @@ export default function createReducer(model_admin) {
           loading: false,
           errors: null,
           by_id: by_id,
-          pagination: pagination(state.pagination, action),
+          pagination: pagination(state.get('pagination'), action),
         })
 
       case model_admin.action_type + '_COUNT_SUCCESS':
         return state.mergeDeep({
-          pagination: pagination(state.pagination, action),
+          pagination: pagination(state.get('pagination'), action),
         })
 
       default:

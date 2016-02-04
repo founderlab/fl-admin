@@ -2,28 +2,37 @@ import _ from 'lodash'
 import Queue from 'queue-async'
 import {connect} from 'react-redux'
 import React, {Component, PropTypes} from 'react'
+import {pushState} from 'redux-router'
+// import {createPaginationSelector} from 'fl-react-utils'
 import Loader from '../../components/Loader'
 import ModelList from '../../components/ModelList'
 import ModelDetail from '../../components/ModelDetail'
 import fetchRelated from '../../lib/fetchRelated'
 
-const ITEMS_PER_PAGE = 10
-
+const ITEMS_PER_PAGE = 5
 export default function createModelEditor(model_admin) {
   const {load, loadPage, count, save, del} = model_admin.actions
 
   return @connect(
+    // createPaginationSelector(
+    //   state => state.admin[model_admin.path],
+    //   state => ({
+    //     model_store: state.admin[model_admin.path],
+    //     id: state.router.params.id,
+    //     config: state.config,
+    //   })
+    // ),
     state => ({
       model_store: state.admin[model_admin.path],
       id: state.router.params.id,
       config: state.config,
     }),
-    {load, save, del}
+    {load, save, del, pushState}
   )
   class ModelEditor extends Component {
 
     static propTypes = {
-      model_store: PropTypes.object,
+      model_store: PropTypes.object.isRequired,
       id: PropTypes.string,
       load: PropTypes.func,
       save: PropTypes.func,
@@ -32,6 +41,10 @@ export default function createModelEditor(model_admin) {
 
     static fetchData({store, action}, callback) {
       const {router} = store.getState()
+
+      // lookup the location from the incoming action here if one exists
+      // if the ?page=xxx query was changed by redux-router the state won't have updated yet
+      const location = (action && action.payload && action.payload.location ? action.payload.location : router.location)
       const model_id = router.params.id
       const query = {}
       const queue = new Queue()
@@ -47,9 +60,7 @@ export default function createModelEditor(model_admin) {
         queue.defer(callback => {
           query.$limit = ITEMS_PER_PAGE
 
-          // lookup the page from the incoming action here if one exists
-          // if the ?page=xxx query was changed by redux-router the state won't have updated yet
-          const page = +(action && action.payload ? action.payload.location.query.page : router.location.query.page) || 1
+          const page = +location.query.page || 1
 
           if (page > 1) query.$offset = ITEMS_PER_PAGE * (page-1)
           return store.dispatch(loadPage(page, query, callback))
@@ -65,27 +76,46 @@ export default function createModelEditor(model_admin) {
     }
 
     hasData() {
-      return this.props.model_store && !this.props.model_store.get('loading')
+      return !this.props.model_store.get('loading')
     }
 
     handleAdd = () => this.props.save({})
     handleSaveFn = model => data => this.props.save(_.extend(model, data))
-    handleDeleteFn = model => () => this.props.del(model)
+    handleDeleteFn = model => () => {
+      this.props.del(model, err => err && console.log(err))
+      if (this.props.id) pushState(model_admin.link())
+    }
 
     render() {
       if (!this.hasData()) return (<Loader />)
-      const {id, model_store} = this.props
+      // const {id, model_store, visible_items, location} = this.props
+      const {id, model_store, location} = this.props
       const config = this.props.config.toJSON()
+
+      const current_page = +(location.query.page || 1)
+      const items_per_page = +(location.query.per_page || ITEMS_PER_PAGE)
+
+      // TODO: These should come from the pagination selector via createPaginationSelector,
+      // but it's causing an infinite loop for whatever reason
+      const pagination = model_store.get('pagination')
+      const visible_ids = pagination.get('visible').toJSON()
+      const total_items = +(pagination.get('total'))
+      const visible_items = []
+      _.forEach(visible_ids, id => visible_items.push(model_store.get('by_id').get(id).toJSON()))
 
       const component_props = {
         id,
         model_admin,
         model_store,
         config,
+        visible_items,
+        total_items,
+        location,
+        current_page,
+        items_per_page,
         onAdd: this.handleAdd,
         handleSaveFn: this.handleSaveFn,
         handleDeleteFn: this.handleDeleteFn,
-        items_per_page: ITEMS_PER_PAGE,
       }
 
       if (id) return (<ModelDetail {...component_props} />)

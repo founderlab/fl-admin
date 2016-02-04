@@ -1,41 +1,13 @@
 import _ from 'lodash' // eslint-disable-line
 import React, {PropTypes} from 'react'
 import {Link} from 'react-router'
-import {Table, Glyphicon, Button} from 'react-bootstrap'
-import createModelListForm from './generators/ModelListForm'
-import {editFieldInline} from '../lib'
+import {Glyphicon, Button} from 'react-bootstrap'
+import ModelListTable from './ModelListTable'
 
 export default function ModelList(props) {
-  const {model_admin, model_store, config, items_per_page, onAdd, handleSaveFn, handleDeleteFn} = props
+  const {model_admin, config, visible_items, onAdd, handleSaveFn, handleDeleteFn} = props
   const {Pagination} = model_admin.components
-
-  const fields = {}
-  _.forEach(model_admin.fields, (field, key) => {
-    if (editFieldInline(field)) fields[key] = field
-  })
-
-  const to_display = _.pick(model_store.get('by_id').toJSON(), model_store.get('pagination').get('visible').toJSON())
-
-  const model_list_rows = _.map(to_display, model => {
-    const ModelListForm = createModelListForm(model)
-
-    return (<ModelListForm
-      key={model.id}
-      formKey={model.id}
-      model={model}
-      model_admin={model_admin}
-      config={config}
-      onSubmit={handleSaveFn(model)}
-      onDelete={handleDeleteFn(model)}
-      fields={_.map(fields, f => f.virtual_id_accessor || f.key)}
-    />)
-  })
-
-  const edit_fields = _.map(fields, (field, key) => (<th key={key}>{key}</th>))
-  const headings = [<th key="__fl_model">model</th>]
-    .concat(edit_fields)
-    .concat(edit_fields.length ? [<th key="__fl_save">save</th>] : [])
-    .concat([<th key="__fl_delete">delete</th>])
+  const table_props = {model_admin, config, handleSaveFn, handleDeleteFn, models: visible_items}
 
   return (
     <div className="admin-list">
@@ -54,17 +26,8 @@ export default function ModelList(props) {
             <div className="col-lg-8 col-lg-offset-1">
               <h1>{model_admin.plural}</h1>
               <Button bsStyle="primary" className="pull-right" onClick={onAdd}><Glyphicon glyph="plus" /></Button>
-              <Pagination items_per_page={items_per_page} />
-              <Table>
-                <thead>
-                  <tr>
-                    {headings}
-                  </tr>
-                </thead>
-                <tbody>
-                  {model_list_rows}
-                </tbody>
-              </Table>
+              <Pagination {...props} />
+              <ModelListTable {...table_props} />
             </div>
           </div>
         </div>
@@ -74,10 +37,11 @@ export default function ModelList(props) {
 }
 
 ModelList.propTypes = {
-  model_store: PropTypes.object.isRequired,
+  visible_items: PropTypes.array.isRequired,
   model_admin: PropTypes.object.isRequired,
   config: PropTypes.object.isRequired,
   onAdd: PropTypes.func.isRequired,
   handleSaveFn: PropTypes.func.isRequired,
   handleDeleteFn: PropTypes.func.isRequired,
+  items_per_page: PropTypes.number.isRequired,
 }
