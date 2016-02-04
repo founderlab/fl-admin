@@ -9,10 +9,11 @@ import QuillEditor from './QuillEditor'
 
 export default function SmartInput(props) {
 
-  const {model, model_field, config, form_field, size} = props
+  const {model, model_field, config, form_field, size, handleSubmit} = props
   let type = 'text'
 
   const input_props = _.merge({
+    handleSubmit,
     label: size === 'large' ? model_field.key : null,
     bsSize: size,
     placeholder: model_field.key,
@@ -71,4 +72,5 @@ SmartInput.propTypes = {
   config: PropTypes.object.isRequired,
   form_field: PropTypes.object.isRequired,
   size: PropTypes.string,
+  handleSubmit: PropTypes.func.isRequired,
 }

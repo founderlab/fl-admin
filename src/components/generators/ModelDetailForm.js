@@ -19,7 +19,7 @@ export class ModelDetailForm extends React.Component {
 
   render() {
     const {model_admin, model, config, fields, handleSubmit, onDelete} = this.props
-    const inputs = mapFieldsToInputs(model_admin, fields, {model, config, size: 'large'})
+    const inputs = mapFieldsToInputs(model_admin, fields, {model, config, handleSubmit, size: 'large'})
 
     return (
       <div>

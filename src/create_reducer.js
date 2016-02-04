@@ -42,8 +42,8 @@ export default function createReducer(model_admin) {
         })
 
       case model_admin.action_type + '_DEL_SUCCESS':
-        const by_id = (state.get('by_id') || {}).toJSON()
-        delete by_id[action.deleted_id]
+        const by_id = state.get('by_id').toJSON()
+        delete by_id[action.deleted_model_id]
         return state.merge({
           loading: false,
           errors: null,

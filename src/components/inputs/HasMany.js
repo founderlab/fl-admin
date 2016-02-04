@@ -4,8 +4,7 @@ import {Link} from 'react-router'
 
 export default function HasMany(props) {
 
-  const {relation_field, model, model_store, input_props} = props
-  const models = model_store.get('by_id').toJSON ? model_store.get('by_id').toJSON() : {}
+  const {relation_field, model, models, input_props} = props
 
   // shortcut to avoid messing with saving relations: link to the related model for hasMany
   // the alternative is to set `input_props.multiple = true` and figure it out

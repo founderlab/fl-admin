@@ -29,8 +29,6 @@ export default function createRelatedField(relation_field) {
     hasManyRelationAttrs = () => ({[relation_field.relation.foreign_key]: this.props.model.id})
 
     handleAdd = () => {
-      console.log('adding', relation_field)
-      console.log('attrs', this.hasManyRelationAttrs())
       this.props.save(this.hasManyRelationAttrs())
     }
     handleSaveFn = model => data => this.props.save(_.extend(this.hasManyRelationAttrs(), model, data))
@@ -47,6 +45,9 @@ export default function createRelatedField(relation_field) {
       }
 
       if (relation_field.type === 'hasMany' || relation_field.type === 'hasOne') {
+
+        // if (related_model[relation_field.relation.foreign_key] !== model.id) return
+        props.models = _(model_store.get('by_id').toJSON()).values().filter(related_model => related_model[relation_field.relation.foreign_key] === model.id).value()
 
         //TODO: This should be made to work for belongsTo / manyToMany
         if (relation_field.inline) {

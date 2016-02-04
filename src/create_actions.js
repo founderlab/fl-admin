@@ -49,11 +49,10 @@ export default function createModelActions(model_admin) {
     },
 
     del: (data, callback) => {
-      const model = new model_type({id: data.id})
       return {
         type: actionType('del'),
-        request: model.destroy.bind(model),
-        deleted_model_id: model.id,
+        request: callback => model_type.destroy({id: data.id}, callback),
+        deleted_model_id: data.id,
         callback,
       }
     },

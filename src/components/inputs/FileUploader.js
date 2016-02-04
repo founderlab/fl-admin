@@ -10,11 +10,14 @@ export default class FileUploader extends React.Component {
     value: PropTypes.string,
     defaultValue: PropTypes.string,
     onChange: PropTypes.func.isRequired,
+    handleSubmit: PropTypes.func.isRequired,
     config: PropTypes.object.isRequired,
   }
 
   handleFinishedUpload = (info) => {
     this.props.onChange(info.filename)
+    //TODO: Saving here causes a react warning. Revisit
+    this.props.handleSubmit()
   }
 
   render() {
