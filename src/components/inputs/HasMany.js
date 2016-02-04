@@ -33,7 +33,7 @@ export default function HasMany(props) {
 
 HasMany.propTypes = {
   model: PropTypes.object.isRequired,
+  models: PropTypes.array.isRequired,
   relation_field: PropTypes.object.isRequired,
-  model_store: PropTypes.object.isRequired,
   input_props: PropTypes.object.isRequired,
 }
