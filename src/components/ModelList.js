@@ -1,7 +1,7 @@
 import _ from 'lodash' // eslint-disable-line
 import React, {PropTypes} from 'react'
 import {Link} from 'react-router'
-import {Glyphicon, Button} from 'react-bootstrap'
+import {Grid, Row, Col, Glyphicon, Button} from 'react-bootstrap'
 import ModelListTable from './ModelListTable'
 
 export default function ModelList(props) {
@@ -12,25 +12,21 @@ export default function ModelList(props) {
   return (
     <div className="admin-list">
       <section>
-        <div className="container">
-          <div className="row">
-            <div className="col-lg-12">
+        <Grid className="shadow-panel">
+          <Row>
+            <Col xs={12}>
               <Link to={model_admin.root_path}><Glyphicon glyph="chevron-left" />Admin home</Link>
-            </div>
-          </div>
-        </div>
-      </section>
-      <section>
-        <div className="container">
-          <div className="row">
-            <div className="col-lg-8 col-lg-offset-1">
+            </Col>
+          </Row>
+          <Row>
+            <Col sm={8} smOffset={1}>
               <h1>{model_admin.plural}</h1>
               <Button bsStyle="primary" className="pull-right" onClick={onAdd}><Glyphicon glyph="plus" /></Button>
               <Pagination {...props} />
               <ModelListTable {...table_props} />
-            </div>
-          </div>
-        </div>
+            </Col>
+          </Row>
+        </Grid>
       </section>
     </div>
   )

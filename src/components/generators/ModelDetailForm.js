@@ -23,25 +23,21 @@ export class ModelDetailForm extends React.Component {
 
     return (
       <div>
-        <section>
-          <div className="container">
-            <div className="row">
-              <div className="col-lg-12">
-                <form>
-                  {inputs}
-                </form>
-              </div>
-            </div>
-            <div className="row">
-              <div className="col-xs-2">
-                <Button bsStyle="danger" bsSize="xsmall" onClick={onDelete}><Glyphicon glyph="remove" /></Button>
-              </div>
-              <div className="col-xs-2 col-xs-offset-8">
-                <Button className="pull-right" bsStyle="primary" onClick={handleSubmit}>Save</Button>
-              </div>
-            </div>
+        <div className="row">
+          <div className="col-lg-12">
+            <form>
+              {inputs}
+            </form>
           </div>
-        </section>
+        </div>
+        <div className="row">
+          <div className="col-xs-2">
+            <Button bsStyle="danger" bsSize="xsmall" onClick={onDelete}><Glyphicon glyph="remove" /></Button>
+          </div>
+          <div className="col-xs-2 col-xs-offset-8">
+            <Button className="pull-right" bsStyle="primary" onClick={handleSubmit}>Save</Button>
+          </div>
+        </div>
       </div>
     )
   }

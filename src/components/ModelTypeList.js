@@ -9,7 +9,7 @@ export default function ModelTypeList() {
   const links = _.map(model_admins, model_admin => (
     <div key={model_admin.path} className="row">
       <div className="col-lg-8 col-lg-offset-1">
-        <Link to={model_admin.link()}>{model_admin.plural}</Link>
+        <h4><Link to={model_admin.link()}>{model_admin.plural}</Link></h4>
       </div>
     </div>
   ))
@@ -17,7 +17,7 @@ export default function ModelTypeList() {
   return (
     <div className="admin">
       <section>
-        <div className="container">
+        <div className="container shadow-panel">
           <div className="row">
             <div className="col-lg-8 col-lg-offset-1">
               <h1>Admin Home</h1>

@@ -1,7 +1,7 @@
 import _ from 'lodash' // eslint-disable-line
 import React, {PropTypes} from 'react'
 import {Link} from 'react-router'
-import {Glyphicon} from 'react-bootstrap'
+import {Grid, Row, Col, Glyphicon} from 'react-bootstrap'
 import createModelDetailForm from './generators/ModelDetailForm'
 import warning from 'warning'
 
@@ -15,39 +15,31 @@ export default function ModelDetail(props) {
   const fields = _(model_admin.fields).map(f => f.virtual_id_accessor || f.key).compact().value()
 
   return (
-    <div className="admin-detail">
+    <section className="admin-detail">
 
-      <section>
-        <div className="container">
-          <div className="row">
-            <div className="col-lg-12">
-              <Link to={model_admin.link()}><Glyphicon glyph="chevron-left" />{model_admin.plural}</Link>
-            </div>
-          </div>
-        </div>
-      </section>
+      <Grid className="shadow-panel">
+        <Row>
+          <Col xs={12}>
+            <Link to={model_admin.link()}><Glyphicon glyph="chevron-left" />{model_admin.plural}</Link>
+          </Col>
+        </Row>
+        <Row>
+          <Col xs={12}>
+            <h1>{model_admin.display(model)}</h1>
+          </Col>
+        </Row>
+        <ModelDetailForm
+          formKey={model.id}
+          model={model}
+          model_admin={model_admin}
+          config={config}
+          onSubmit={handleSaveFn(model)}
+          onDelete={handleDeleteFn(model)}
+          fields={fields}
+        />
+      </Grid>
 
-      <section>
-        <div className="container">
-          <div className="row">
-            <div className="col-lg-12">
-              <h1>{model_admin.display(model)}</h1>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <ModelDetailForm
-        formKey={model.id}
-        model={model}
-        model_admin={model_admin}
-        config={config}
-        onSubmit={handleSaveFn(model)}
-        onDelete={handleDeleteFn(model)}
-        fields={fields}
-      />
-
-    </div>
+    </section>
   )
 }
 
