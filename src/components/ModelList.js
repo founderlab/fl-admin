@@ -19,7 +19,7 @@ export default function ModelList(props) {
             </Col>
           </Row>
           <Row>
-            <Col sm={8} smOffset={1}>
+            <Col xs={12}>
               <h1>{model_admin.plural}</h1>
               <Button bsStyle="primary" className="pull-right" onClick={onAdd}><Glyphicon glyph="plus" /></Button>
               <Pagination {...props} />

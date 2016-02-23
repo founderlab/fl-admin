@@ -1,6 +1,6 @@
 import _ from 'lodash' // eslint-disable-line
 import React, {PropTypes} from 'react'
-import {Button, Glyphicon} from 'react-bootstrap'
+import {Row, Col, Button, Glyphicon} from 'react-bootstrap'
 import {reduxForm} from 'redux-form'
 import {mapFieldsToInputs} from '../../lib'
 
@@ -23,21 +23,21 @@ export class ModelDetailForm extends React.Component {
 
     return (
       <div>
-        <div className="row">
-          <div className="col-lg-12">
+        <Row>
+          <Col xs={12}>
             <form>
               {inputs}
             </form>
-          </div>
-        </div>
-        <div className="row">
-          <div className="col-xs-2">
+          </Col>
+        </Row>
+        <Row>
+          <Col xs={2}>
             <Button bsStyle="danger" bsSize="xsmall" onClick={onDelete}><Glyphicon glyph="remove" /></Button>
-          </div>
-          <div className="col-xs-2 col-xs-offset-8">
+          </Col>
+          <Col xs={2} xsOffset={8}>
             <Button className="pull-right" bsStyle="primary" onClick={handleSubmit}>Save</Button>
-          </div>
-        </div>
+          </Col>
+        </Row>
       </div>
     )
   }
