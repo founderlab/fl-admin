@@ -15,7 +15,7 @@ export default function ModelTypeList() {
   ))
 
   return (
-    <div className="admin">
+    <div className="admin-type-list">
       <section>
         <div className="container shadow-panel">
           <div className="row">

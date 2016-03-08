@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react'
 
 export default function Admin(props) {
   return (
-    <div>
+    <div className="admin">
       {props.children}
     </div>
   )
