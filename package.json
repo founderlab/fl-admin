@@ -34,6 +34,7 @@
     "eslint": "^1.5.1",
     "eslint-config-founderlab": "^0.1.0",
     "eslint-plugin-react": "^3.4.2",
-    "expect": "^1.12.2"
+    "expect": "^1.12.2",
+    "fl-react-utils": "git+https://founderlab-dummy:5901023845@bitbucket.org/founderlab/fl-react-utils"
   }
 }

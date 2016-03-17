@@ -4,8 +4,8 @@ import {Input} from 'react-bootstrap'
 import warning from 'warning'
 import Select from './Select'
 import Datetime from './Datetime'
-import FileUploader from './FileUploader'
 import QuillEditor from './QuillEditor'
+import {S3Uploader} from 'fl-react-utils'
 
 export default function SmartInput(props) {
 
@@ -47,7 +47,7 @@ export default function SmartInput(props) {
 
   // File uploader
   if (model_field.type.toLowerCase() === 'file') {
-    return (<FileUploader size={size} config={config} {...input_props} />)
+    return (<S3Uploader size={size} config={config} {...input_props} />)
   }
 
   // Datepicker
