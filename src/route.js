@@ -7,6 +7,7 @@ import {model_admins} from './index'
 import Admin from './containers/Admin'
 import ModelTypeList from './containers/ModelTypeList'
 import createModelEditor from './containers/generators/ModelEditor'
+import createModelCreate from './containers/generators/ModelCreate'
 import {checkPropTypes} from './lib'
 
 export default class AdminRoute extends Route {
@@ -27,7 +28,6 @@ export default class AdminRoute extends Route {
   }
 
   getChildRoutes(location, callback) {
-
     if (!this.child_routes) {
       this.child_routes = []
 
@@ -35,6 +35,10 @@ export default class AdminRoute extends Route {
         this.child_routes.push(model_admin.list_route || {
           path: model_admin.path,
           component: model_admin.list_component || createModelEditor(model_admin),
+        })
+        this.child_routes.push(model_admin.create_route || {
+          path: `${model_admin.path}/create`,
+          component: model_admin.create_component || createModelCreate(model_admin),
         })
         this.child_routes.push(model_admin.detail_route || {
           path: `${model_admin.path}/:id`,

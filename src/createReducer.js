@@ -35,9 +35,11 @@ export default function createReducer(model_admin) {
         return ss
 
       case model_admin.action_type + '_SAVE_SUCCESS':
-        return state.mergeDeep({
+        return state.merge({
           loading: false,
           errors: null,
+          last_saved: action.model,
+        }).mergeDeep({
           by_id: action.by_id,
         })
 

@@ -1,6 +1,7 @@
 import _ from 'lodash' // eslint-disable-line
 import React, {PropTypes} from 'react'
 import {Link} from 'react-router'
+import {LinkContainer} from 'react-router-bootstrap'
 import {Grid, Row, Col, Glyphicon, Button} from 'react-bootstrap'
 import ModelListTable from '../components/ModelListTable'
 
@@ -20,9 +21,11 @@ export default function ModelList(props) {
         <Row>
           <Col xs={12}>
             <h1>{model_admin.plural}</h1>
-            <Button bsStyle="primary" className="pull-right" onClick={onAdd}>
-              <Glyphicon glyph="plus" /> Add a new {model_admin.name}
-            </Button>
+            <LinkContainer to={model_admin.createLink()}>
+              <Button bsStyle="primary" className="pull-right" onClick={onAdd}>
+                <Glyphicon glyph="plus" /> Add a new {model_admin.name}
+              </Button>
+            </LinkContainer>
             <Pagination {...props} />
             <ModelListTable {...table_props} />
           </Col>

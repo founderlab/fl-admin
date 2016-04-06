@@ -1,4 +1,4 @@
-import _ from 'lodash'
+import _ from 'lodash' // eslint-disable-line
 import Queue from 'queue-async'
 import {connect} from 'react-redux'
 import React, {Component, PropTypes} from 'react'
@@ -83,7 +83,7 @@ export default function createModelEditor(model_admin) {
 
     // todo: make delete undoable
     handleDeleteFn = model => () => {
-      if (confirm('Are you really, really sure you want to delete this model? You can\'t have it back.')) {
+      if (window.confirm('Are you really, really sure you want to delete this model? You can\'t have it back.')) {
         this.props.del(model, err => err && console.log(err))
         if (this.props.id) pushState(model_admin.link())
       }

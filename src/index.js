@@ -20,11 +20,6 @@ const defaults = {
   isAModel: (model_type) => !!model_type.schema,
 }
 
-const wrapDisplay = oldDisplay => model => {
-  const res = oldDisplay ? oldDisplay(model) : null
-  return res || `[id: ${model.id}]`
-}
-
 function createModelAdmin(options, model_descriptor) {
   const model_admin = {}
   if (options.isAModel(model_descriptor)) model_admin.model_type = model_descriptor
@@ -51,6 +46,16 @@ function createModelAdmin(options, model_descriptor) {
   _.defaults(model_admin, defaults)
 
   // Ensure the display fn always gives a string of some sort
+  const wrapDisplay = oldDisplay => model => {
+    let res
+    try {
+      res = oldDisplay ? oldDisplay(model) : null
+    }
+    catch (err) {
+      res = null
+    }
+    return res || (model && model.id ? `[id: ${model.id}]` : `A brand new ${model_admin.name}`)
+  }
   model_admin.display = wrapDisplay(model_admin.display)
 
   // Function to generate the path to a models edit page
@@ -59,6 +64,7 @@ function createModelAdmin(options, model_descriptor) {
       const model_id = model ? model.id || model : ''
       return `${options.root_path}/${model_admin.path}/${model_id}`
     }
+    model_admin.createLink = () => model_admin.link('create')
   }
 
   const schema = model_type.schema && model_type.schema('schema')

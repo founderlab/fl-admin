@@ -9,7 +9,7 @@ export default function ModelDetail(props) {
 
   const {model_admin, model_store, id, config, handleSaveFn, handleDeleteFn} = props
   const model_im = model_store.get('by_id').get(id)
-  const model = model_im ? model_im.toJSON() : null
+  const model = model_im ? model_im.toJSON() : {}
   warning(model, `[fl-admin] ModelDetail: Model ${model_admin.name} not loaded with id ${id}`)
   const ModelDetailForm = createModelDetailForm(model)
   const fields = _(model_admin.fields).map(f => f.virtual_id_accessor || f.key).compact().value()

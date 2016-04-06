@@ -20,7 +20,7 @@ export class ModelListForm extends React.Component {
 
   render() {
     const {model_admin, model, config, fields, handleSubmit, onDelete} = this.props
-    const inputs = mapFieldsToInputs(model_admin, fields, {model, config, handleSubmit, size: 'small'})
+    const inputs = mapFieldsToInputs(model_admin, fields, {model, config, handleSubmit})
     const wrapped_inputs = _.map(inputs, (input, i) => (<td key={i} className="fla-list-edit-td">{input}</td>))
 
     return (
