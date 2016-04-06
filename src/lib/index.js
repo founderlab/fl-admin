@@ -13,10 +13,17 @@ export function checkPropTypes(componentName='UnknownComponent', prop_types, pro
   }
 }
 
-export function mapFieldsToInputs(model_admin, fields, props={}, InputComponent=SmartInput) {
+const handleOnChangeFn = (field, target, model_field) => ev => {
+  field.onChange(ev)
+  target.onChange(model_field.link.parse ? model_field.link.parse(ev.target.value) : ev.target.value)
+}
+
+export function mapFieldsToInputs(model_admin, fields, _props={}, InputComponent=SmartInput) {
   return _.map(fields, (field, key) => {
     const model_field = model_admin.fields[key] || model_admin.relation_fields[key]
     warning(model_field, `[fl-admin] Can't find model_field for key ${key}: is this key the field name instead of the virtual_id_accessor?`)
+    const props = _.clone(_props)
+    if (model_field.link) props.onChange = handleOnChangeFn(field, fields[model_field.link.to], model_field)
     return (
       <InputComponent
         key={key}

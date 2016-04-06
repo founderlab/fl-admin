@@ -1,6 +1,6 @@
 import _ from 'lodash' // eslint-disable-line
 import React, {PropTypes} from 'react'
-import {Input} from 'react-bootstrap'
+import {Input, FormControls} from 'react-bootstrap'
 import warning from 'warning'
 import Select from './Select'
 import Datetime from './Datetime'
@@ -9,7 +9,7 @@ import {S3Uploader} from 'fl-react-utils'
 
 export default function SmartInput(props) {
 
-  const {model, model_field, config, form_field, size, handleSubmit} = props
+  const {model, model_field, config, form_field, size, handleSubmit, onChange} = props
   let type = 'text'
 
   const input_props = _.merge({
@@ -19,6 +19,7 @@ export default function SmartInput(props) {
     placeholder: model_field.key,
     help: form_field.touched && form_field.error,
   }, form_field)
+  if (onChange) input_props.onChange = onChange
 
   // Related model of some sort
   if (model_field.RelatedField) {
@@ -61,6 +62,10 @@ export default function SmartInput(props) {
     input_props.label = model_field.key
   }
 
+  if (model_field.freeze && model.id) {
+    return <FormControls.Static {...input_props}>{form_field.defaultValue}</FormControls.Static>
+  }
+
   // Bootstrap component
   return (<Input type={type} {...input_props} />)
 
@@ -73,4 +78,5 @@ SmartInput.propTypes = {
   form_field: PropTypes.object.isRequired,
   size: PropTypes.string,
   handleSubmit: PropTypes.func.isRequired,
+  onChange: PropTypes.func,
 }
