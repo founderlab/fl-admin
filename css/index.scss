@@ -9,7 +9,7 @@
 @import './sidebar.scss';
 
 .fla-main {
-  a {
+  a:not(.btn) {
     color: $fla-link-color;
     transition: all 0.2s;
     &:hover {
