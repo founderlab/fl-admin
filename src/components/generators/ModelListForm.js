@@ -21,14 +21,19 @@ export class ModelListForm extends React.Component {
   render() {
     const {model_admin, model, config, fields, handleSubmit, onDelete} = this.props
     const inputs = mapFieldsToInputs(model_admin, fields, {model, config, handleSubmit, size: 'small'})
-    const wrapped_inputs = _.map(inputs, (input, i) => (<td key={i}>{input}</td>))
+    const wrapped_inputs = _.map(inputs, (input, i) => (<td key={i} className="fla-list-edit-td">{input}</td>))
 
     return (
       <tr>
-        <td><Link to={model_admin.link(model)}>{model_admin.display(model)}</Link></td>
+        <td className="fla-name-td">
+          <Link to={model_admin.link(model)}>
+            {model_admin.display(model)}
+            <Glyphicon glyph="pencil" />
+          </Link>
+        </td>
         {wrapped_inputs}
-        {inputs.length ? <td><Button bsStyle="primary" onClick={handleSubmit}><Glyphicon glyph="ok" /></Button></td> : null}
-        <td><Button bsStyle="danger" bsSize="xsmall" onClick={onDelete}><Glyphicon glyph="remove" /></Button></td>
+        {inputs.length ? <td className="fla-save-td"><Button bsStyle="primary" onClick={handleSubmit}><Glyphicon glyph="ok" /></Button></td> : null}
+        {model_admin.list_delete && <td className="fla-delete-td"><Button bsStyle="danger" bsSize="xsmall" onClick={onDelete}><Glyphicon glyph="remove" /></Button></td>}
       </tr>
     )
   }

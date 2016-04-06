@@ -1,0 +1,62 @@
+
+
+.fla-main {
+  .fla-model-list {
+
+    .table > tbody > tr:hover {
+      border: none;
+      background: #fcfcfc;
+    }
+
+    .table > tbody > tr > td {
+      border: 0 none;
+      vertical-align: middle;
+    }
+
+    .fla-name-td {
+      line-height: 75px;
+      padding: 0;
+
+      a {
+        padding: 0 15px;
+        display: inline-block;
+        width: 100%;
+      }
+
+      .glyphicon {
+        float: right;
+        margin-top: 27px;
+      }
+    }
+
+    .fla-save-th, .fla-save-td,
+    .fla-delete-th, .fla-delete-td {
+      max-width: 35px;
+      padding-right: 5px;
+      text-align: right;
+    }
+
+    .fla-model-type-list-link {
+      height: 60px;
+      line-height: 60px;
+      display: block;
+      font-size: 18px;
+      padding: 0 15px;
+      &:hover {
+        background-color: $fla-sidebar-link-active-background;
+      }
+    }
+
+    .form-group {
+      margin: 0;
+    }
+  }
+}
+
+@media(max-width: 768px) {
+  .fla-list-edit-th, .fla-list-edit-td,
+  .fla-delete-th, .fla-delete-td,
+  .fla-save-th, .fla-save-td {
+    display: none;
+  }
+}

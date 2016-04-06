@@ -1,6 +1,6 @@
 import _ from 'lodash' // eslint-disable-line
 
-export default function createModelActions(model_admin) {
+export default function createActions(model_admin) {
   const actionType = name => `${model_admin.action_type}_${name.toUpperCase()}`
   const model_type = model_admin.model_type
 
@@ -23,6 +23,7 @@ export default function createModelActions(model_admin) {
     },
 
     load: (query, callback) => {
+      if (!query.$sort) query.$sort = model_admin.sort
       return {
         type: actionType('load'),
         request: model_type.cursor(query),
@@ -31,6 +32,7 @@ export default function createModelActions(model_admin) {
     },
 
     loadPage: (page, query, callback) => {
+      if (!query.$sort) query.$sort = model_admin.sort
       return {
         page,
         type: actionType('load'),

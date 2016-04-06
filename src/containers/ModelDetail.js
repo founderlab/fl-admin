@@ -1,9 +1,9 @@
 import _ from 'lodash' // eslint-disable-line
 import React, {PropTypes} from 'react'
+import warning from 'warning'
 import {Link} from 'react-router'
 import {Grid, Row, Col, Glyphicon} from 'react-bootstrap'
-import createModelDetailForm from './generators/ModelDetailForm'
-import warning from 'warning'
+import createModelDetailForm from '../components/generators/ModelDetailForm'
 
 export default function ModelDetail(props) {
 
@@ -15,9 +15,8 @@ export default function ModelDetail(props) {
   const fields = _(model_admin.fields).map(f => f.virtual_id_accessor || f.key).compact().value()
 
   return (
-    <section className="admin-detail">
-
-      <Grid className="shadow-panel">
+    <section className="fla-model-detail">
+      <Grid fluid>
         <Row>
           <Col xs={12}>
             <Link to={model_admin.link()}><Glyphicon glyph="chevron-left" />{model_admin.plural}</Link>
@@ -38,7 +37,6 @@ export default function ModelDetail(props) {
           fields={fields}
         />
       </Grid>
-
     </section>
   )
 }

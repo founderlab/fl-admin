@@ -26,11 +26,11 @@ export default function ModelListTable(props) {
     />)
   })
 
-  const edit_fields = _.map(fields, (field, key) => (<th key={key}>{key}</th>))
+  const edit_fields = _.map(fields, (field, key) => (<th key={key} className="fla-name-th">{key}</th>))
   const headings = [<th key="__fl_model">model</th>]
     .concat(edit_fields)
-    .concat(edit_fields.length ? [<th key="__fl_save">save</th>] : [])
-    .concat([<th key="__fl_delete">delete</th>])
+    .concat(edit_fields.length ? [<th key="__fl_save" className="fla-save-th">save</th>] : [])
+    .concat(model_admin.list_delete ? [<th key="__fl_delete" className="fla-delete-th">delete</th>] : [])
 
   return (
     <Table>

@@ -5,8 +5,8 @@ import {Pagination} from 'fl-react-utils'
 
 import createRelatedField from './containers/generators/RelatedField'
 import {table, plural, upper} from './lib/naming'
-import createActions from './create_actions'
-import createReducer from './create_reducer'
+import createActions from './createActions'
+import createReducer from './createReducer'
 import AdminRoute from './route'
 
 const ACTION_PREFIX = 'FL_ADMIN_'
@@ -20,6 +20,11 @@ const defaults = {
   isAModel: (model_type) => !!model_type.schema,
 }
 
+const wrapDisplay = oldDisplay => model => {
+  const res = oldDisplay ? oldDisplay(model) : null
+  return res || `[id: ${model.id}]`
+}
+
 function createModelAdmin(options, model_descriptor) {
   const model_admin = {}
   if (options.isAModel(model_descriptor)) model_admin.model_type = model_descriptor
@@ -30,10 +35,10 @@ function createModelAdmin(options, model_descriptor) {
 
   const defaults = {
     name: model_type.model_name,
-    display: model => {
-      if (!model) return '[null]'
-      return model.name || model.title || model.id
-    },
+    display: model => model.name || model.title || model.id,
+    sort: 'created_at',
+    per_page: 50,
+    list_delete: false,
     path: table(model_type),
     root_path: options.root_path,
     plural: plural(model_type),
@@ -45,16 +50,29 @@ function createModelAdmin(options, model_descriptor) {
 
   _.defaults(model_admin, defaults)
 
+  // Ensure the display fn always gives a string of some sort
+  model_admin.display = wrapDisplay(model_admin.display)
+
+  // Function to generate the path to a models edit page
+  if (!model_admin.link) {
+    model_admin.link = model => {
+      const model_id = model ? model.id || model : ''
+      return `${options.root_path}/${model_admin.path}/${model_id}`
+    }
+  }
+
   const schema = model_type.schema && model_type.schema('schema')
   const fields = schema.fields || {}
   const relation_fields = schema.relations || {}
 
+  // Make sure we have config for every field in the models schema
   _.forEach(fields, (model_field, key) => {
     const admin_field = model_admin.fields[key] = model_admin.fields[key] || {}
     _.defaults(admin_field, model_field)
     admin_field.key = admin_field.key || key
   })
 
+  // Make sure we have config for every relation
   _.forEach(relation_fields, (relation, key) => {
     const admin_field = model_admin.relation_fields[relation.virtual_id_accessor] = model_admin.fields[key] = model_admin.fields[key] || {}
     _.defaults(admin_field, _.pick(relation, 'type', 'virtual_id_accessor', 'components'))
@@ -63,15 +81,9 @@ function createModelAdmin(options, model_descriptor) {
     admin_field.relation = relation
   })
 
+  // Generate actions and a reducer for this model type
   model_admin.actions = actions[model_admin.path] = createActions(model_admin)
   model_admin.reducer = reducers[model_admin.path] = createReducer(model_admin)
-
-  if (!model_admin.link) {
-    model_admin.link = model => {
-      const model_id = model ? model.id || model : ''
-      return `${options.root_path}/${model_admin.path}/${model_id}`
-    }
-  }
 
   if (!model_admin.components.Pagination) model_admin.components.Pagination = Pagination
 

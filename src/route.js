@@ -4,8 +4,8 @@ import {Route, PropTypes as RouterPropTypes} from 'react-router'
 import {createRoutesFromReactChildren} from 'react-router/lib/RouteUtils'
 
 import {model_admins} from './index'
-import Admin from './components/Admin'
-import ModelTypeList from './components/ModelTypeList'
+import Admin from './containers/Admin'
+import ModelTypeList from './containers/ModelTypeList'
 import createModelEditor from './containers/generators/ModelEditor'
 import {checkPropTypes} from './lib'
 

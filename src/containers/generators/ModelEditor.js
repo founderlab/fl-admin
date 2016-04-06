@@ -5,11 +5,10 @@ import React, {Component, PropTypes} from 'react'
 import {pushState} from 'redux-router'
 // import {createPaginationSelector} from 'fl-react-utils'
 import Loader from '../../components/Loader'
-import ModelList from '../../components/ModelList'
-import ModelDetail from '../../components/ModelDetail'
+import ModelList from '../../containers/ModelList'
+import ModelDetail from '../../containers/ModelDetail'
 import fetchRelated from '../../lib/fetchRelated'
 
-const ITEMS_PER_PAGE = 5
 export default function createModelEditor(model_admin) {
   const {load, loadPage, count, save, del} = model_admin.actions
 
@@ -58,11 +57,11 @@ export default function createModelEditor(model_admin) {
       else {
         queue.defer(callback => store.dispatch(count(query, callback)))
         queue.defer(callback => {
-          query.$limit = ITEMS_PER_PAGE
+          query.$limit = model_admin.per_page
 
           const page = +location.query.page || 1
 
-          if (page > 1) query.$offset = ITEMS_PER_PAGE * (page-1)
+          if (page > 1) query.$offset = model_admin.per_page * (page-1)
           return store.dispatch(loadPage(page, query, callback))
         })
       }
@@ -81,9 +80,13 @@ export default function createModelEditor(model_admin) {
 
     handleAdd = () => this.props.save({})
     handleSaveFn = model => data => this.props.save(_.extend(model, data))
+
+    // todo: make delete undoable
     handleDeleteFn = model => () => {
-      this.props.del(model, err => err && console.log(err))
-      if (this.props.id) pushState(model_admin.link())
+      if (confirm('Are you really, really sure you want to delete this model? You can\'t have it back.')) {
+        this.props.del(model, err => err && console.log(err))
+        if (this.props.id) pushState(model_admin.link())
+      }
     }
 
     render() {
@@ -93,7 +96,7 @@ export default function createModelEditor(model_admin) {
       const config = this.props.config.toJSON()
 
       const current_page = +(location.query.page || 1)
-      const items_per_page = +(location.query.per_page || ITEMS_PER_PAGE)
+      const items_per_page = +(location.query.per_page || model_admin.per_page)
 
       // TODO: These should come from the pagination selector via createPaginationSelector,
       // but it's causing an infinite loop for whatever reason
