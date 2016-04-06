@@ -6,7 +6,7 @@ export default class QuillEditor extends React.Component {
 
   render() {
     return (
-      <div className="form-group form-group-lg">
+      <div className="fla-quill form-group form-group-lg">
         {this.props.label ? (<label className="control-label">{this.props.label}</label>) : null}
         <ReactQuill defaultValue={this.props.initialValue} theme="snow" {...this.props} />
       </div>
