@@ -5,6 +5,7 @@ Usage:
 
 Changes: 
 
+- 0.5.0 A whole new style and a bunch of config options added.
 - 0.4.2: Bugfix in fetchRelated. Option to specify a query to filter which related models will be fetched (called `filter`) 
 - 0.4.1: Quill editor is supported. Added the `input` option for form fields. To use quill set it like so: `input: 'rich_text'`
 - 0.4.0: Pagination added; field.inline setting renamed to list_edit
