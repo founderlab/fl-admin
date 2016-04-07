@@ -3,6 +3,21 @@
 .fla-main {
   .fla-model-list {
 
+    h1 {
+      margin-bottom: 15px;
+    }
+
+    .fla-controls {
+      padding: 15px;
+      margin-bottom: 15px;
+      background: #fafafa;
+    }
+
+    .table > thead > tr > th {
+      font-weight: 300;
+      border-bottom: solid 1px #eee;
+    }
+
     .table > tbody > tr:hover {
       border: none;
       background: #fcfcfc;
@@ -14,18 +29,18 @@
     }
 
     .fla-name-td {
-      line-height: 75px;
       padding: 0;
 
       a {
-        padding: 0 15px;
-        display: inline-block;
+        padding: 20px 25px 20px 15px;
         width: 100%;
-      }
-
-      .glyphicon {
-        float: right;
-        margin-top: 27px;
+        display: block;
+        position: relative;
+        .glyphicon {
+          position: absolute;
+          right: 5px;
+          top: 23px;
+        }
       }
     }
 
@@ -37,11 +52,9 @@
     }
 
     .fla-model-type-list-link {
-      height: 60px;
-      line-height: 60px;
       display: block;
       font-size: 18px;
-      padding: 0 15px;
+      padding: 30px 15px;
       &:hover {
         background-color: $fla-sidebar-link-active-background;
       }

@@ -21,12 +21,20 @@ export default function ModelList(props) {
         <Row>
           <Col xs={12}>
             <h1>{model_admin.plural}</h1>
+          </Col>
+        </Row>
+        <Row>
+          <Col xs={12} className="fla-controls">
             <LinkContainer to={model_admin.createLink()}>
-              <Button bsStyle="primary" className="pull-right" onClick={onAdd}>
+              <Button bsStyle="primary" onClick={onAdd}>
                 <Glyphicon glyph="plus" /> Add a new {model_admin.name}
               </Button>
             </LinkContainer>
-            <Pagination {...props} />
+            <Pagination className="pull-right" {...props} />
+          </Col>
+        </Row>
+        <Row>
+          <Col xs={12}>
             <ModelListTable {...table_props} />
           </Col>
         </Row>

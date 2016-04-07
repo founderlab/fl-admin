@@ -2,10 +2,10 @@ import _ from 'lodash' // eslint-disable-line
 import React, {PropTypes} from 'react'
 import {Input, FormControls} from 'react-bootstrap'
 import warning from 'warning'
+import {S3Uploader} from 'fl-react-utils'
 import Select from './Select'
 import Datetime from './Datetime'
 import QuillEditor from './QuillEditor'
-import {S3Uploader} from 'fl-react-utils'
 
 export default function SmartInput(props) {
 
@@ -48,7 +48,7 @@ export default function SmartInput(props) {
 
   // File uploader
   if (model_field.type.toLowerCase() === 'file') {
-    return (<S3Uploader size={size} config={config} {...input_props} />)
+    return (<S3Uploader label={input_props.label} size={size} config={config} input_props={input_props} />)
   }
 
   // Datepicker

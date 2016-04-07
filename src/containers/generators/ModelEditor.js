@@ -1,4 +1,5 @@
 import _ from 'lodash' // eslint-disable-line
+import moment from 'moment'
 import Queue from 'queue-async'
 import {connect} from 'react-redux'
 import React, {Component, PropTypes} from 'react'
@@ -105,6 +106,18 @@ export default function createModelEditor(model_admin) {
       const total_items = +(pagination.get('total'))
       const visible_items = []
       _.forEach(visible_ids, id => visible_items.push(model_store.get('by_id').get(id).toJSON()))
+
+      // Format dates for form initial values
+      _.forEach(visible_items, model => {
+        _.forEach(model_admin.fields, (f, key) => {
+          if (f.type.toLowerCase() === 'datetime' && model[key]) {
+            model[key] = moment(model[key]).format('L LT')
+          }
+          else if (f.type.toLowerCase() === 'date' && model[key]) {
+            model[key] = moment(model[key]).format('L')
+          }
+        })
+      })
 
       const component_props = {
         id,
