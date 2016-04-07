@@ -30,7 +30,7 @@ function createModelAdmin(options, model_descriptor) {
 
   const defaults = {
     name: model_type.model_name,
-    display: model => model.name || model.title || model.id,
+    display: model => model.name || model.title,
     sort: 'created_at',
     per_page: 50,
     list_delete: false,
@@ -54,7 +54,7 @@ function createModelAdmin(options, model_descriptor) {
     catch (err) {
       res = null
     }
-    return res || (model && model.id ? `[id: ${model.id}]` : `A brand new ${model_admin.name}`)
+    return res || (model && model.id ? `[No name: ${model.id}]` : `A brand new ${model_admin.name}`)
   }
   model_admin.display = wrapDisplay(model_admin.display)
 

@@ -6,9 +6,13 @@ import {Grid, Row, Col, Glyphicon, Button} from 'react-bootstrap'
 import ModelListTable from '../components/ModelListTable'
 
 export default function ModelList(props) {
-  const {model_admin, config, visible_items, onAdd, handleSaveFn, handleDeleteFn} = props
+  console.log(props)
+  const {model_admin, config, current_page, items_per_page, total_items, visible_items, onAdd, handleSaveFn, handleDeleteFn} = props
   const {Pagination} = model_admin.components
   const table_props = {model_admin, config, handleSaveFn, handleDeleteFn, models: visible_items}
+
+  const start_count = items_per_page * (current_page-1) + 1
+  const end_count = start_count + visible_items.length - 1
 
   return (
     <section className="fla-model-list">
@@ -30,7 +34,10 @@ export default function ModelList(props) {
                 <Glyphicon glyph="plus" /> Add a new {model_admin.name}
               </Button>
             </LinkContainer>
-            <Pagination className="pull-right" {...props} />
+            <div className="fla-pagination pull-right">
+              <Pagination className="pull-right" {...props} />
+              {total_items && <span className="fla-item-count pull-right">{start_count} - {end_count} of {total_items}</span>}
+            </div>
           </Col>
         </Row>
         <Row>
