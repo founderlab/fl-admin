@@ -111,10 +111,10 @@ export default function createModelEditor(model_admin) {
       _.forEach(visible_items, model => {
         _.forEach(model_admin.fields, (f, key) => {
           if (f.type.toLowerCase() === 'datetime' && model[key]) {
-            model[key] = moment(model[key]).format('L LT')
+            model[key] = moment(new Date(model[key])).format('L LT')
           }
           else if (f.type.toLowerCase() === 'date' && model[key]) {
-            model[key] = moment(model[key]).format('L')
+            model[key] = moment(new Date(model[key])).format('L')
           }
         })
       })

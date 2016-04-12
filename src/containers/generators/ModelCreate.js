@@ -23,7 +23,6 @@ export default function createModelCreate(model_admin) {
     }
 
     handleSaveFn = () => data => {
-      console.log('saving', data)
       this.props.save(data, (err) => {
         if (err) return console.log(err)
         const model = this.props.model_store.get('last_saved').toJSON()

@@ -6,7 +6,6 @@ import {Grid, Row, Col, Glyphicon, Button} from 'react-bootstrap'
 import ModelListTable from '../components/ModelListTable'
 
 export default function ModelList(props) {
-  console.log(props)
   const {model_admin, config, current_page, items_per_page, total_items, visible_items, onAdd, handleSaveFn, handleDeleteFn} = props
   const {Pagination} = model_admin.components
   const table_props = {model_admin, config, handleSaveFn, handleDeleteFn, models: visible_items}

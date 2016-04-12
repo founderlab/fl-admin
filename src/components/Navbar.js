@@ -1,6 +1,5 @@
 import _ from 'lodash' // eslint-disable-line
 import React from 'react'
-import {LinkContainer} from 'react-router-bootstrap'
 import {Navbar, Nav, NavItem, Glyphicon} from 'react-bootstrap'
 
 export default function AdminNavbar({show_sidebar_toggle, onToggleSidebar}) {
@@ -15,7 +14,7 @@ export default function AdminNavbar({show_sidebar_toggle, onToggleSidebar}) {
             </a>
           </li>
         )}
-        <LinkContainer to="/logout"><NavItem className="pull-right">Logout</NavItem></LinkContainer>
+        <li className="pull-right"><a href="/logout">Logout</a></li>
       </Nav>
     </Navbar>
   )
