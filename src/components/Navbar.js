@@ -1,6 +1,6 @@
 import _ from 'lodash' // eslint-disable-line
 import React from 'react'
-import {Navbar, Nav, NavItem, Glyphicon} from 'react-bootstrap'
+import {Navbar, Nav, Glyphicon} from 'react-bootstrap'
 
 export default function AdminNavbar({show_sidebar_toggle, onToggleSidebar}) {
 
