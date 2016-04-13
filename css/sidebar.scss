@@ -34,11 +34,19 @@
 }
 
 .navbar {
-  z-index: 1;
+  z-index: 0;
   ul.nav {
     width: 100%;
     li {
       border: none;
     }
+  }
+}
+
+.sidebar-toggle {
+  top: 14px;
+  a { color: $fla-sidebar-link-color; }
+  a:hover, a:focus {
+    color: $fla-sidebar-link-hover-color;
   }
 }
