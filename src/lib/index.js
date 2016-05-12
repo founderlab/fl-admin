@@ -4,31 +4,31 @@ import warning from 'warning'
 import SmartInput from '../components/inputs/SmartInput'
 
 // yoinked from react-router
-export function checkPropTypes(componentName='UnknownComponent', prop_types, props) {
-  for (const prop_name in prop_types) {
-    if (prop_types.hasOwnProperty(prop_name)) {
-      const error = prop_types[prop_name](props, prop_name, componentName)
+export function checkPropTypes(componentName='UnknownComponent', propTypes, props) {
+  for (const propName in propTypes) {
+    if (propTypes.hasOwnProperty(propName)) {
+      const error = propTypes[propName](props, propName, componentName)
       if (error instanceof Error) warning(false, error.message)
     }
   }
 }
 
-const handleOnChangeFn = (field, target, model_field) => ev => {
+const handleOnChangeFn = (field, target, modelField) => ev => {
   field.onChange(ev)
-  target.onChange(model_field.link.parse ? model_field.link.parse(ev.target.value) : ev.target.value)
+  target.onChange(modelField.link.parse ? modelField.link.parse(ev.target.value) : ev.target.value)
 }
 
-export function mapFieldsToInputs(model_admin, fields, _props={}, InputComponent=SmartInput) {
+export function mapFieldsToInputs(modelAdmin, fields, _props={}, InputComponent=SmartInput) {
   return _.map(fields, (field, key) => {
-    const model_field = model_admin.fields[key] || model_admin.relation_fields[key]
-    warning(model_field, `[fl-admin] Can't find model_field for key ${key}: is this key the field name instead of the virtual_id_accessor?`)
+    const modelField = modelAdmin.fields[key] || modelAdmin.relationFields[key]
+    warning(modelField, `[fl-admin] Can't find modelField for key ${key}: is this key the field name instead of the virtual_id_accessor?`)
     const props = _.clone(_props)
-    if (model_field.link) props.onChange = handleOnChangeFn(field, fields[model_field.link.to], model_field)
+    if (modelField.link) props.onChange = handleOnChangeFn(field, fields[modelField.link.to], modelField)
     return (
       <InputComponent
         key={key}
-        model_field={model_field}
-        form_field={field}
+        modelField={modelField}
+        formField={field}
         {...props}
       />
     )
@@ -37,5 +37,5 @@ export function mapFieldsToInputs(model_admin, fields, _props={}, InputComponent
 
 const NO_LIST_EDIT = ['hasMany', 'manyToMany']
 export function editFieldInline(field) {
-  return field.list_edit && NO_LIST_EDIT.indexOf(field.type) === -1
+  return field.listEdit && NO_LIST_EDIT.indexOf(field.type) === -1
 }

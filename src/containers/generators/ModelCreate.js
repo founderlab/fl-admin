@@ -4,12 +4,12 @@ import React, {Component, PropTypes} from 'react'
 import {pushState} from 'redux-router'
 import ModelDetail from '../../containers/ModelDetail'
 
-export default function createModelCreate(model_admin) {
-  const {save, del} = model_admin.actions
+export default function createModelCreate(modelAdmin) {
+  const {save, del} = modelAdmin.actions
 
   return @connect(
     state => ({
-      model_store: state.admin[model_admin.path],
+      modelStore: state.admin[modelAdmin.path],
       config: state.config,
     }),
     {save, del, pushState}
@@ -17,7 +17,7 @@ export default function createModelCreate(model_admin) {
   class ModelEditor extends Component {
 
     static propTypes = {
-      model_store: PropTypes.object.isRequired,
+      modelStore: PropTypes.object.isRequired,
       save: PropTypes.func,
       del: PropTypes.func,
     }
@@ -25,8 +25,8 @@ export default function createModelCreate(model_admin) {
     handleSaveFn = () => data => {
       this.props.save(data, (err) => {
         if (err) return console.log(err)
-        const model = this.props.model_store.get('last_saved').toJSON()
-        this.props.pushState(null, model_admin.link(model.id))
+        const model = this.props.modelStore.get('lastSaved').toJSON()
+        this.props.pushState(null, modelAdmin.link(model.id))
       })
     }
 
@@ -34,24 +34,24 @@ export default function createModelCreate(model_admin) {
     handleDeleteFn = model => () => {
       if (window.confirm('Are you really, really sure you want to delete this model? You can\'t have it back.')) {
         this.props.del(model, err => err && console.log(err))
-        if (this.props.id) pushState(model_admin.link())
+        if (this.props.id) pushState(modelAdmin.link())
       }
     }
 
     render() {
-      const {model_store} = this.props
+      const {modelStore} = this.props
       const config = this.props.config.toJSON()
 
-      const component_props = {
-        model_admin,
-        model_store,
+      const componentProps = {
+        modelAdmin,
+        modelStore,
         config,
         handleSaveFn: this.handleSaveFn,
         handleDeleteFn: this.handleDeleteFn,
       }
 
       return (
-        <ModelDetail {...component_props} />
+        <ModelDetail {...componentProps} />
       )
     }
   }

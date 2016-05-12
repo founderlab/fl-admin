@@ -8,7 +8,7 @@ export class ModelDetailForm extends React.Component {
 
   static propTypes = {
     model: PropTypes.object.isRequired,
-    model_admin: PropTypes.object.isRequired,
+    modelAdmin: PropTypes.object.isRequired,
     config: PropTypes.object.isRequired,
     onDelete: PropTypes.func.isRequired,
 
@@ -18,8 +18,8 @@ export class ModelDetailForm extends React.Component {
   }
 
   render() {
-    const {model_admin, model, config, fields, handleSubmit, onDelete} = this.props
-    const inputs = mapFieldsToInputs(model_admin, fields, {model, config, handleSubmit, size: 'large'})
+    const {modelAdmin, model, config, fields, handleSubmit, onDelete} = this.props
+    const inputs = mapFieldsToInputs(modelAdmin, fields, {model, config, handleSubmit, size: 'large'})
 
     return (
       <div>

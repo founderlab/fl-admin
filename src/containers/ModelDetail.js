@@ -7,30 +7,30 @@ import createModelDetailForm from '../components/generators/ModelDetailForm'
 
 export default function ModelDetail(props) {
 
-  const {model_admin, model_store, id, config, handleSaveFn, handleDeleteFn} = props
-  const model_im = model_store.get('by_id').get(id)
-  const model = model_im ? model_im.toJSON() : {}
-  warning(model, `[fl-admin] ModelDetail: Model ${model_admin.name} not loaded with id ${id}`)
+  const {modelAdmin, modelStore, id, config, handleSaveFn, handleDeleteFn} = props
+  const modelIm = modelStore.get('models').get(id)
+  const model = modelIm ? modelIm.toJSON() : {}
+  warning(model, `[fl-admin] ModelDetail: Model ${modelAdmin.name} not loaded with id ${id}`)
   const ModelDetailForm = createModelDetailForm(model)
-  const fields = _(model_admin.fields).map(f => f.virtual_id_accessor || f.key).compact().value()
+  const fields = _(modelAdmin.fields).map(f => f.virtual_id_accessor || f.key).compact().value()
 
   return (
     <section className="fla-model-detail">
       <Grid fluid>
         <Row>
           <Col xs={12}>
-            <Link to={model_admin.link()}><Glyphicon glyph="chevron-left" />{model_admin.plural}</Link>
+            <Link to={modelAdmin.link()}><Glyphicon glyph="chevron-left" />{modelAdmin.plural}</Link>
           </Col>
         </Row>
         <Row>
           <Col xs={12}>
-            <h1>{model_admin.display(model)}</h1>
+            <h1>{modelAdmin.display(model)}</h1>
           </Col>
         </Row>
         <ModelDetailForm
           formKey={model.id}
           model={model}
-          model_admin={model_admin}
+          modelAdmin={modelAdmin}
           config={config}
           onSubmit={handleSaveFn(model)}
           onDelete={handleDeleteFn(model)}
@@ -43,8 +43,8 @@ export default function ModelDetail(props) {
 
 ModelDetail.propTypes = {
   id: PropTypes.string,
-  model_store: PropTypes.object,
-  model_admin: PropTypes.object,
+  modelStore: PropTypes.object,
+  modelAdmin: PropTypes.object,
   // config: PropTypes.object,
   handleSaveFn: PropTypes.func,
   handleDeleteFn: PropTypes.func,

@@ -1,15 +1,15 @@
 import _ from 'lodash' // eslint-disable-line
 
-export default function createActions(model_admin) {
-  const actionType = name => `${model_admin.action_type}_${name.toUpperCase()}`
-  const model_type = model_admin.model_type
+export default function createActions(modelAdmin) {
+  const actionType = name => `${modelAdmin.actionType}_${name.toUpperCase()}`
+  const {Model} = modelAdmin
 
   return {
     loadOne: (query={}, callback) => {
       query.$one = true
       return {
         type: actionType('load_one'),
-        request: model_type.cursor(query),
+        request: Model.cursor(query),
         callback,
       }
     },
@@ -17,32 +17,32 @@ export default function createActions(model_admin) {
     count: (query, callback) => {
       return {
         type: actionType('count'),
-        request: callback => model_type.count(query, callback),
+        request: callback => Model.count(query, callback),
         callback,
       }
     },
 
     load: (query, callback) => {
-      if (!query.$sort) query.$sort = model_admin.sort
+      if (!query.$sort) query.$sort = modelAdmin.sort
       return {
         type: actionType('load'),
-        request: model_type.cursor(query),
+        request: Model.cursor(query),
         callback,
       }
     },
 
     loadPage: (page, query, callback) => {
-      if (!query.$sort) query.$sort = model_admin.sort
+      if (!query.$sort) query.$sort = modelAdmin.sort
       return {
         page,
         type: actionType('load'),
-        request: model_type.cursor(query),
+        request: Model.cursor(query),
         callback,
       }
     },
 
     save: (data, callback) => {
-      const model = new model_type(data)
+      const model = new Model(data)
       return {
         type: actionType('save'),
         request: model.save.bind(model),
@@ -53,8 +53,8 @@ export default function createActions(model_admin) {
     del: (data, callback) => {
       return {
         type: actionType('del'),
-        request: callback => model_type.destroy({id: data.id}, callback),
-        deleted_model_id: data.id,
+        request: callback => Model.destroy({id: data.id}, callback),
+        deletedId: data.id,
         callback,
       }
     },

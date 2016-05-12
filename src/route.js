@@ -3,7 +3,7 @@ import {PropTypes} from 'react'
 import {Route, PropTypes as RouterPropTypes} from 'react-router'
 import {createRoutesFromReactChildren} from 'react-router/lib/RouteUtils'
 
-import {model_admins} from './index'
+import {modelAdmins} from './index'
 import Admin from './containers/Admin'
 import ModelTypeList from './containers/ModelTypeList'
 import createModelEditor from './containers/generators/ModelEditor'
@@ -28,26 +28,26 @@ export default class AdminRoute extends Route {
   }
 
   getChildRoutes(location, callback) {
-    if (!this.child_routes) {
-      this.child_routes = []
+    if (!this.childRoutes) {
+      this.childRoutes = []
 
-      model_admins.forEach(model_admin => {
-        this.child_routes.push(model_admin.list_route || {
-          path: model_admin.path,
-          component: model_admin.list_component || createModelEditor(model_admin),
+      modelAdmins.forEach(modelAdmin => {
+        this.childRoutes.push(modelAdmin.listRoute || {
+          path: modelAdmin.path,
+          component: modelAdmin.ListComponent || createModelEditor(modelAdmin),
         })
-        this.child_routes.push(model_admin.create_route || {
-          path: `${model_admin.path}/create`,
-          component: model_admin.create_component || createModelCreate(model_admin),
+        this.childRoutes.push(modelAdmin.createRoute || {
+          path: `${modelAdmin.path}/create`,
+          component: modelAdmin.CreateComponent || createModelCreate(modelAdmin),
         })
-        this.child_routes.push(model_admin.detail_route || {
-          path: `${model_admin.path}/:id`,
-          component: model_admin.detail_component || createModelEditor(model_admin),
+        this.childRoutes.push(modelAdmin.detailRoute || {
+          path: `${modelAdmin.path}/:id`,
+          component: modelAdmin.DetailComponent || createModelEditor(modelAdmin),
         })
       })
     }
 
-    callback(null, this.child_routes)
+    callback(null, this.childRoutes)
   }
 
   // This method is used by react-router to go from a jsx entry to a route object
@@ -59,8 +59,8 @@ export default class AdminRoute extends Route {
     if (type.propTypes) checkPropTypes(type.displayName || type.name, type.propTypes, props)
 
     if (props.children) {
-      const child_routes = createRoutesFromReactChildren(props.children, props)
-      if (child_routes.length) props.child_routes = child_routes
+      const childRoutes = createRoutesFromReactChildren(props.children, props)
+      if (childRoutes.length) props.childRoutes = childRoutes
       delete props.children
     }
     return new AdminRoute(props)

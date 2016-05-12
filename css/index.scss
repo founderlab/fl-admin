@@ -9,13 +9,15 @@
 @import './sidebar.scss';
 
 .fla-main {
+  min-height: 100%;
+  background: $fla-bg;
+
   a:not(.btn) {
     color: $fla-link-color;
     transition: all 0.2s;
     &:hover {
       text-decoration: none;
       color: $fla-link-hover-color;
-      // background-color: $fla-sidebar-link-active-background;
     }
   }
 

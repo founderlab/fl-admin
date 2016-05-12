@@ -1,18 +1,5 @@
 # Admin panel for FounderLab apps
 
-Usage: 
-    
-
-Changes: 
-
-- 0.5.0 A whole new style and a bunch of config options added.
-- 0.4.2: Bugfix in fetchRelated. Option to specify a query to filter which related models will be fetched (called `filter`) 
-- 0.4.1: Quill editor is supported. Added the `input` option for form fields. To use quill set it like so: `input: 'rich_text'`
-- 0.4.0: Pagination added; field.inline setting renamed to list_edit
-- 0.3.0: State shape changes for pagination
-- 0.2.0: belongsTo relations can be saved
-
-
 ### Usage:
    
     import admin from 'fl-admin'
@@ -20,25 +7,25 @@ Changes:
     admin({
       models: [
         {
-          model_type: require('./models/User'),
+          Model: require('./models/User'),
           fields: {
             name: {
-              list_edit: true,
+              listEdit: true,
             },
             email: {
-              list_edit: true,
+              listEdit: true,
             },
             admin: {
-              list_edit: true,
+              listEdit: true,
             },
             school: {
-              filter: (model_ids, model_store, relation_field) {
-                const user = model_store.get('by_id').get(model_ids[0])
+              filter: (modelIds, modelStore, relationField) {
+                const user = modelStore.get('models').get(modelIds[0])
                 return {city: user.get('city')}
               },
             },
             description: {
-              input: 'rich_text',
+              input: 'rich',
             },
           },
         },
@@ -50,8 +37,8 @@ Changes:
     {
       admin: {
 
-        model_one: {
-          by_id: {
+        modelOne: {
+          models: {
             1: {
               id: 1,
               name: 'modelone instance',
@@ -59,14 +46,14 @@ Changes:
           },
           pagination: {
             visible: [1],
-            current_page: 1,
-            endless_page: 1,
+            currentPage: 1,
+            endlessPage: 1,
           },
           loading: false,
         },
 
-        model_type_two: {
-          by_id: {
+        modelTypeTwo: {
+          models: {
             565bae416f09bd1840df69dc: {
               id: 565bae416f09bd1840df69dc,
               name: 'model two instance',

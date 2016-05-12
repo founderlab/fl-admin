@@ -1,39 +1,39 @@
 import _ from 'lodash'
 import Queue from 'queue-async'
 
-export function onlyExistingRelationsFilter(model_ids, model_store, relation_field) {
-  const related_ids = []
-  _.forEach(model_store.get('by_id').toJSON(), (model, id) => {
-    const related_id = model[relation_field.virtual_id_accessor]
-    if (_.includes(model_ids, id) && related_id) related_ids.push(related_id)
+export function onlyExistingRelationsFilter(modelIds, modelStore, relationField) {
+  const relatedIds = []
+  _.forEach(modelStore.get('models').toJSON(), (model, id) => {
+    const relatedId = model[relationField.virtual_id_accessor]
+    if (_.includes(modelIds, id) && relatedId) relatedIds.push(relatedId)
   })
-  if (!related_ids.length) return null
-  return {$ids: _.uniq(related_ids)}
+  if (!relatedIds.length) return null
+  return {$ids: _.uniq(relatedIds)}
 }
 
-function relatedQuery(model_ids, model_store, relation_field) {
-  if (relation_field.filter) {
-    return relation_field.filter(model_ids, model_store, relation_field)
+function relatedQuery(modelIds, modelStore, relationField) {
+  if (relationField.filter) {
+    return relationField.filter(modelIds, modelStore, relationField)
   }
-  else if (relation_field.type === 'belongsTo') {
+  else if (relationField.type === 'belongsTo') {
     return {}
   }
-  return {[relation_field.relation.reverse_relation.virtual_id_accessor]: {$in: model_ids}}
+  return {[relationField.relation.reverse_relation.virtual_id_accessor]: {$in: modelIds}}
 }
 
 // dispatch actions to load related models
 // assumes the action to fetch models is called 'load'
 export default function fetchRelated(options, callback) {
-  const {store, model_admin, load_all, model_ids} = options
+  const {store, modelAdmin, loadAll, modelIds} = options
   const queue = new Queue()
-  const model_store = store.getState().admin[model_admin.path]
+  const modelStore = store.getState().admin[modelAdmin.path]
 
-  _.forEach(model_admin.relation_fields, relation_field => {
-    if (load_all || relation_field.list_edit) {
+  _.forEach(modelAdmin.relationFields, relationField => {
+    if (loadAll || relationField.listEdit) {
       queue.defer(callback => {
-        const related_query = relatedQuery(model_ids, model_store, relation_field)
-        if (!related_query) return callback()
-        store.dispatch(relation_field.model_admin.actions.load(related_query, callback))
+        const query = relatedQuery(modelIds, modelStore, relationField)
+        if (!query) return callback()
+        store.dispatch(relationField.modelAdmin.actions.load(query, callback))
       })
     }
   })

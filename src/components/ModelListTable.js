@@ -5,20 +5,20 @@ import createModelListForm from './generators/ModelListForm'
 import {editFieldInline} from '../lib'
 
 export default function ModelListTable(props) {
-  const {models, model_admin, config, handleSaveFn, handleDeleteFn} = props
+  const {models, modelAdmin, config, handleSaveFn, handleDeleteFn} = props
 
   const fields = {}
-  _.forEach(model_admin.fields, (field, key) => {
+  _.forEach(modelAdmin.fields, (field, key) => {
     if (editFieldInline(field)) fields[key] = field
   })
 
-  const model_list_rows = _.map(models, model => {
+  const modelListRows = _.map(models, model => {
     const ModelListForm = createModelListForm(model)
     return (<ModelListForm
       key={model.id}
       formKey={model.id}
       model={model}
-      model_admin={model_admin}
+      modelAdmin={modelAdmin}
       config={config}
       onSubmit={handleSaveFn(model)}
       onDelete={handleDeleteFn(model)}
@@ -26,11 +26,11 @@ export default function ModelListTable(props) {
     />)
   })
 
-  const edit_fields = _.map(fields, (field, key) => (<th key={key} className="fla-list-edit-th">{key}</th>))
-  const headings = [<th key="__fl_name" className="fla-name-th">model</th>]
-    .concat(edit_fields)
-    .concat(edit_fields.length ? [<th key="__fl_save" className="fla-save-th">save</th>] : [])
-    .concat(model_admin.list_delete ? [<th key="__fl_delete" className="fla-delete-th">delete</th>] : [])
+  const editFields = _.map(fields, (field, key) => (<th key={key} className="fla-list-edit-th">{key}</th>))
+  const headings = [<th key="fl-name" className="fla-name-th">model</th>]
+    .concat(editFields)
+    .concat(editFields.length ? [<th key="fl-save" className="fla-save-th">save</th>] : [])
+    .concat(modelAdmin.listDelete ? [<th key="fl-delete" className="fla-delete-th">delete</th>] : [])
 
   return (
     <Table>
@@ -40,7 +40,7 @@ export default function ModelListTable(props) {
         </tr>
       </thead>
       <tbody>
-        {model_list_rows}
+        {modelListRows}
       </tbody>
     </Table>
   )
@@ -48,7 +48,7 @@ export default function ModelListTable(props) {
 
 ModelListTable.propTypes = {
   models: PropTypes.array.isRequired,
-  model_admin: PropTypes.object.isRequired,
+  modelAdmin: PropTypes.object.isRequired,
   config: PropTypes.object.isRequired,
   handleSaveFn: PropTypes.func.isRequired,
   handleDeleteFn: PropTypes.func.isRequired,

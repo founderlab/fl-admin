@@ -12,15 +12,15 @@ export default class Admin extends React.Component {
   }
 
   render() {
-    const sidebar_props = {
+    const sidebarProps = {
       sidebar: <AdminSidebar />,
-      react_sidebar_props: {
+      reactSidebarProps: {
         sidebarClassName: 'fla-sidebar',
       },
     }
 
     return (
-      <Sidebar {...sidebar_props}>
+      <Sidebar {...sidebarProps}>
         <Helmet
           title=""
           titleTemplate={`%s - admin`}

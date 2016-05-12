@@ -4,18 +4,18 @@ import {Link} from 'react-router'
 
 export default function HasMany(props) {
 
-  const {relation_field, model, models, input_props} = props
+  const {relationField, model, models, inputProps} = props
 
   // shortcut to avoid messing with saving relations: link to the related model for hasMany
-  // the alternative is to set `input_props.multiple = true` and figure it out
-  const {model_admin} = relation_field
+  // the alternative is to set `inputProps.multiple = true` and figure it out
+  const {modelAdmin} = relationField
   const links = []
 
-  _.forEach(models, related_model => {
-    if (related_model[relation_field.relation.foreign_key] !== model.id) return
+  _.forEach(models, relatedModel => {
+    if (relatedModel[relationField.relation.foreignKey] !== model.id) return
     links.push(
-      <Link to={model_admin.link(related_model)} className="list-group-item" key={related_model.id} target="_blank">
-        {model_admin.display(related_model)}
+      <Link to={modelAdmin.link(relatedModel)} className="list-group-item" key={relatedModel.id} target="_blank">
+        {modelAdmin.display(relatedModel)}
         <br />
       </Link>
     )
@@ -23,7 +23,7 @@ export default function HasMany(props) {
 
   return (
     <div>
-      {input_props.label ? (<label className="control-label">{input_props.label}</label>) : null}
+      {inputProps.label ? (<label className="control-label">{inputProps.label}</label>) : null}
       <div className="list-group">
         {links}
       </div>
@@ -34,6 +34,6 @@ export default function HasMany(props) {
 HasMany.propTypes = {
   model: PropTypes.object.isRequired,
   models: PropTypes.array.isRequired,
-  relation_field: PropTypes.object.isRequired,
-  input_props: PropTypes.object.isRequired,
+  relationField: PropTypes.object.isRequired,
+  inputProps: PropTypes.object.isRequired,
 }

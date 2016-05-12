@@ -9,73 +9,73 @@ import QuillEditor from './QuillEditor'
 
 export default function SmartInput(props) {
 
-  const {model, model_field, config, form_field, size, handleSubmit, onChange} = props
+  const {model, modelField, config, formField, size, handleSubmit, onChange} = props
   let type = 'text'
 
-  const input_props = _.merge({
+  const inputProps = _.merge({
     handleSubmit,
-    label: size === 'large' ? model_field.key : null,
+    label: size === 'large' ? modelField.key : null,
     bsSize: size,
-    placeholder: model_field.key,
-    help: form_field.touched && form_field.error,
-  }, form_field)
-  if (onChange) input_props.onChange = onChange
+    placeholder: modelField.key,
+    help: formField.touched && formField.error,
+  }, formField)
+  if (onChange) inputProps.onChange = onChange
 
   // Related model of some sort
-  if (model_field.RelatedField) {
-    return <model_field.RelatedField model={model} input_props={input_props} />
+  if (modelField.RelatedField) {
+    return <modelField.RelatedField model={model} inputProps={inputProps} />
   }
 
   // Type of text input specified
-  if (model_field.input) {
-    const input_type = model_field.input.toLowerCase()
+  if (modelField.input) {
+    const inputType = modelField.input.toLowerCase()
 
-    if (input_type === 'textarea') {
+    if (inputType === 'textarea') {
       type = 'textarea'
     }
-    else if (input_type === 'rich_text' || input_type === 'richtext') {
-      return (<QuillEditor {...input_props} />)
+    else if (inputType === 'rich' || inputType === 'richtext') {
+      return (<QuillEditor {...inputProps} />)
     }
     else {
-      warning(false, `Unknown input for field ${model_field.key}: ${input_type}`)
+      warning(false, `Unknown input for field ${modelField.key}: ${inputType}`)
     }
   }
 
   // Select box
-  if (model_field.options) {
-    return (<Select options={model_field.options} {...input_props} />)
+  if (modelField.options) {
+    return (<Select options={modelField.options} {...inputProps} />)
   }
 
   // File uploader
-  if (model_field.type.toLowerCase() === 'file') {
-    return (<S3Uploader label={input_props.label} size={size} config={config} input_props={input_props} />)
+  if (modelField.type.toLowerCase() === 'file') {
+    return (<S3Uploader label={inputProps.label} size={size} config={config} inputProps={inputProps} />)
   }
 
   // Datepicker
-  if (model_field.type.toLowerCase() === 'date' || model_field.type.toLowerCase() === 'datetime') {
-    return (<Datetime {...input_props} />)
+  if (modelField.type.toLowerCase() === 'date' || modelField.type.toLowerCase() === 'datetime') {
+    return (<Datetime {...inputProps} />)
   }
 
   // Checkbox
-  if (model_field.type.toLowerCase() === 'boolean') {
+  if (modelField.type.toLowerCase() === 'boolean') {
     type = 'checkbox'
-    input_props.label = model_field.key
+    inputProps.label = modelField.key
   }
 
-  if (model_field.freeze && model.id) {
-    return <FormControls.Static {...input_props}>{form_field.defaultValue}</FormControls.Static>
+  if (modelField.freeze && model.id) {
+    return <FormControls.Static {...inputProps}>{formField.defaultValue}</FormControls.Static>
   }
 
   // Bootstrap component
-  return (<Input type={type} {...input_props} />)
+  return (<Input type={type} {...inputProps} />)
 
 }
 
 SmartInput.propTypes = {
   model: PropTypes.object.isRequired,
-  model_field: PropTypes.object.isRequired,
+  modelField: PropTypes.object.isRequired,
   config: PropTypes.object.isRequired,
-  form_field: PropTypes.object.isRequired,
+  formField: PropTypes.object.isRequired,
   size: PropTypes.string,
   handleSubmit: PropTypes.func.isRequired,
   onChange: PropTypes.func,

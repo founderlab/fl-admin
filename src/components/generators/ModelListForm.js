@@ -9,7 +9,7 @@ export class ModelListForm extends React.Component {
 
   static propTypes = {
     model: PropTypes.object.isRequired,
-    model_admin: PropTypes.object.isRequired,
+    modelAdmin: PropTypes.object.isRequired,
     config: PropTypes.object.isRequired,
     onDelete: PropTypes.func.isRequired,
 
@@ -19,21 +19,29 @@ export class ModelListForm extends React.Component {
   }
 
   render() {
-    const {model_admin, model, config, fields, handleSubmit, onDelete} = this.props
-    const inputs = mapFieldsToInputs(model_admin, fields, {model, config, handleSubmit})
-    const wrapped_inputs = _.map(inputs, (input, i) => (<td key={i} className="fla-list-edit-td">{input}</td>))
+    const {modelAdmin, model, config, fields, handleSubmit, onDelete} = this.props
+    const inputs = mapFieldsToInputs(modelAdmin, fields, {model, config, handleSubmit})
+    const wrappedInputs = _.map(inputs, (input, i) => (<td key={i} className="fla-list-edit-td">{input}</td>))
 
     return (
       <tr>
         <td className="fla-name-td">
-          <Link to={model_admin.link(model)}>
-            {model_admin.display(model)}
+          <Link to={modelAdmin.link(model)}>
+            {modelAdmin.display(model)}
             <Glyphicon glyph="pencil" />
           </Link>
         </td>
-        {wrapped_inputs}
-        {inputs.length ? <td className="fla-save-td"><Button bsStyle="primary" onClick={handleSubmit}><Glyphicon glyph="ok" /></Button></td> : null}
-        {model_admin.list_delete && <td className="fla-delete-td"><Button bsStyle="danger" bsSize="xsmall" onClick={onDelete}><Glyphicon glyph="remove" /></Button></td>}
+        {wrappedInputs}
+        {inputs.length && (
+          <td className="fla-save-td">
+            <Button bsStyle="primary" onClick={handleSubmit}><Glyphicon glyph="ok" /></Button>
+          </td>
+        )}
+        {modelAdmin.listDelete && (
+          <td className="fla-delete-td">
+            <Button bsStyle="danger" bsSize="xsmall" onClick={onDelete}><Glyphicon glyph="remove" /></Button>
+          </td>
+        )}
       </tr>
     )
   }
