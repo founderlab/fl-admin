@@ -66,9 +66,12 @@ export default function SmartInput(props) {
     return <FormControls.Static {...inputProps}>{formField.defaultValue}</FormControls.Static>
   }
 
+  if (type === 'password') {
+    inputProps.placeholder = 'Set a new password here'
+  }
+
   // Bootstrap component
   return (<Input type={type} {...inputProps} />)
-
 }
 
 SmartInput.propTypes = {
