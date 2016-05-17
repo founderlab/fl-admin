@@ -23,7 +23,7 @@ export default function createActions(modelAdmin) {
     },
 
     load: (query, callback) => {
-      if (!query.$sort) query.$sort = modelAdmin.sort
+      if (!query.$sort && modelAdmin.sort) query.$sort = modelAdmin.sort
       return {
         type: actionType('load'),
         request: Model.cursor(query),
@@ -32,7 +32,7 @@ export default function createActions(modelAdmin) {
     },
 
     loadPage: (page, query, callback) => {
-      if (!query.$sort) query.$sort = modelAdmin.sort
+      if (!query.$sort&& modelAdmin.sort) query.$sort = modelAdmin.sort
       return {
         page,
         type: actionType('load'),

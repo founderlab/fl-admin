@@ -45,7 +45,7 @@ export default function createModelEditor(modelAdmin) {
       // lookup the location from the incoming action here if one exists
       // if the ?page=xxx query was changed by redux-router the state won't have updated yet
       const location = (action && action.payload && action.payload.location ? action.payload.location : router.location)
-      const modelId = router.params.id
+      const modelId = ((action && action.payload && action.payload.params) || router.params).id
       const query = {$user_id: auth.get('user').get('id')}
       const queue = new Queue()
 
@@ -68,7 +68,7 @@ export default function createModelEditor(modelAdmin) {
       }
 
       queue.await(err => {
-        if (err) return console.log(err)
+        if (err) return console.error(err)
         const modelStore = store.getState().admin[modelAdmin.path]
         const modelIds = modelId ? [modelId] : modelStore.get('pagination').get('visible').toJSON()
         fetchRelated({store, modelAdmin, modelIds, loadAll: !!modelId}, callback)

@@ -25,14 +25,17 @@ function relatedQuery(modelIds, modelStore, relationField) {
 // assumes the action to fetch models is called 'load'
 export default function fetchRelated(options, callback) {
   const {store, modelAdmin, loadAll, modelIds} = options
+  const {auth, admin} = store.getState()
+  const modelStore = admin[modelAdmin.path]
   const queue = new Queue()
-  const modelStore = store.getState().admin[modelAdmin.path]
 
   _.forEach(modelAdmin.relationFields, relationField => {
     if (loadAll || relationField.listEdit) {
       queue.defer(callback => {
         const query = relatedQuery(modelIds, modelStore, relationField)
         if (!query) return callback()
+
+        query.$user_id = auth.get('user').get('id')
         store.dispatch(relationField.modelAdmin.actions.load(query, callback))
       })
     }
