@@ -2,6 +2,10 @@
 ## [Unreleased]
 
 
+## [0.10.2]
+ - Fixes for model loading
+ - password and hidden field types added
+
 ## [0.10.0]
  - Code style switched to camelCase for variables. 
  - Frameworkstein initial release.
