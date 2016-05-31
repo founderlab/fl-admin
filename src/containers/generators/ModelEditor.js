@@ -10,20 +10,20 @@ import ModelList from '../../containers/ModelList'
 import ModelDetail from '../../containers/ModelDetail'
 import fetchRelated from '../../lib/fetchRelated'
 
-export default function createModelEditor(model_admin) {
-  const {load, loadPage, count, save, del} = model_admin.actions
+export default function createModelEditor(modelAdmin) {
+  const {load, loadPage, count, save, del} = modelAdmin.actions
 
   return @connect(
     // createPaginationSelector(
-    //   state => state.admin[model_admin.path],
+    //   state => state.admin[modelAdmin.path],
     //   state => ({
-    //     model_store: state.admin[model_admin.path],
+    //     modelStore: state.admin[modelAdmin.path],
     //     id: state.router.params.id,
     //     config: state.config,
     //   })
     // ),
     state => ({
-      model_store: state.admin[model_admin.path],
+      modelStore: state.admin[modelAdmin.path],
       id: state.router.params.id,
       config: state.config,
     }),
@@ -32,7 +32,7 @@ export default function createModelEditor(model_admin) {
   class ModelEditor extends Component {
 
     static propTypes = {
-      model_store: PropTypes.object.isRequired,
+      modelStore: PropTypes.object.isRequired,
       id: PropTypes.string,
       load: PropTypes.func,
       save: PropTypes.func,
@@ -40,43 +40,43 @@ export default function createModelEditor(model_admin) {
     }
 
     static fetchData({store, action}, callback) {
-      const {router} = store.getState()
+      const {auth, router} = store.getState()
 
       // lookup the location from the incoming action here if one exists
       // if the ?page=xxx query was changed by redux-router the state won't have updated yet
       const location = (action && action.payload && action.payload.location ? action.payload.location : router.location)
-      const model_id = router.params.id
-      const query = {}
+      const modelId = ((action && action.payload && action.payload.params) || router.params).id
+      const query = {$user_id: auth.get('user').get('id')}
       const queue = new Queue()
 
-      if (model_id) {
+      if (modelId) {
         queue.defer(callback => {
-          query.id = model_id
+          query.id = modelId
           store.dispatch(load(query, callback))
         })
       }
       else {
         queue.defer(callback => store.dispatch(count(query, callback)))
         queue.defer(callback => {
-          query.$limit = model_admin.per_page
+          query.$limit = modelAdmin.perPage
 
           const page = +location.query.page || 1
 
-          if (page > 1) query.$offset = model_admin.per_page * (page-1)
+          if (page > 1) query.$offset = modelAdmin.perPage * (page-1)
           return store.dispatch(loadPage(page, query, callback))
         })
       }
 
       queue.await(err => {
-        if (err) return console.log(err)
-        const model_store = store.getState().admin[model_admin.path]
-        const model_ids = model_id ? [model_id] : model_store.get('pagination').get('visible').toJSON()
-        fetchRelated({store, model_admin, model_ids, load_all: !!model_id}, callback)
+        if (err) return console.error(err)
+        const modelStore = store.getState().admin[modelAdmin.path]
+        const modelIds = modelId ? [modelId] : modelStore.get('pagination').get('visible').toJSON()
+        fetchRelated({store, modelAdmin, modelIds, loadAll: !!modelId}, callback)
       })
     }
 
     hasData() {
-      return !this.props.model_store.get('loading')
+      return !this.props.modelStore.get('loading')
     }
 
     handleAdd = () => this.props.save({})
@@ -86,30 +86,31 @@ export default function createModelEditor(model_admin) {
     handleDeleteFn = model => () => {
       if (window.confirm('Are you really, really sure you want to delete this model? You can\'t have it back.')) {
         this.props.del(model, err => err && console.log(err))
-        if (this.props.id) pushState(model_admin.link())
+        if (this.props.id) pushState(modelAdmin.link())
       }
     }
 
     render() {
       if (!this.hasData()) return (<Loader />)
-      // const {id, model_store, visible_items, location} = this.props
-      const {id, model_store, location} = this.props
+      // const {id, modelStore, visibleItems, location} = this.props
+      const {id, modelStore, location} = this.props
       const config = this.props.config.toJSON()
 
-      const current_page = +(location.query.page || 1)
-      const items_per_page = +(location.query.per_page || model_admin.per_page)
+      const currentPage = +(location.query.page || 1)
+      const itemsPerPage = +(location.query.perPage || modelAdmin.perPage)
 
       // TODO: These should come from the pagination selector via createPaginationSelector,
       // but it's causing an infinite loop for whatever reason
-      const pagination = model_store.get('pagination')
-      const visible_ids = pagination.get('visible').toJSON()
-      const total_items = +(pagination.get('total'))
-      const visible_items = []
-      _.forEach(visible_ids, id => visible_items.push(model_store.get('by_id').get(id).toJSON()))
+      const pagination = modelStore.get('pagination')
+      const visibleIds = pagination.get('visible').toJSON()
+      const totalItems = +(pagination.get('total'))
+      const visibleItems = []
+
+      _.forEach(visibleIds, id => visibleItems.push(modelStore.get('models').get(id).toJSON()))
 
       // Format dates for form initial values
-      _.forEach(visible_items, model => {
-        _.forEach(model_admin.fields, (f, key) => {
+      _.forEach(visibleItems, model => {
+        _.forEach(modelAdmin.fields, (f, key) => {
           if (f.type.toLowerCase() === 'datetime' && model[key]) {
             model[key] = moment(new Date(model[key])).format('L LT')
           }
@@ -119,23 +120,23 @@ export default function createModelEditor(model_admin) {
         })
       })
 
-      const component_props = {
+      const componentProps = {
         id,
-        model_admin,
-        model_store,
+        modelAdmin,
+        modelStore,
         config,
-        visible_items,
-        total_items,
+        visibleItems,
+        totalItems,
         location,
-        current_page,
-        items_per_page,
+        currentPage,
+        itemsPerPage,
         onAdd: this.handleAdd,
         handleSaveFn: this.handleSaveFn,
         handleDeleteFn: this.handleDeleteFn,
       }
 
-      if (id) return (<ModelDetail {...component_props} />)
-      return (<ModelList {...component_props} />)
+      if (id) return (<ModelDetail {...componentProps} />)
+      return (<ModelList {...componentProps} />)
     }
   }
 

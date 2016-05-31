@@ -1,7 +1,6 @@
 import _ from 'lodash' // eslint-disable-line
 import React from 'react'
-import {Link} from 'react-router'
-import {Navbar, Nav, Glyphicon} from 'react-bootstrap'
+import {Navbar, Nav} from 'react-bootstrap'
 
 export default function AdminNavbar() {
 

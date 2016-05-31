@@ -10,40 +10,40 @@ import createReducer from './createReducer'
 import AdminRoute from './route'
 
 const ACTION_PREFIX = 'FL_ADMIN_'
-const model_admins = []
+const modelAdmins = []
 const actions = {}
 const reducers = {}
 let reducer
 
 const defaults = {
-  root_path: '/admin',
-  isAModel: (model_type) => !!model_type.schema,
+  rootPath: '/admin',
+  isAModel: (Model) => !!Model.schema,
 }
 
-function createModelAdmin(options, model_descriptor) {
-  const model_admin = {}
-  if (options.isAModel(model_descriptor)) model_admin.model_type = model_descriptor
-  else if (_.isObject(model_descriptor)) _.merge(model_admin, model_descriptor)
-  else throw new Error('[fl-admin] configure: Unrecognized model descriptor - provide a string or model or model_admin')
+function createModelAdmin(options, modelDescriptor) {
+  const modelAdmin = {}
+  if (options.isAModel(modelDescriptor)) modelAdmin.Model = modelDescriptor
+  else if (_.isObject(modelDescriptor)) _.merge(modelAdmin, modelDescriptor)
+  else throw new Error('[fl-admin] configure: Unrecognized model descriptor - provide a string or model or modelAdmin')
 
-  const {model_type} = model_admin
+  const {Model} = modelAdmin
 
   const defaults = {
-    name: model_type.model_name,
+    name: Model.modelName,
     display: model => model.name || model.title,
-    sort: 'created_at',
-    per_page: 50,
-    list_delete: false,
-    path: table(model_type),
-    root_path: options.root_path,
-    plural: plural(model_type),
-    action_type: `${ACTION_PREFIX}${upper(model_type)}`,
+    // sort: null,
+    perPage: 50,
+    listDelete: false,
+    rootPath: options.rootPath,
+    path: table(Model),
+    plural: plural(Model),
+    actionType: `${ACTION_PREFIX}${upper(Model)}`,
     fields: {},
-    relation_fields: {}, //references the same fields as `fields` (relations only) but is indexed by virtual_id_accessor
+    relationFields: {}, //references the same fields as `fields` (relations only) but is indexed by virtual_id_accessor
     components: {},
   }
 
-  _.defaults(model_admin, defaults)
+  _.defaults(modelAdmin, defaults)
 
   // Ensure the display fn always gives a string of some sort
   const wrapDisplay = oldDisplay => model => {
@@ -54,65 +54,65 @@ function createModelAdmin(options, model_descriptor) {
     catch (err) {
       res = null
     }
-    return res || (model && model.id ? `[No name: ${model.id}]` : `A brand new ${model_admin.name}`)
+    return res || (model && model.id ? `[No name: ${model.id}]` : `A brand new ${modelAdmin.name}`)
   }
-  model_admin.display = wrapDisplay(model_admin.display)
+  modelAdmin.display = wrapDisplay(modelAdmin.display)
 
   // Function to generate the path to a models edit page
-  if (!model_admin.link) {
-    model_admin.link = model => {
-      const model_id = model ? model.id || model : ''
-      return `${options.root_path}/${model_admin.path}/${model_id}`
+  if (!modelAdmin.link) {
+    modelAdmin.link = model => {
+      const modelId = model ? model.id || model : ''
+      return `${options.rootPath}/${modelAdmin.path}/${modelId}`
     }
-    model_admin.createLink = () => model_admin.link('create')
+    modelAdmin.createLink = () => modelAdmin.link('create')
   }
 
-  const schema = model_type.schema && model_type.schema('schema')
+  const schema = Model.schema && Model.schema('schema')
   const fields = schema.fields || {}
-  const relation_fields = schema.relations || {}
+  const relationFields = schema.relations || {}
 
   // Make sure we have config for every field in the models schema
-  _.forEach(fields, (model_field, key) => {
-    const admin_field = model_admin.fields[key] = model_admin.fields[key] || {}
-    _.defaults(admin_field, model_field)
-    admin_field.key = admin_field.key || key
+  _.forEach(fields, (modelField, key) => {
+    const adminField = modelAdmin.fields[key] = modelAdmin.fields[key] || {}
+    _.defaults(adminField, modelField)
+    adminField.key = adminField.key || key
   })
 
   // Make sure we have config for every relation
-  _.forEach(relation_fields, (relation, key) => {
-    const admin_field = model_admin.relation_fields[relation.virtual_id_accessor] = model_admin.fields[key] = model_admin.fields[key] || {}
-    _.defaults(admin_field, _.pick(relation, 'type', 'virtual_id_accessor', 'components'))
-    admin_field.model_type = relation.reverse_model_type
-    admin_field.key = admin_field.key || key
-    admin_field.relation = relation
+  _.forEach(relationFields, (relation, key) => {
+    const adminField = modelAdmin.relationFields[relation.virtual_id_accessor] = modelAdmin.fields[key] = modelAdmin.fields[key] || {}
+    _.defaults(adminField, _.pick(relation, 'type', 'virtual_id_accessor', 'components'))
+    adminField.Model = relation.reverse_model_type
+    adminField.key = adminField.key || key
+    adminField.relation = relation
   })
 
   // Generate actions and a reducer for this model type
-  model_admin.actions = actions[model_admin.path] = createActions(model_admin)
-  model_admin.reducer = reducers[model_admin.path] = createReducer(model_admin)
+  modelAdmin.actions = actions[modelAdmin.path] = createActions(modelAdmin)
+  modelAdmin.reducer = reducers[modelAdmin.path] = createReducer(modelAdmin)
 
-  if (!model_admin.components.Pagination) model_admin.components.Pagination = Pagination
+  if (!modelAdmin.components.Pagination) modelAdmin.components.Pagination = Pagination
 
-  return model_admin
+  return modelAdmin
 }
 
 export default function configure(_options) {
   const options = _.merge(defaults, _options)
 
-  _.forEach(options.models, model_descriptor => {
-    model_admins.push(createModelAdmin(options, model_descriptor))
+  _.forEach(options.models, modelDescriptor => {
+    modelAdmins.push(createModelAdmin(options, modelDescriptor))
   })
 
-  // Second pass too hook up related model_admins
-  _.forEach(model_admins, model_admin => {
-    _.forEach(model_admin.relation_fields, admin_field => {
-      admin_field.model_admin = _.find(model_admins, ma => ma.model_type === admin_field.model_type)
-      warning(admin_field.model_admin, `[fl-admin] configure: Couldnt find model_admin for the relation ${admin_field.key} of ${model_admin.name}`)
-      if (!admin_field.RelatedField) admin_field.RelatedField = createRelatedField(admin_field)
+  // Second pass too hook up related modelAdmins
+  _.forEach(modelAdmins, modelAdmin => {
+    _.forEach(modelAdmin.relationFields, adminField => {
+      adminField.modelAdmin = _.find(modelAdmins, ma => ma.Model === adminField.Model)
+      warning(adminField.modelAdmin, `[fl-admin] configure: Couldnt find modelAdmin for the relation ${adminField.key} of ${modelAdmin.name}`)
+      if (!adminField.RelatedField) adminField.RelatedField = createRelatedField(adminField)
     })
   })
 
   reducer = combineReducers(reducers)
 }
 
-export {actions, reducer, model_admins, AdminRoute}
+export {actions, reducer, modelAdmins, AdminRoute}
