@@ -111,7 +111,7 @@ export default function createModelEditor(modelAdmin) {
       // Format dates for form initial values
       _.forEach(visibleItems, model => {
         _.forEach(modelAdmin.fields, (f, key) => {
-          if (f.type.toLowerCase() === 'datetime' && model[key]) {
+          if (!f.type || f.type.toLowerCase() === 'datetime' && model[key]) {
             model[key] = moment(new Date(model[key])).format('L LT')
           }
           else if (f.type.toLowerCase() === 'date' && model[key]) {
