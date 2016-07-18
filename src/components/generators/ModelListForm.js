@@ -32,11 +32,11 @@ export class ModelListForm extends React.Component {
           </Link>
         </td>
         {wrappedInputs}
-        {inputs.length && (
+        {inputs.length ? (
           <td className="fla-save-td">
             <Button bsStyle="primary" onClick={handleSubmit}><Glyphicon glyph="ok" /></Button>
           </td>
-        )}
+        ) : null}
         {modelAdmin.listDelete && (
           <td className="fla-delete-td">
             <Button bsStyle="danger" bsSize="xsmall" onClick={onDelete}><Glyphicon glyph="remove" /></Button>
