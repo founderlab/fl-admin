@@ -3,16 +3,6 @@ import React from 'react'
 import warning from 'warning'
 import SmartInput from '../components/inputs/SmartInput'
 
-// yoinked from react-router
-export function checkPropTypes(componentName='UnknownComponent', propTypes, props) {
-  for (const propName in propTypes) {
-    if (propTypes.hasOwnProperty(propName)) {
-      const error = propTypes[propName](props, propName, componentName)
-      if (error instanceof Error) warning(false, error.message)
-    }
-  }
-}
-
 const handleOnChangeFn = (field, target, modelField) => ev => {
   field.onChange(ev)
   target.onChange(modelField.link.parse ? modelField.link.parse(ev.target.value) : ev.target.value)

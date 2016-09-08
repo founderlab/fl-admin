@@ -8,7 +8,6 @@ import Admin from './containers/Admin'
 import ModelTypeList from './containers/ModelTypeList'
 import createModelEditor from './containers/generators/ModelEditor'
 import createModelCreate from './containers/generators/ModelCreate'
-import {checkPropTypes} from './lib'
 
 export default class AdminRoute extends Route {
 
@@ -55,8 +54,6 @@ export default class AdminRoute extends Route {
   static createRouteFromReactElement(element/*, parent*/) {
     const type = element.type
     const props = _.extend({}, element.type.defaultProps, element.props)
-
-    if (type.propTypes) checkPropTypes(type.displayName || type.name, type.propTypes, props)
 
     if (props.children) {
       const childRoutes = createRoutesFromReactChildren(props.children, props)
