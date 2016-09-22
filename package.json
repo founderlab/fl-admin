@@ -32,6 +32,7 @@
   },
   "// wouldBePeerDependencies": {
     "fl-react-utils": "*",
+    "fl-redux-utils": "*",
     "react": "*",
     "react-bootstrap": "*",
     "react-redux": "*",
