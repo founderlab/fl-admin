@@ -3,7 +3,7 @@ import Helmet from 'react-helmet'
 import {Sidebar} from 'fl-react-utils'
 import Navbar from '../components/Navbar'
 import AdminSidebar from '../components/Sidebar'
-import headerTags from '../lib/headerTags'
+import headerTags from '../utils/headerTags'
 
 export default class Admin extends React.Component {
 

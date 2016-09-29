@@ -8,7 +8,7 @@ import {pushState} from 'redux-router'
 import Loader from '../../components/Loader'
 import ModelList from '../../containers/ModelList'
 import ModelDetail from '../../containers/ModelDetail'
-import fetchRelated from '../../lib/fetchRelated'
+import fetchRelated from '../../utils/fetchRelated'
 
 export default function createModelEditor(modelAdmin) {
   const {load, loadPage, count, save, del} = modelAdmin.actions
