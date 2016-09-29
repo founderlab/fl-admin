@@ -2,15 +2,10 @@ import _ from 'lodash' // eslint-disable-line
 import React, {PropTypes} from 'react'
 import {Table} from 'react-bootstrap'
 import createModelListForm from './generators/ModelListForm'
-import {editFieldInline} from '../lib'
+import shouldEditFieldInline from '../utils/shouldEditFieldInline'
 
 export default function ModelListTable(props) {
-  const {models, modelAdmin, config, handleSaveFn, handleDeleteFn} = props
-
-  const fields = {}
-  _.forEach(modelAdmin.fields, (field, key) => {
-    if (editFieldInline(field)) fields[key] = field
-  })
+  const {models, modelAdmin, handleSaveFn, handleDeleteFn} = props
 
   const modelListRows = _.map(models, model => {
     const ModelListForm = createModelListForm(model)
@@ -19,18 +14,23 @@ export default function ModelListTable(props) {
       formKey={model.id}
       model={model}
       modelAdmin={modelAdmin}
-      config={config}
       onSubmit={handleSaveFn(model)}
       onDelete={handleDeleteFn(model)}
-      fields={_.map(fields, f => f.virtual_id_accessor || f.key)}
     />)
   })
 
-  const editFields = _.map(fields, (field, key) => (<th key={key} className="fla-list-edit-th">{key}</th>))
-  const headings = [<th key="fl-name" className="fla-name-th">model</th>]
-    .concat(editFields)
-    .concat(editFields.length ? [<th key="fl-save" className="fla-save-th">save</th>] : [])
-    .concat(modelAdmin.listDelete ? [<th key="fl-delete" className="fla-delete-th">delete</th>] : [])
+  const headings = [<th key="fl-name" className="fla-name-th">Model</th>]
+
+  _.forEach(modelAdmin.fields, (field, key) => {
+    if (shouldEditFieldInline(field)) headings.push(<th key={key} className="fla-list-edit-th">{field.label}</th>)
+  })
+
+  _.forEach(modelAdmin.relationFields, (field, key) => {
+    if (shouldEditFieldInline(field)) headings.push(<th key={key} className="fla-list-edit-th">{field.label}</th>)
+  })
+
+  if (headings.length > 1) headings.push(<th key="fl-save" className="fla-save-th">Save</th>)
+  if (modelAdmin.listDelete) headings.push(<th key="fl-delete" className="fla-delete-th">Delete</th>)
 
   return (
     <Table>

@@ -2,9 +2,10 @@ import _ from 'lodash'
 import warning from 'warning'
 import {combineReducers} from 'redux'
 import {Pagination} from 'fl-react-utils'
+import Inflection from 'inflection'
 
 import createRelatedField from './containers/generators/RelatedField'
-import {table, plural, upper} from './lib/naming'
+import {table, plural, upper} from './utils/naming'
 import createActions from './createActions'
 import createReducer from './createReducer'
 import AdminRoute from './route'
@@ -39,6 +40,7 @@ function createModelAdmin(options, modelDescriptor) {
     plural: plural(Model),
     actionType: `${ACTION_PREFIX}${upper(Model)}`,
     fields: {},
+    readOnlyFields: ['createdDate'],
     relationFields: {}, //references the same fields as `fields` (relations only) but is indexed by virtual_id_accessor
     components: {},
   }
@@ -76,6 +78,8 @@ function createModelAdmin(options, modelDescriptor) {
     const adminField = modelAdmin.fields[key] = modelAdmin.fields[key] || {}
     _.defaults(adminField, modelField)
     adminField.key = adminField.key || key
+    adminField.label = adminField.label || Inflection.humanize(Inflection.underscore(key))
+    if (_.includes(modelAdmin.readOnlyFields, key)) adminField.input = 'static'
   })
 
   // Make sure we have config for every relation
@@ -84,6 +88,7 @@ function createModelAdmin(options, modelDescriptor) {
     _.defaults(adminField, _.pick(relation, 'type', 'virtual_id_accessor', 'components'))
     adminField.Model = relation.reverse_model_type
     adminField.key = adminField.key || key
+    adminField.label = adminField.label || Inflection.humanize(Inflection.underscore(key))
     adminField.relation = relation
   })
 

@@ -31,11 +31,12 @@
     "warning": "^2.1.0"
   },
   "// wouldBePeerDependencies": {
-    "fl-react-utils": "*",
-    "react": "*",
-    "react-bootstrap": "*",
-    "react-redux": "*",
-    "redux-form": "*"
+    "react": ">=15.3.1",
+    "react-bootstrap": ">=0.30.3",
+    "react-redux": ">=4.0.0",
+    "fl-react-utils": ">=0.15.0",
+    "fl-redux-utils": ">=0.2.0",
+    "redux-form": ">=6.0.2"
   },
   "devDependencies": {
     "babel": "^5.6.14",

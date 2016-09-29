@@ -42,7 +42,7 @@ export default function createActions(modelAdmin) {
     },
 
     save: (data, callback) => {
-      const model = new Model(data)
+      const model = new Model(_.omit(data, 'createdDate'))
       return {
         type: actionType('save'),
         request: model.save.bind(model),

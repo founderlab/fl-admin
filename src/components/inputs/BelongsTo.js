@@ -3,7 +3,6 @@ import React, {PropTypes} from 'react'
 import {Input} from 'react-bootstrap'
 
 export default function BelongsTo(props) {
-
   const {relationField, modelStore, inputProps} = props
   const models = modelStore.get('models').toJSON ? modelStore.get('models').toJSON() : {}
 

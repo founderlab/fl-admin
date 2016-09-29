@@ -1,8 +1,10 @@
 import _ from 'lodash' // eslint-disable-line
 import React, {PropTypes} from 'react'
+import warning from 'warning'
 import {Row, Col, Button, Glyphicon} from 'react-bootstrap'
-import {reduxForm} from 'redux-form'
-import {mapFieldsToInputs} from '../../lib'
+import {reduxForm, Field} from 'redux-form'
+// import {mapFieldsToInputs} from '../../utils'
+import SmartInput from '../inputs/SmartInput'
 
 export class ModelDetailForm extends React.Component {
 
@@ -13,20 +15,45 @@ export class ModelDetailForm extends React.Component {
     onDelete: PropTypes.func.isRequired,
 
     // from redux-form
-    fields: PropTypes.object.isRequired,
     handleSubmit: PropTypes.func.isRequired,
   }
 
   render() {
-    const {modelAdmin, model, config, fields, handleSubmit, onDelete} = this.props
-    const inputs = mapFieldsToInputs(modelAdmin, fields, {model, config, handleSubmit, size: 'large'})
+    const {modelAdmin, model, handleSubmit, onDelete} = this.props
 
     return (
       <div>
         <Row>
           <Col xs={12}>
             <form>
-              {inputs}
+
+              {_.map(modelAdmin.fields, (modelField, key) => {
+                if (!modelField || modelField.hidden) return null
+                return (
+                  <Field
+                    key={key}
+                    name={key}
+                    modelField={modelField}
+                    label={modelField.label}
+                    component={SmartInput}
+                  />
+                )
+              })}
+
+              {_.map(modelAdmin.relationFields, (modelField, key) => {
+                if (!modelField || modelField.hidden) return null
+                return (
+                  <Field
+                    key={key}
+                    name={key}
+                    model={model}
+                    modelField={modelField}
+                    label={modelField.label}
+                    component={modelField.RelatedInput}
+                  />
+                )
+              })}
+
             </form>
           </Col>
         </Row>
@@ -47,11 +74,7 @@ export default function createModelDetailForm(model) {
   return reduxForm(
     {
       form: 'model_detail',
-    },
-    () => {
-      return {
-        initialValues: model,
-      }
+      initialValues: model,
     }
   )(ModelDetailForm)
 }

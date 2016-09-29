@@ -3,7 +3,6 @@ import React, {PropTypes} from 'react'
 import {Link} from 'react-router'
 
 export default function HasMany(props) {
-
   const {relationField, model, models, inputProps} = props
 
   // shortcut to avoid messing with saving relations: link to the related model for hasMany

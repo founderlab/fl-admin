@@ -28,8 +28,3 @@ export function mapFieldsToInputs(modelAdmin, fields, _props={}, InputComponent=
     )
   })
 }
-
-const NO_LIST_EDIT = ['hasMany', 'manyToMany']
-export function editFieldInline(field) {
-  return field.listEdit && NO_LIST_EDIT.indexOf(field.type) === -1
-}
