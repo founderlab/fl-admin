@@ -3,7 +3,6 @@ import React, {PropTypes} from 'react'
 import warning from 'warning'
 import {Row, Col, Button, Glyphicon} from 'react-bootstrap'
 import {reduxForm, Field} from 'redux-form'
-// import {mapFieldsToInputs} from '../../utils'
 import SmartInput from '../inputs/SmartInput'
 
 export class ModelDetailForm extends React.Component {
@@ -20,7 +19,6 @@ export class ModelDetailForm extends React.Component {
 
   render() {
     const {modelAdmin, model, handleSubmit, onDelete} = this.props
-
     return (
       <div>
         <Row>
@@ -71,10 +69,8 @@ export class ModelDetailForm extends React.Component {
 }
 
 export default function createModelDetailForm(model) {
-  return reduxForm(
-    {
-      form: 'model_detail',
-      initialValues: model,
-    }
-  )(ModelDetailForm)
+  return reduxForm({
+    form: 'model_detail',
+    initialValues: model,
+  })(ModelDetailForm)
 }
