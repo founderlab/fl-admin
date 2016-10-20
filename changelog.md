@@ -1,6 +1,11 @@
 
 ## [Unreleased]
 
+## [0.12.0]
+ - Update to redux-form 6
+
+## [0.11.0]
+ - Update fl-react-utils / fl-redux-utils apis
 
 ## [0.10.2]
  - Fixes for model loading
