@@ -44,8 +44,9 @@ export default function createReducer(modelAdmin) {
           loading: false,
           errors: {},
           lastSaved: action.model,
-        }).mergeDeep({
-          models: action.models,
+          models: {
+            [action.model.id]: action.model,
+          }
         })
 
       case modelAdmin.actionType + '_DEL_SUCCESS':

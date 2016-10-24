@@ -19,6 +19,7 @@ function relatedQuery(modelIds, modelStore, relationField) {
     return {}
   }
   // Many to many, load all options
+  // TODO: async load in react-select
   else if (relationField.type === 'hasMany' && relationField.relation.reverse_relation.type === 'hasMany') {
     return {}
     // return {[relationField.relation.foreign_key]: {$in: modelIds}}

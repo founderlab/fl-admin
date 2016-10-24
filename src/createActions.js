@@ -43,17 +43,10 @@ export default function createActions(modelAdmin) {
     },
 
     save: (data, callback) => {
-      console.log('Model url', Model.url(data.id))
-      const model = new Model(_.omit(data, 'createdDate'))
-      console.log('saving model', model.attributes)
-      model.set({tag_ids: data.tag_ids})
-      console.log('saving model 2', model.attributes)
-      model.set({tags: data.tag_ids})
-      console.log('saving model 3', model.attributes)
+      const method = data.id ? 'put' : 'post'
       return {
         type: actionType('save'),
-        // request: model.save.bind(model),
-        request: request(Model.url(data.id)).send(data),
+        request: request[method](`${Model.prototype.urlRoot}/${data.id}`).send(data),
         callback,
       }
     },

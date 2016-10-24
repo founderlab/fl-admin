@@ -80,10 +80,7 @@ export default function createModelEditor(modelAdmin) {
     }
 
     handleAdd = () => this.props.save({})
-    handleSaveFn = model => data => {
-      console.log('handleSaveFn', model, data)
-      this.props.save(_.extend(model, data))
-    }
+    handleSaveFn = model => data => this.props.save(_.extend(model, data))
 
     // todo: make delete undoable
     handleDeleteFn = model => () => {
