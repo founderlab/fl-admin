@@ -54,7 +54,7 @@ export class ModelListForm extends React.Component {
                 name={key}
                 model={model}
                 modelField={modelField}
-                component={modelField.RelatedInput}
+                component={modelField.RelatedField}
               />
             </td>
           )

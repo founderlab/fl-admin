@@ -1,24 +1,24 @@
 import _ from 'lodash' // eslint-disable-line
 import React, {PropTypes} from 'react'
-import {Input} from 'react-bootstrap'
+import {Input} from 'fl-react-utils'
 
-export default function BelongsTo(props) {
-  const {relationField, modelStore, inputProps} = props
+export default function BelongsTo(_props) {
+  const {relationField, modelStore, ...props} = _props
   const models = modelStore.get('models').toJSON ? modelStore.get('models').toJSON() : {}
 
-  const selectOptions = _.map(models, model => (<option key={model.id} value={model.id}>{relationField.modelAdmin.display(model)}</option>))
+  // const selectOptions = _.map(models, model => (<option key={model.id} value={model.id}>{relationField.modelAdmin.display(model)}</option>))
+  const options = _.map(models, m => ({label: relationField.modelAdmin.display(model), value: model.id}))
 
-  //redux-form onFocus is buggy as of v3.0.0, skip it
   return (
-    <Input type="select" label={inputProps.label} {..._.omit(inputProps, 'onFocus')} >
-      {!inputProps.multiple ? (<option value={null}></option>) : null}
-      {selectOptions}
-    </Input>
+    <Input
+      type="react-select"
+      options={options}
+      {...props}
+    />
   )
 }
 
 BelongsTo.propTypes = {
   relationField: PropTypes.object.isRequired,
   modelStore: PropTypes.object.isRequired,
-  inputProps: PropTypes.object.isRequired,
 }

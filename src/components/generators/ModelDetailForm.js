@@ -19,6 +19,7 @@ export class ModelDetailForm extends React.Component {
 
   render() {
     const {modelAdmin, model, handleSubmit, onDelete} = this.props
+
     return (
       <div>
         <Row>
@@ -47,7 +48,7 @@ export class ModelDetailForm extends React.Component {
                     model={model}
                     modelField={modelField}
                     label={modelField.label}
-                    component={modelField.RelatedInput}
+                    component={modelField.RelatedField}
                   />
                 )
               })}
