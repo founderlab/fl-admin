@@ -1,4 +1,5 @@
 import _ from 'lodash' // eslint-disable-line
+import request from 'superagent'
 
 export default function createActions(modelAdmin) {
   const actionType = name => `${modelAdmin.actionType}_${name.toUpperCase()}`
@@ -42,10 +43,17 @@ export default function createActions(modelAdmin) {
     },
 
     save: (data, callback) => {
+      console.log('Model url', Model.url(data.id))
       const model = new Model(_.omit(data, 'createdDate'))
+      console.log('saving model', model.attributes)
+      model.set({tag_ids: data.tag_ids})
+      console.log('saving model 2', model.attributes)
+      model.set({tags: data.tag_ids})
+      console.log('saving model 3', model.attributes)
       return {
         type: actionType('save'),
-        request: model.save.bind(model),
+        // request: model.save.bind(model),
+        request: request(Model.url(data.id)).send(data),
         callback,
       }
     },

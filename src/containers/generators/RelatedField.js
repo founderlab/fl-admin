@@ -4,6 +4,7 @@ import React, {Component, PropTypes} from 'react'
 import warning from 'warning'
 import Loader from '../../components/Loader'
 import BelongsTo from '../../components/inputs/BelongsTo'
+import ManyToMany from '../../components/inputs/ManyToMany'
 import HasMany from '../../components/inputs/HasMany'
 import InlineRelation from '../../components/inputs/InlineRelation'
 
@@ -42,6 +43,15 @@ export default function createRelatedField(relationField) {
       if (relationField.type === 'belongsTo') {
         if (relationField.inline) console.log('[fl-admin] inline editing belongsTo relations is not yet supported')
         return (<BelongsTo {...props} />)
+      }
+
+      if (relationField.type === 'hasMany' && relationField.relation.reverse_relation.type === 'hasMany') {
+        return (
+          <ManyToMany
+            relationField={relationField}
+            {...this.props}
+          />
+        )
       }
 
       if (relationField.type === 'hasMany' || relationField.type === 'hasOne') {

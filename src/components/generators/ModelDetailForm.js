@@ -25,34 +25,19 @@ export class ModelDetailForm extends React.Component {
         <Row>
           <Col xs={12}>
             <form>
-
               {_.map(modelAdmin.fields, (modelField, key) => {
                 if (!modelField || modelField.hidden) return null
                 return (
                   <Field
                     key={key}
-                    name={key}
-                    modelField={modelField}
-                    label={modelField.label}
-                    component={SmartInput}
-                  />
-                )
-              })}
-
-              {_.map(modelAdmin.relationFields, (modelField, key) => {
-                if (!modelField || modelField.hidden) return null
-                return (
-                  <Field
-                    key={key}
-                    name={key}
+                    name={modelField.virtual_id_accessor || key}
                     model={model}
                     modelField={modelField}
                     label={modelField.label}
-                    component={modelField.RelatedField}
+                    component={modelField.RelatedField || SmartInput}
                   />
                 )
               })}
-
             </form>
           </Col>
         </Row>

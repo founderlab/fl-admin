@@ -35,5 +35,4 @@ HasMany.propTypes = {
   model: PropTypes.object.isRequired,
   models: PropTypes.array.isRequired,
   relationField: PropTypes.object.isRequired,
-  inputProps: PropTypes.object.isRequired,
 }

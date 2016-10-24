@@ -12,7 +12,6 @@ export default function ModelDetail(props) {
   const model = modelIm ? modelIm.toJSON() : {}
   warning(model, `[fl-admin] ModelDetail: Model ${modelAdmin.name} not loaded with id ${id}`)
   const ModelDetailForm = createModelDetailForm(model)
-  // const fields = _(modelAdmin.fields).map(f => f.virtual_id_accessor || f.key).compact().value()
 
   return (
     <section className="fla-model-detail">
@@ -34,7 +33,6 @@ export default function ModelDetail(props) {
           config={config}
           onSubmit={handleSaveFn(model)}
           onDelete={handleDeleteFn(model)}
-          // fields={fields}
         />
       </Grid>
     </section>

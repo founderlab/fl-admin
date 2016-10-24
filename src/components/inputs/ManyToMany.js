@@ -2,7 +2,7 @@ import _ from 'lodash' // eslint-disable-line
 import React, {PropTypes} from 'react'
 import {Input} from 'fl-react-utils'
 
-export default function BelongsTo(_props) {
+export default function ManyToMany(_props) {
   const {relationField, modelStore, ...props} = _props
   const models = modelStore.get('models').toJSON ? modelStore.get('models').toJSON() : {}
 
@@ -13,12 +13,13 @@ export default function BelongsTo(_props) {
     <Input
       type="react-select"
       options={options}
+      inputProps={{multi: true}}
       {...props}
     />
   )
 }
 
-BelongsTo.propTypes = {
+ManyToMany.propTypes = {
   relationField: PropTypes.object.isRequired,
   modelStore: PropTypes.object.isRequired,
 }

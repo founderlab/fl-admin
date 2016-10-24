@@ -18,9 +18,10 @@ function relatedQuery(modelIds, modelStore, relationField) {
   else if (relationField.type === 'belongsTo') {
     return {}
   }
-  // Many to many
+  // Many to many, load all options
   else if (relationField.type === 'hasMany' && relationField.relation.reverse_relation.type === 'hasMany') {
-    return {[relationField.relation.foreign_key]: {$in: modelIds}}
+    return {}
+    // return {[relationField.relation.foreign_key]: {$in: modelIds}}
   }
   return {[relationField.relation.reverse_relation.virtual_id_accessor]: {$in: modelIds}}
 }
