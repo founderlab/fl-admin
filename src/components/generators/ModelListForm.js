@@ -37,24 +37,10 @@ export class ModelListForm extends React.Component {
             <td key={key} className="fla-list-edit-td">
               <Field
                 key={key}
-                name={key}
-                modelField={modelField}
-                component={SmartInput}
-              />
-            </td>
-          )
-        })}
-
-        {_.map(modelAdmin.relationFields, (modelField, key) => {
-          if (!shouldEditFieldInline(modelField)) return null
-          return (
-            <td key={key} className="fla-list-edit-td">
-              <Field
-                key={key}
-                name={key}
+                name={modelField.virtual_id_accessor || key}
                 model={model}
                 modelField={modelField}
-                component={modelField.RelatedField}
+                component={modelField.RelatedField || SmartInput}
               />
             </td>
           )
