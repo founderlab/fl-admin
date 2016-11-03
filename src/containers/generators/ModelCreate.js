@@ -1,7 +1,7 @@
 import _ from 'lodash' // eslint-disable-line
 import {connect} from 'react-redux'
 import React, {Component, PropTypes} from 'react'
-import {pushState} from 'redux-router'
+import {push} from 'redux-router'
 import ModelDetail from '../../containers/ModelDetail'
 
 export default function createModelCreate(modelAdmin) {
@@ -12,7 +12,7 @@ export default function createModelCreate(modelAdmin) {
       modelStore: state.admin[modelAdmin.path],
       config: state.config,
     }),
-    {save, del, pushState}
+    {save, del, push}
   )
   class ModelEditor extends Component {
 
@@ -26,7 +26,7 @@ export default function createModelCreate(modelAdmin) {
       this.props.save(data, (err) => {
         if (err) return console.log(err)
         const model = this.props.modelStore.get('lastSaved').toJSON()
-        this.props.pushState(null, modelAdmin.link(model.id))
+        this.props.push(modelAdmin.link(model.id))
       })
     }
 
@@ -34,7 +34,7 @@ export default function createModelCreate(modelAdmin) {
     handleDeleteFn = model => () => {
       if (window.confirm('Are you really, really sure you want to delete this model? You can\'t have it back.')) {
         this.props.del(model, err => err && console.log(err))
-        if (this.props.id) pushState(modelAdmin.link())
+        if (this.props.id) push(modelAdmin.link())
       }
     }
 

@@ -3,7 +3,7 @@ import moment from 'moment'
 import Queue from 'queue-async'
 import {connect} from 'react-redux'
 import React, {Component, PropTypes} from 'react'
-import {pushState} from 'redux-router'
+import {push} from 'redux-router'
 // import {createPaginationSelector} from 'fl-redux-utils'
 import Loader from '../../components/Loader'
 import ModelList from '../../containers/ModelList'
@@ -27,7 +27,7 @@ export default function createModelEditor(modelAdmin) {
       id: state.router.params.id,
       config: state.config,
     }),
-    {load, save, del, pushState}
+    {load, save, del, push}
   )
   class ModelEditor extends Component {
 
@@ -86,7 +86,7 @@ export default function createModelEditor(modelAdmin) {
     handleDeleteFn = model => () => {
       if (window.confirm('Are you really, really sure you want to delete this model? You can\'t have it back.')) {
         this.props.del(model, err => err && console.log(err))
-        if (this.props.id) pushState(modelAdmin.link())
+        if (this.props.id) push(modelAdmin.link())
       }
     }
 
