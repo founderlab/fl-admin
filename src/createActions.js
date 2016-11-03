@@ -44,9 +44,10 @@ export default function createActions(modelAdmin) {
 
     save: (data, callback) => {
       const method = data.id ? 'put' : 'post'
+      const endpoint = data.id ? `${Model.prototype.urlRoot}/${data.id}` : Model.prototype.urlRoot
       return {
         type: actionType('save'),
-        request: request[method](`${Model.prototype.urlRoot}/${data.id}`).send(data),
+        request: request[method](endpoint).send(data),
         callback,
       }
     },
