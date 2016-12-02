@@ -5,7 +5,7 @@ import {Button, Glyphicon} from 'react-bootstrap'
 import {Link} from 'react-router'
 import {reduxForm, Field} from 'redux-form'
 import SmartInput from '../inputs/SmartInput'
-import shouldEditFieldInline from '../../utils/shouldEditFieldInline'
+import {shouldEditFieldInline, shouldDisplayFieldInline} from '../../utils/inline'
 
 export class ModelListForm extends React.Component {
 
@@ -20,7 +20,7 @@ export class ModelListForm extends React.Component {
 
   render() {
     const {modelAdmin, model, handleSubmit, onDelete} = this.props
-    const showSave = _.some(_.values(modelAdmin.fields).concat(_.values(modelAdmin.relationFields)), f => shouldEditFieldInline(f))
+    const showSave = _.some(modelAdmin.fields, f => shouldEditFieldInline(f))
 
     return (
       <tr>
@@ -32,18 +32,31 @@ export class ModelListForm extends React.Component {
         </td>
 
         {_.map(modelAdmin.fields, (modelField, key) => {
-          if (!shouldEditFieldInline(modelField)) return null
-          return (
-            <td key={key} className="fla-list-edit-td">
-              <Field
-                key={key}
-                name={modelField.virtual_id_accessor || key}
-                model={model}
-                modelField={modelField}
-                component={modelField.RelatedField || SmartInput}
-              />
-            </td>
-          )
+          if (shouldEditFieldInline(modelField)) {
+            const fieldName = modelField.virtual_id_accessor || modelField.key || key
+            return (
+              <td key={key} className="fla-list-edit-td">
+                <Field
+                  name={fieldName}
+                  model={model}
+                  modelField={modelField}
+                  component={modelField.RelatedField || SmartInput}
+                />
+              </td>
+            )
+          }
+          else if (shouldDisplayFieldInline(modelField)) {
+            const value = model[modelField.virtual_id_accessor || modelField.key || key]
+            let displayValue = value
+            if (modelField.display) displayValue = modelField.display(value)
+            else if (modelField.type === 'Boolean') displayValue = value ? (<Glyphicon glyph="ok" />) : (<Glyphicon glyph="times" />)
+            return (
+              <td key={key} className="fla-list-display-td">
+                {displayValue}
+              </td>
+            )
+          }
+          return null
         })}
 
         {showSave ? (

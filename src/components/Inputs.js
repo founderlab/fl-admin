@@ -3,28 +3,6 @@ import React, {PropTypes} from 'react'
 import warning from 'warning'
 import SmartInput from '../components/inputs/SmartInput'
 
-export function mapFieldsToInputs(modelAdmin, fields, _props={}, InputComponent=SmartInput) {
-  // return _.map(fields, (field, key) => {
-  //   const modelField = modelAdmin.fields[key] || modelAdmin.relationFields[key]
-
-  //   warning(modelField, `[fl-admin] Can't find modelField for key ${key}: is this key the field name instead of the virtual_id_accessor?`)
-  //   if (!modelField || modelField.hidden) return null
-
-  //   const props = _.clone(_props)
-  //   if (modelField.link) props.onChange = handleOnChangeFn(field, fields[modelField.link.to], modelField)
-
-  //   return (
-  //     <InputComponent
-  //       key={key}
-  //       modelField={modelField}
-  //       formField={field}
-  //       {...props}
-  //     />
-  //   )
-  // })
-}
-
-
 export default class Inputs extends React.Component {
 
   static PropTypes = {

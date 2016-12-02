@@ -38,7 +38,7 @@ export default function createRelatedField(relationField) {
     render() {
       if (!this.hasData()) return (<Loader type="inline" />)
       const {model, modelStore} = this.props
-      const props = {relationField, model, modelStore}
+      const props = {relationField, ...this.props}
 
       if (relationField.type === 'belongsTo') {
         if (relationField.inline) console.log('[fl-admin] inline editing belongsTo relations is not yet supported')

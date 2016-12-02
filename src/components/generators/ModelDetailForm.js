@@ -27,13 +27,14 @@ export class ModelDetailForm extends React.Component {
             <form>
               {_.map(modelAdmin.fields, (modelField, key) => {
                 if (!modelField || modelField.hidden) return null
+                const fieldName = modelField.virtual_id_accessor || modelField.key || key
                 return (
                   <Field
                     key={key}
-                    name={modelField.virtual_id_accessor || key}
+                    name={fieldName}
                     model={model}
                     modelField={modelField}
-                    label={modelField.label}
+                    label={modelField.label || fieldName}
                     component={modelField.RelatedField || SmartInput}
                   />
                 )

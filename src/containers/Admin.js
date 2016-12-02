@@ -26,8 +26,8 @@ export default class Admin extends React.Component {
           titleTemplate={`%s - admin`}
           {...headerTags(this.props)}
         />
+        <Navbar />
         <div className="fla-main">
-          <Navbar />
           {this.props.children}
         </div>
       </Sidebar>

@@ -32,7 +32,7 @@ function createModelAdmin(options, modelDescriptor) {
   const defaults = {
     name: Model.modelName,
     display: model => model.name || model.title,
-    // sort: null,
+    sort: 'id',
     perPage: 50,
     listDelete: false,
     rootPath: options.rootPath,

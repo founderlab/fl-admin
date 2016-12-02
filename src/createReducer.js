@@ -31,19 +31,21 @@ export default function createReducer(modelAdmin) {
         return state.merge({loading: false, errors: {del: action.error || action.res.body.error}})
 
       case modelAdmin.actionType + '_LOAD_SUCCESS':
-        const ss = state.mergeDeep({
+        return state.merge({
           loading: false,
           errors: {},
+        }).mergeDeep({
           models: action.models,
+          modelIds: action.modelIds,
           pagination: pagination(state.get('pagination'), action),
         })
-        return ss
 
       case modelAdmin.actionType + '_SAVE_SUCCESS':
         return state.merge({
           loading: false,
           errors: {},
           lastSaved: action.model,
+        }).mergeDeep({
           models: {
             [action.model.id]: action.model,
           }
@@ -53,9 +55,9 @@ export default function createReducer(modelAdmin) {
         const models = state.get('models').toJSON()
         delete models[action.deletedId]
         return state.merge({
+          models,
           loading: false,
           errors: {},
-          models,
           pagination: pagination(state.get('pagination'), action),
         })
 
