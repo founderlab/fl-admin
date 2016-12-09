@@ -14,9 +14,7 @@ export default class Admin extends React.Component {
   render() {
     const sidebarProps = {
       sidebar: <AdminSidebar />,
-      reactSidebarProps: {
-        sidebarClassName: 'fla-sidebar',
-      },
+      sidebarClassName: 'fla-sidebar',
     }
 
     return (
