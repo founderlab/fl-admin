@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import {PropTypes} from 'react'
-import {Route, PropTypes as RouterPropTypes} from 'react-router'
+import {Route} from 'react-router'
 import {createRoutesFromReactChildren} from 'react-router/lib/RouteUtils'
 
 import {modelAdmins} from './index'
@@ -15,8 +15,6 @@ export default class AdminRoute extends Route {
     path: PropTypes.string,
     getComponent: PropTypes.func,
     getComponents: PropTypes.func,
-    component: RouterPropTypes.component,
-    components: RouterPropTypes.components,
   }
 
   constructor(options) {
