@@ -105,7 +105,7 @@ export default function createModelEditor(modelAdmin) {
       const totalItems = +(pagination.get('total'))
       const visibleItems = []
 
-      _.forEach(visibleIds, id => visibleItems.push(modelStore.get('models').get(id).toJSON()))
+      _.forEach(visibleIds, id => modelStore.get('models').get(id) && visibleItems.push(modelStore.get('models').get(id).toJSON()))
 
       // Format dates for form initial values
       _.forEach(visibleItems, model => {
