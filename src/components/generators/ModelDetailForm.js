@@ -1,6 +1,5 @@
 import _ from 'lodash' // eslint-disable-line
 import React, {PropTypes} from 'react'
-import warning from 'warning'
 import {Row, Col, Button, Glyphicon} from 'react-bootstrap'
 import {reduxForm, Field} from 'redux-form'
 import SmartInput from '../inputs/SmartInput'

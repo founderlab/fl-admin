@@ -1,6 +1,5 @@
 import _ from 'lodash' // eslint-disable-line
 import React, {PropTypes} from 'react'
-import warning from 'warning'
 import {Button, Glyphicon} from 'react-bootstrap'
 import {Link} from 'react-router'
 import {reduxForm, Field} from 'redux-form'
