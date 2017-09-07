@@ -6,16 +6,14 @@ This module will auto generate a full admin site to manage a backend based on Fr
 ### Screenshots
 
 ##### Homepage
-![Home](http://founderlab.github.io/fl-admin/home.png)
-Select a model type to edit its data.
+![Select a model type to edit its data.](http://founderlab.github.io/fl-admin/home.png)
 
 ##### Model list
-![Model list](http://founderlab.github.io/fl-admin/list.png)
-Fields can be configured to display and edit on the list page.
+![Fields can be configured to display and edit on the list page.](http://founderlab.github.io/fl-admin/list.png)
 
 ##### Model detail
-![Model detail](http://founderlab.github.io/fl-admin/detail.png)
-Fields can have their inputs configured for the detail page.
+![Fields can have their inputs configured for the detail page.](http://founderlab.github.io/fl-admin/detail.png)
+
 
 ### Usage:
    
@@ -48,36 +46,3 @@ Fields can have their inputs configured for the detail page.
         },
       ]
     })
-
-###State shape:
-
-    {
-      admin: {
-
-        modelOne: {
-          models: {
-            1: {
-              id: 1,
-              name: 'modelone instance',
-            },
-          },
-          pagination: {
-            visible: [1],
-            currentPage: 1,
-            endlessPage: 1,
-          },
-          loading: false,
-        },
-
-        modelTypeTwo: {
-          models: {
-            565bae416f09bd1840df69dc: {
-              id: 565bae416f09bd1840df69dc,
-              name: 'model two instance',
-            },
-          },
-          loading: false,
-        },
-
-      },
-    }
