@@ -18,7 +18,7 @@ export default function ModelDetail(props) {
       <Grid fluid>
         <Row>
           <Col xs={12}>
-            <Link to={modelAdmin.link()}><Glyphicon glyph="chevron-left" />{modelAdmin.plural}</Link>
+            <p className="fla-back"><Link to={modelAdmin.link()}><Glyphicon glyph="chevron-left" />{modelAdmin.plural}</Link></p>
           </Col>
         </Row>
         <Row>

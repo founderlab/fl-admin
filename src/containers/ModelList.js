@@ -18,7 +18,7 @@ export default function ModelList(props) {
       <Grid fluid>
         <Row>
           <Col xs={12}>
-            <Link to={modelAdmin.rootPath}><Glyphicon glyph="chevron-left" />Admin home</Link>
+            <p className="fla-back"><Link to={modelAdmin.rootPath} className="fla-back"><Glyphicon glyph="chevron-left" />Admin home</Link></p>
           </Col>
         </Row>
         <Row>

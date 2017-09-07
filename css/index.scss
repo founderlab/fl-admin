@@ -11,7 +11,7 @@
 .fla-main {
   min-height: 100%;
   background: $fla-bg;
-  padding-top: 70px;
+  padding-top: 60px;
 
   a:not(.btn) {
     color: $fla-link-color;
@@ -26,4 +26,7 @@
     padding: 0 40px 80px;
   }
 
+  .fla-back {
+    margin-bottom: 15px;
+  }
 }

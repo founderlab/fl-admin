@@ -1,5 +1,22 @@
 # Admin panel for FounderLab apps
 
+This module will auto generate a full admin site to manage a backend based on Frameworkstein models. You provide the models you want to manage for and it will generate routes and form pages for them.
+
+
+### Screenshots
+
+##### Homepage
+![Home](http://founderlab.github.io/fl-admin/home.jpg)
+Select a model type to edit its data.
+
+##### Model list
+![Model list](http://founderlab.github.io/fl-admin/list.jpg)
+Fields can be configured to display and edit on the list page.
+
+##### Model detail
+![Model detail](http://founderlab.github.io/fl-admin/detail.jpg)
+Fields can have their inputs configured for the detail page.
+
 ### Usage:
    
     import admin from 'fl-admin'

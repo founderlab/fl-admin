@@ -30,7 +30,7 @@ function createModelAdmin(options, modelDescriptor) {
   const {Model} = modelAdmin
 
   const defaults = {
-    name: Model.modelName,
+    name: Model.modelName || Model.model_name || Model.name,
     display: model => model.name || model.title,
     sort: 'id',
     perPage: 50,
