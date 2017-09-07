@@ -55,6 +55,8 @@ You call `configureAdmin` and configure the admin with a list of models. It exam
 There are model-level and field-level configuration options. Models given to configuration functions are plain javascript objects (not instances of the model class).
 
 #### Model configuration options
+```javascript
+{
     Model: null, // (required) The model class
 
     display: model.name || model.title, // Function that takes a model object and returns a string representation of it
@@ -82,3 +84,5 @@ There are model-level and field-level configuration options. Models given to con
     components: {
 
     },
+}
+```
