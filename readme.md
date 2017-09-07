@@ -19,6 +19,7 @@ This module will auto generate a full admin site to manage a backend based on Fr
 You call `configureAdmin` and configure the admin with a list of models. It examines each models fields via its schema and generates form fields to edit them. You can pass in some options to control how these form fields are rendered.
 
 ### Example
+```javascript
     import configureAdmin from 'fl-admin'
     import StaticPage from './models/StaticPage'
     import User from './models/User'
@@ -50,6 +51,7 @@ You call `configureAdmin` and configure the admin with a list of models. It exam
         },
       ],
     })
+```
 
 ### Configuration
 There are model-level and field-level configuration options. Models given to configuration functions are plain javascript objects (not instances of the model class).
