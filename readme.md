@@ -55,19 +55,30 @@ You call `configureAdmin` and configure the admin with a list of models. It exam
 There are model-level and field-level configuration options. Models given to configuration functions are plain javascript objects (not instances of the model class).
 
 #### Model configuration options
-    Model: (required) The model class
+    Model: null, // (required) The model class
 
-    display: Function that takes a model object and returns a string representation of it. Defaults to `model.name || model.title`
-    name: String representation of the model class. Defaults to `Model.modelName || Model.model_name || Model.name`
-    display: model => model.name || model.title
-    sort: `'id'` | Sorting for list pages
-    perPage: `50` | Models to show per list page
-    listDelete: `false` | Show a delete button on the list page
-    rootPath: `options.rootPath` | 
-    path: `table(Model)` | 
-    plural: `plural(Model)` | 
-    actionType: ``${ACTION_PREFIX}${upper(Model)}`` | 
-    readOnlyFields: `['createdDate']` | List of fields that shouldn't be edited
+    display: model.name || model.title, // Function that takes a model object and returns a string representation of it
+
+    name: Model.modelName || Model.model_name || Model.name, // String representation of the model class
+
+    display: model => model.name || model.title, // 
+
+    sort: 'id', // Sorting for list pages
+
+    perPage: 50, // Models to show per list page
+
+    listDelete: false, // Show a delete button on the list page
+
+    rootPath: options.rootPath, 
+
+    path: table(Model), 
+
+    plural: plural(Model), 
+
+    actionType: `${ACTION_PREFIX}${upper(Model)}`,
+
+    readOnlyFields: ['createdDate'], // List of fields that shouldn't be edited
+
     components: {
-      
+
     },
