@@ -2,7 +2,6 @@ import _ from 'lodash' // eslint-disable-line
 import React, {PropTypes} from 'react'
 import {Row, Col, Button, Glyphicon} from 'react-bootstrap'
 import {reduxForm, Field} from 'redux-form'
-import SmartInput from '../inputs/SmartInput'
 
 export class ModelDetailForm extends React.Component {
 
@@ -44,7 +43,7 @@ export class ModelDetailForm extends React.Component {
                     model={model}
                     modelField={modelField}
                     label={modelField.label || fieldName}
-                    component={modelField.RelatedField || SmartInput}
+                    component={modelField.InputComponent}
                   />
                 )
               })}

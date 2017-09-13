@@ -14,7 +14,7 @@ export default function createRelatedField(relationField) {
   const {load, save, del} = modelAdmin.actions
 
   return @connect(state => ({modelStore: state.admin[modelAdmin.path], config: state.config}), {load, save, del})
-  class RelatedField extends Component {
+  class RelatedInput extends Component {
 
     static propTypes = {
       model: PropTypes.object,

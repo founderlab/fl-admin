@@ -3,7 +3,6 @@ import React, {PropTypes} from 'react'
 import {Button, Glyphicon} from 'react-bootstrap'
 import {Link} from 'react-router'
 import {reduxForm, Field} from 'redux-form'
-import SmartInput from '../inputs/SmartInput'
 import {shouldEditFieldInline, shouldDisplayFieldInline} from '../../utils/inline'
 
 export class ModelListForm extends React.Component {
@@ -39,7 +38,7 @@ export class ModelListForm extends React.Component {
                   name={fieldName}
                   model={model}
                   modelField={modelField}
-                  component={modelField.RelatedField || SmartInput}
+                  component={modelField.InputComponent}
                 />
               </td>
             )

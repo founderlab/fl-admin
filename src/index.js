@@ -4,7 +4,8 @@ import {combineReducers} from 'redux'
 import {Pagination} from 'fl-react-utils'
 import Inflection from 'inflection'
 
-import createRelatedField from './containers/generators/RelatedField'
+import SmartInput from './components/inputs/SmartInput'
+import createRelatedInput from './containers/generators/RelatedInput'
 import {table, plural, upper} from './utils/naming'
 import createActions from './createActions'
 import createReducer from './createReducer'
@@ -79,6 +80,12 @@ function createModelAdmin(options, modelDescriptor) {
     _.defaults(adminField, modelField)
     adminField.key = adminField.key || key
     adminField.label = adminField.label || Inflection.humanize(Inflection.underscore(key))
+    if (adminField.InputComponent) {
+      adminField._customInput = true
+    }
+    else {
+      adminField.InputComponent = SmartInput
+    }
     if (_.includes(modelAdmin.readOnlyFields, key)) adminField.input = 'static'
   })
 
@@ -113,7 +120,9 @@ export default function configure(_options) {
     _.forEach(modelAdmin.relationFields, adminField => {
       adminField.modelAdmin = _.find(modelAdmins, ma => ma.Model === adminField.Model)
       warning(adminField.modelAdmin, `[fl-admin] configure: Couldnt find modelAdmin for the relation ${adminField.key} of ${modelAdmin.name}`)
-      if (!adminField.RelatedField) adminField.RelatedField = createRelatedField(adminField)
+      if (!adminField._customInput) {
+        adminField.InputComponent = createRelatedInput(adminField)
+      }
     })
   })
 
