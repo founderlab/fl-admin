@@ -2,11 +2,10 @@ import _ from 'lodash'
 import warning from 'warning'
 import {combineReducers} from 'redux'
 import {Pagination} from 'fl-react-utils'
-import Inflection from 'inflection'
 
 import SmartInput from './components/inputs/SmartInput'
 import createRelatedInput from './containers/generators/RelatedInput'
-import {table, plural, upper} from './utils/naming'
+import {table, plural, upper, label} from './utils/naming'
 import createActions from './createActions'
 import createReducer from './createReducer'
 import AdminRoute from './route'
@@ -79,7 +78,7 @@ function createModelAdmin(options, modelDescriptor) {
     const adminField = modelAdmin.fields[key] = modelAdmin.fields[key] || {}
     _.defaults(adminField, modelField)
     adminField.key = adminField.key || key
-    adminField.label = adminField.label || Inflection.humanize(Inflection.underscore(key))
+    adminField.label = adminField.label || label(key)
     if (adminField.InputComponent) {
       adminField._customInput = true
     }
@@ -95,7 +94,7 @@ function createModelAdmin(options, modelDescriptor) {
     _.defaults(adminField, _.pick(relation, 'type', 'virtual_id_accessor', 'components'))
     adminField.Model = relation.reverse_model_type
     adminField.key = adminField.key || key
-    adminField.label = adminField.label || Inflection.humanize(Inflection.underscore(key))
+    adminField.label = adminField.label || label(key)
     adminField.relation = relation
   })
 

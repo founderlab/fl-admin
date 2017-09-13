@@ -1,6 +1,13 @@
 
 ## [Unreleased]
 
+## [0.14.0]
+ - Removed react-quill due to size issues.
+ - You can now specify a custom input component for a field with the `InputComponent` option. Give it any component that you would give to a redux-form field.
+
+## [0.13.0]
+ - Assorted bug fixes 
+
 ## [0.12.0]
  - Update to redux-form 6
 

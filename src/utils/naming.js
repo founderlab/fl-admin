@@ -12,3 +12,6 @@ export function table(Model) {
   return inflection.tableize(Model.name)
 }
 
+export function label(key) {
+  return  Inflection.humanize(Inflection.underscore(key))
+}

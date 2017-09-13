@@ -27,25 +27,25 @@ You call `configureAdmin` and configure the admin with a list of models. It exam
     configureAdmin({
       models: [
         {
-          Model: StaticPage,
+          Model: User,
+          display: model => model.email,
+          fields: {
+            email: {
+              listDisplay: true,
+            },
+            admin: {
+              listDisplay: true,
+            },
+          },
+        },
+        {
+          Model: Post,
           fields: {
             title: {
               listEdit: true,
             },
             content: {
-              input: 'rich',
-            },
-          },
-        },
-        {
-          Model: User,
-          display: model => model.email,
-          fields: {
-            id: {
-              listDisplay: true,
-            },
-            admin: {
-              listDisplay: true,
+              input: 'textarea',
             },
           },
         },
@@ -61,32 +61,45 @@ Values below are the defaults.
 
 ```javascript
 {
-    Model: null, // (required) The model class
+    Model: null,                                              // (required) The model class
 
-    display: model.name || model.title, // Function that takes a model object and returns a string representation of it
+    display: model.name || model.title,                       // Function that takes a model object and returns a string representation of it
 
-    name: Model.modelName || Model.model_name || Model.name, // String representation of the model class
+    name: Model.modelName || Model.model_name || Model.name,  // String representation of the model class
 
-    display: model => model.name || model.title, // 
+    sort: 'id',                                               // Sorting for list pages
 
-    sort: 'id', // Sorting for list pages
+    perPage: 50,                                              // Models to show per list page
 
-    perPage: 50, // Models to show per list page
-
-    listDelete: false, // Show a delete button on the list page
+    listDelete: false,                                        // Show a delete button on the list page
 
     rootPath: options.rootPath, 
 
-    path: table(Model), 
+    path: table(Model),                                       // Path to use in the model's url
 
-    plural: plural(Model), 
+    plural: plural(Model),                                    // Plural of the model class name
 
-    actionType: `${ACTION_PREFIX}${upper(Model)}`,
+    actionType: `${ACTION_PREFIX}${upper(Model)}`,            // Redux action naming scheme to use
 
-    readOnlyFields: ['createdDate'], // List of fields that shouldn't be edited
+    readOnlyFields: ['createdDate'],                          // List of fields that shouldn't be edited
+}
+```
 
-    components: {
+#### Field configuration options
+Values below are the defaults.
 
-    },
+```javascript
+{
+    label: label(key),                                        // Human readable label to use for the given field
+    
+    InputComponent: SmartInput,                               // The component to use to edit this field. Any component that can be used with a `redux-form` field will suit.
+
+    listDisplay: false,                                       // Show this field on the listing page
+
+    listEdit: false,                                          // Enable editing of this field on the listing page
+
+    readOnly: false,                                          // Disable editing of this field on the detail page
+
+    hidden: false,                                            // Hide this field on the detail page
 }
 ```

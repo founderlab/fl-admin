@@ -79,5 +79,4 @@ export default function createRelatedField(relationField) {
       return null
     }
   }
-
 }
