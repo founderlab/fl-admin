@@ -82,6 +82,10 @@ Values below are the defaults.
     actionType: `${ACTION_PREFIX}${upper(Model)}`,            // Redux action naming scheme to use
 
     readOnlyFields: ['createdDate'],                          // List of fields that shouldn't be edited
+
+    ListComponent,                                            // Specify your own component for the list page
+    CreateComponent,                                          // Specify your own component for the create page
+    DetailComponent,                                          // Specify your own component for the detail page
 }
 ```
 
@@ -93,6 +97,8 @@ Values below are the defaults.
     label: label(key),                                        // Human readable label to use for the given field
     
     InputComponent: SmartInput,                               // The component to use to edit this field. Any component that can be used with a `redux-form` field will suit.
+
+    input: 'text',                                            // The input type, will be supplied to the input component as a `type` prop. The default `SmartInput` component knows how to render these options: 'text', 'textarea', 'date', 'datetime', 'time', 'image', 'file', 'checkbox', 'static'.
 
     listDisplay: false,                                       // Show this field on the listing page
 

@@ -1,15 +1,15 @@
-import inflection from 'inflection'
+import Inflection from 'Inflection'
 
 export function plural(Model) {
-  return inflection.pluralize(Model.name)
+  return Inflection.pluralize(Model.name)
 }
 
 export function upper(Model) {
-  return inflection.underscore(Model.name).toUpperCase()
+  return Inflection.underscore(Model.name).toUpperCase()
 }
 
 export function table(Model) {
-  return inflection.tableize(Model.name)
+  return Inflection.tableize(Model.name)
 }
 
 export function label(key) {

@@ -50,7 +50,6 @@ export default class AdminRoute extends Route {
   // This method is used by react-router to go from a jsx entry to a route object
   // So we use it to check props and instantiate our base route
   static createRouteFromReactElement(element/*, parent*/) {
-    const type = element.type
     const props = _.extend({}, element.type.defaultProps, element.props)
 
     if (props.children) {
