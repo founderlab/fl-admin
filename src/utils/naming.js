@@ -1,4 +1,4 @@
-import Inflection from 'Inflection'
+import Inflection from 'inflection'
 
 export function plural(Model) {
   return Inflection.pluralize(Model.name)

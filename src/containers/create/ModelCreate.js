@@ -32,7 +32,7 @@ export default function createModelCreate(modelAdmin) {
 
     // todo: make delete undoable
     handleDeleteFn = model => () => {
-      if (window.confirm('Are you really, really sure you want to delete this model? You can\'t have it back.')) {
+      if (window.confirm(`Are you really, really sure you want to delete this model? You can't have it back.`)) {
         this.props.del(model, err => err && console.log(err))
         if (this.props.id) push(modelAdmin.link())
       }

@@ -6,7 +6,7 @@ import {Grid, Row, Col, Glyphicon, Button} from 'react-bootstrap'
 import ModelListTable from '../components/ModelListTable'
 
 export default function ModelList(props) {
-  const {modelAdmin, config, currentPage, itemsPerPage, totalItems, visibleItems, onAdd, handleSaveFn, handleDeleteFn} = props
+  const {modelAdmin, config, currentPage, itemsPerPage, totalItems, visibleItems, handleSaveFn, handleDeleteFn} = props
   const {Pagination} = modelAdmin.components
   const tableProps = {modelAdmin, config, handleSaveFn, handleDeleteFn, models: visibleItems}
 
@@ -29,7 +29,7 @@ export default function ModelList(props) {
         <Row>
           <Col xs={12} className="fla-controls">
             <LinkContainer to={modelAdmin.createLink()}>
-              <Button bsStyle="primary" onClick={onAdd}>
+              <Button bsStyle="primary">
                 <Glyphicon glyph="plus" /> Add a new {modelAdmin.name}
               </Button>
             </LinkContainer>
@@ -53,7 +53,6 @@ ModelList.propTypes = {
   visibleItems: PropTypes.array.isRequired,
   modelAdmin: PropTypes.object.isRequired,
   config: PropTypes.object.isRequired,
-  onAdd: PropTypes.func.isRequired,
   handleSaveFn: PropTypes.func.isRequired,
   handleDeleteFn: PropTypes.func.isRequired,
   itemsPerPage: PropTypes.number.isRequired,

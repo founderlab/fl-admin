@@ -4,7 +4,7 @@ import {combineReducers} from 'redux'
 import {Pagination} from 'fl-react-utils'
 
 import SmartInput from './components/inputs/SmartInput'
-import createRelatedInput from './containers/generators/RelatedInput'
+import createRelatedInput from './containers/create/RelatedInput'
 import {table, plural, upper, label} from './utils/naming'
 import createActions from './createActions'
 import createReducer from './createReducer'
@@ -18,7 +18,20 @@ let reducer
 
 const defaults = {
   rootPath: '/admin',
-  isAModel: (Model) => !!Model.schema,
+  isAModel: Model => !!Model.schema,
+}
+
+// Ensure the display fn always gives a string of some sort
+const wrapDisplay = oldDisplay => model => {
+  let res
+  try {
+    res = oldDisplay ? oldDisplay(model) : null
+  }
+  catch (err) {
+    warning(false, `[fl-admin] Error rendering model display name: ${err}`)
+    res = null
+  }
+  return res || (model && model.id ? `[No name: ${model.id}]` : `A brand new ${modelAdmin.name}`)
 }
 
 function createModelAdmin(options, modelDescriptor) {
@@ -47,17 +60,6 @@ function createModelAdmin(options, modelDescriptor) {
 
   _.defaults(modelAdmin, defaults)
 
-  // Ensure the display fn always gives a string of some sort
-  const wrapDisplay = oldDisplay => model => {
-    let res
-    try {
-      res = oldDisplay ? oldDisplay(model) : null
-    }
-    catch (err) {
-      res = null
-    }
-    return res || (model && model.id ? `[No name: ${model.id}]` : `A brand new ${modelAdmin.name}`)
-  }
   modelAdmin.display = wrapDisplay(modelAdmin.display)
 
   // Function to generate the path to a models edit page
@@ -96,6 +98,10 @@ function createModelAdmin(options, modelDescriptor) {
     adminField.key = adminField.key || key
     adminField.label = adminField.label || label(key)
     adminField.relation = relation
+  })
+
+  _.forEach(modelAdmin.fields, adminField => {
+    if (!adminField.InputComponent) adminField.InputComponent = SmartInput
   })
 
   // Generate actions and a reducer for this model type

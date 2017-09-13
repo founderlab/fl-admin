@@ -79,9 +79,8 @@ export default function createModelEditor(modelAdmin) {
       return !this.props.modelStore.get('loading')
     }
 
-    handleAdd = () => this.props.save({})
+    // handleAdd = () => this.props.save({})
     handleSaveFn = model => data => {
-      console.log('saving', model, data)
       this.props.save(_.extend(model, data))
     }
 
@@ -134,7 +133,7 @@ export default function createModelEditor(modelAdmin) {
         location,
         currentPage,
         itemsPerPage,
-        onAdd: this.handleAdd,
+        // onAdd: this.handleAdd,
         handleSaveFn: this.handleSaveFn,
         handleDeleteFn: this.handleDeleteFn,
       }

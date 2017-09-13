@@ -3,7 +3,7 @@ import React, {PropTypes} from 'react'
 import warning from 'warning'
 import {Link} from 'react-router'
 import {Grid, Row, Col, Glyphicon} from 'react-bootstrap'
-import createModelDetailForm from '../components/generators/ModelDetailForm'
+import createModelDetailForm from '../components/create/ModelDetailForm'
 
 export default function ModelDetail(props) {
 

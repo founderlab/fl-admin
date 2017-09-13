@@ -6,8 +6,8 @@ import {createRoutesFromReactChildren} from 'react-router/lib/RouteUtils'
 import {modelAdmins} from './index'
 import Admin from './containers/Admin'
 import ModelTypeList from './containers/ModelTypeList'
-import createModelEditor from './containers/generators/ModelEditor'
-import createModelCreate from './containers/generators/ModelCreate'
+import createModelEditor from './containers/create/ModelEditor'
+import createModelCreate from './containers/create/ModelCreate'
 
 export default class AdminRoute extends Route {
 
