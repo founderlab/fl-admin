@@ -55,9 +55,7 @@ export default function createRelatedField(relationField) {
       }
 
       if (relationField.type === 'hasMany' || relationField.type === 'hasOne') {
-
-        // if (relatedModel[relationField.relation.foreignKey] !== model.id) return
-        props.models = _(modelStore.get('models').toJSON()).values().filter(relatedModel => relatedModel[relationField.relation.foreignKey] === model.id).value()
+        props.models = _(modelStore.get('models').toJSON()).values().filter(relatedModel => relatedModel[relationField.relation.foreign_key] === model.id).value()
 
         //TODO: This should be made to work for belongsTo / manyToMany
         if (relationField.inline) {
