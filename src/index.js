@@ -22,7 +22,7 @@ const defaults = {
 }
 
 // Ensure the display fn always gives a string of some sort
-const wrapDisplay = oldDisplay => model => {
+const wrapDisplayFn = (modelAdmin, oldDisplay) => model => {
   let res
   try {
     res = oldDisplay ? oldDisplay(model) : null
@@ -60,7 +60,7 @@ function createModelAdmin(options, modelDescriptor) {
 
   _.defaults(modelAdmin, defaults)
 
-  modelAdmin.display = wrapDisplay(modelAdmin.display)
+  modelAdmin.display = wrapDisplayFn(modelAdmin, modelAdmin.display)
 
   // Function to generate the path to a models edit page
   if (!modelAdmin.link) {
