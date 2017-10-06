@@ -1,6 +1,10 @@
 
 ## [Unreleased]
 
+## [0.14.2]
+ - Fixed some bugs
+ - Readonly works on model detail pages
+
 ## [0.14.0]
  - Removed react-quill due to size issues.
  - You can now specify a custom input component for a field with the `InputComponent` option. Give it any component that you would give to a redux-form field.

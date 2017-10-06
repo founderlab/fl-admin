@@ -24,14 +24,14 @@ export class ModelDetailForm extends React.Component {
           <Col xs={12}>
             <form>
               {_.map(modelAdmin.fields, (modelField, key) => {
-                if (!modelField || modelField.hidden) return null
+                if (!modelField || modelField.hidden || !modelField.InputComponent) return null
                 const fieldName = modelField.virtual_id_accessor || modelField.key || key
 
-                if (modelField.readOnly && modelField.display) {
+                if (modelField.readOnly) {
                   return (
                     <div key={key} className="form-group">
                       <label className="control-label">{modelField.label || fieldName}</label>
-                      <div>{modelField.display(model)}</div>
+                      <div>{modelField.display ? modelField.display(model) : (model[fieldName] && model[fieldName].toString())}</div>
                     </div>
                   )
                 }

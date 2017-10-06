@@ -36,7 +36,7 @@ export default function fetchRelated(options, callback) {
   const queue = new Queue()
 
   _.forEach(modelAdmin.relationFields, relationField => {
-    if (loadAll || relationField.listEdit) {
+    if (relationField.modelAdmin && loadAll || relationField.listEdit) {
       queue.defer(callback => {
         const query = relatedQuery(modelIds, modelStore, relationField)
         if (!query) return callback()
