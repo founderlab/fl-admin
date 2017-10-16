@@ -12,19 +12,21 @@ export function onlyExistingRelationsFilter(modelIds, modelStore, relationField)
 }
 
 function relatedQuery(modelIds, modelStore, relationField) {
+  const query = relationField.modelAdmin.query || {}
+
   if (relationField.filter) {
     return relationField.filter(modelIds, modelStore, relationField)
   }
   else if (relationField.type === 'belongsTo') {
-    return {}
+    return query
   }
   // Many to many, load all options
   // TODO: async load in react-select
   else if (relationField.type === 'hasMany' && relationField.relation.reverse_relation.type === 'hasMany') {
-    return {}
+    return query
     // return {[relationField.relation.foreign_key]: {$in: modelIds}}
   }
-  return {[relationField.relation.reverse_relation.virtual_id_accessor]: {$in: modelIds}}
+  return _.extend(query, {[relationField.relation.reverse_relation.virtual_id_accessor]: {$in: modelIds}})
 }
 
 // dispatch actions to load related models

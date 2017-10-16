@@ -8,8 +8,6 @@ export default function BelongsTo(_props) {
   const models = modelStore.get('models').toJSON ? modelStore.get('models').toJSON() : {}
 
   const options = _.map(models, model => ({label: relationField.modelAdmin.display(model), value: model.id}))
-  console.log('options', options)
-  console.log('props', props)
 
   if (relationField.readOnly) {
     const model = _.find(models, model => model.id === props.input.value)
