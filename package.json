@@ -27,9 +27,7 @@
     "react-helmet": "^3.0.1",
     "react-select": "^0.9.1",
     "react-sidebar": "^2.1.1",
-    "warning": "^2.1.0"
-  },
-  "// wouldBePeerDependencies": {
+    "warning": "^2.1.0",
     "react": ">=15.3.1",
     "react-bootstrap": ">=0.30.3",
     "react-redux": ">=4.0.0",
