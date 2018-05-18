@@ -1,3 +1,13 @@
+## This package has moved to the [Frameworkstein repository](https://github.com/founderlab/frameworkstein/tree/master/packages/fl-admin)
+
+
+-------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
 # Admin panel for FounderLab apps
 
 This module will auto generate a full admin site to manage a backend based on Frameworkstein models. You provide the models you want to manage for and it will generate routes and form pages for them.
